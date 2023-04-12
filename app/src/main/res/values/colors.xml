@@ -7,4 +7,14 @@
     <color name="teal_700">#FF018786</color>
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
+    <color name="blue">#888DF2</color>
+    <color name="bar1">#BBD6B8</color>
+    <color name="background">#F5FFF6</color>
+    <color name="nau">#4E2D15</color>
+    <color name="boder">#94AF9F</color>
+    <color name="hong">#AABAD8</color>
+    <color name="edit_boder">#B1E1B6</color>
+    <color name="medium_gray">#F3F3F3</color>
+    <color name="bar">#94AE89</color>
+    <color name="boder_create">#D7E0EB</color>
 </resources>

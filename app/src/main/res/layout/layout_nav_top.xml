@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background"
+    android:id="@+id/layout_1">
+
+    <LinearLayout
+        android:id="@+id/layout_2"
+        android:layout_width="match_parent"
+        android:layout_height="180dp"
+        android:background="@color/bar"
+        android:orientation="vertical"
+        android:padding="20dp"
+        android:gravity="bottom">
+
+        <de.hdodenhof.circleimageview.CircleImageView
+            android:id="@+id/img_ava"
+            android:layout_width="80dp"
+            android:layout_height="80dp"
+            android:src="@drawable/user_ava"/>
+
+        <TextView
+            android:id="@+id/name_acc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_name_acc"
+            android:textColor="@color/nau"
+            android:textSize="16sp"
+            android:textStyle="bold"
+            android:layout_marginTop="8dp"/>
+        <TextView
+            android:id="@+id/email_acc"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="@string/action_gmail_acc"
+            android:textColor="@color/nau"
+            android:textSize="14sp"
+            />
+
+    </LinearLayout>
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:layout_below="@+id/layout_2">
+
+    </LinearLayout>
+
+</RelativeLayout>

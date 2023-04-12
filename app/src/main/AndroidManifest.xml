@@ -12,6 +12,21 @@
         android:theme="@style/Theme.ReadingBooks_Final"
         tools:targetApi="31">
         <activity
+            android:name=".profile"
+            android:exported="false" />
+        <activity
+            android:name=".forget_pass"
+            android:exported="false" />
+        <activity
+            android:name=".sign_up"
+            android:exported="false" />
+        <activity
+            android:name=".login"
+            android:exported="false" />
+        <activity
+            android:name=".load_screen"
+            android:exported="false" />
+        <activity
             android:name=".MainActivity"
             android:exported="true">
             <intent-filter>

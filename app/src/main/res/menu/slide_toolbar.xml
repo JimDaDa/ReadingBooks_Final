@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="@layout/layout_nav_top">
+    <group
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/action_home"
+            android:title="@string/action_home"
+            android:icon="@drawable/home"
+            />
+        <!--        <item-->
+        <!--            android:id="@+id/action_search"-->
+        <!--            android:title="@string/action_search"-->
+        <!--            android:icon="@drawable/search" />-->
+        <item
+            android:id="@+id/action_books"
+            android:title="@string/action_books"
+            android:icon="@drawable/menu_book"
+            />
+        <item
+            android:id="@+id/action_write"
+            android:title="@string/action_write"
+            android:icon="@drawable/edit_square"
+            />
+        <item
+            android:id="@+id/action_notice"
+            android:title="@string/action_notice"
+            android:icon="@drawable/notifications"
+            />
+
+
+    </group>
+
+
+    <item android:title="@string/action_account">
+        <menu>
+            <item
+                android:id="@+id/action_account"
+                android:title="@string/action_account"
+                android:icon="@drawable/account_circle"
+                />
+
+            <item
+                android:id="@+id/action_logout"
+                android:title="@string/action_logout"
+                android:icon="@drawable/logout"
+                />
+
+
+        </menu>
+
+    </item>
+
+
+</menu>
