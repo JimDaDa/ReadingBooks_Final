@@ -14,7 +14,7 @@
         <!-- Customize your theme here. -->
 
     </style>
-    <style name="Theme.ReadingBooks_Final" parent="Theme.MaterialComponents.DayNight.DarkActionBar">
+    <style name="Theme.ReadingBooks_Final" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <item name="colorPrimary">@color/blue</item>
         <item name="colorPrimaryVariant">@color/background</item>
         <item name="colorOnPrimary">@color/white</item>

@@ -1,0 +1,47 @@
+{
+  "project_info": {
+    "project_number": "512054367217",
+    "project_id": "readingbooks-5a813",
+    "storage_bucket": "readingbooks-5a813.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:512054367217:android:96e897dd8d80976f5c2a50",
+        "android_client_info": {
+          "package_name": "com.example.readingbooks_final"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "512054367217-hc8pq3b5iifip6mj1es1lku2ieu131a4.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.example.readingbooks_final",
+            "certificate_hash": "c8aa149080e4f469437e3b3cafd16309f0add815"
+          }
+        },
+        {
+          "client_id": "512054367217-andtsfku6n7glj0305mh13aofaii3khv.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCNDrx-ag-VwrnZ_vy3kObye-jy2geOLj8"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "512054367217-andtsfku6n7glj0305mh13aofaii3khv.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

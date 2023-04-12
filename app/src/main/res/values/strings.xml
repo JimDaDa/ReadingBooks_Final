@@ -5,6 +5,7 @@
     <string name="action_books">Library</string>
     <string name="action_write">Write</string>
     <string name="action_notice">Notifications</string>
+    <string name="action_category">Category</string>
     <string name="action_account">Account</string>
     <string name="action_login">Login</string>
     <string name="action_logout">Logout</string>
@@ -21,4 +22,5 @@
     <string name="author">Author</string>
     <string name="category">Category</string>
     <string name="status">Status</string>
+<!--    <string name="default_web_client_id">512054367217-hc8pq3b5iifip6mj1es1lku2ieu131a4.apps.googleusercontent.com</string>-->
 </resources>

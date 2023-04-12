@@ -54,7 +54,7 @@
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:orientation="vertical"
-            android:theme="@style/Theme.Final_Project_Reading_Books_App">
+            android:theme="@style/Theme.ReadingBooks_Final">
 
             <androidx.constraintlayout.widget.ConstraintLayout
                 android:layout_width="match_parent"
