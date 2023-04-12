@@ -56,11 +56,7 @@ public class Account extends Fragment {
     private Bitmap avatarImage;
 
 
-    private GoogleSignInAccount user_gg;
 
-    private FirebaseAuth user;
-
-    private DatabaseReference ref;
 
     public Account() {
         // Required empty public constructor
@@ -171,66 +167,86 @@ public class Account extends Fragment {
 
 
     public void showUser() {
-        user= FirebaseAuth.getInstance();
+
+        FirebaseAuth  user= FirebaseAuth.getInstance();
         String userId = user.getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-        assert userId != null;
+       // assert userId != null;
         DatabaseReference ref=database.getReference("Users").child(userId);
-        user_gg = GoogleSignIn.getLastSignedInAccount(requireContext());
+        GoogleSignInAccount user_gg = GoogleSignIn.getLastSignedInAccount(requireContext());
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                //Lấy thông tin tài khoản đăng nhập bằng gg
-
-                Uri photoUrl = user_gg.getPhotoUrl();
-                String name_gg=user_gg.getDisplayName();
-                String email_gg=user_gg.getEmail();
-
-
-                //Lấy thông tin tài khoản khi đăng kí trong ứng dụng
-                User user_data = snapshot.getValue(User.class);
-                String logfullname = snapshot.child("fullname").getValue(String.class);
-                String logemail = snapshot.child("email").getValue(String.class);
-
-                if (logfullname!= null){
-                    name_acc.setVisibility(View.VISIBLE);
-                    name_acc.setText(logfullname);
-                }
-
-                else if (name_gg!= null){
+                if(user_gg!= null){
+                    //Lấy thông tin tài khoản đăng nhập bằng gg
+                    Uri photoUrl = user_gg.getPhotoUrl();
+                    String name_gg=user_gg.getDisplayName();
+                    String email_gg=user_gg.getEmail();
                     name_acc.setText(name_gg);
-                    Glide.with(Account.this).load(photoUrl).error(R.drawable.user_ava).into(image_ava);
+                   // Glide.with(Account.this).load(photoUrl).error(R.drawable.user_ava).into(image_ava);
+                    email_acc.setVisibility(View.VISIBLE);
+                    email_acc.setText(email_gg);
+
+//                    if (name_gg!= null){
+//
+//                    }
+
+
+                    //set ava
+                    String avatarBase64 = snapshot.child("avatar_base64").getValue(String.class);
+                    if(avatarBase64 != null) {
+                        if(!avatarBase64.isEmpty()) {
+                            byte [] byteArray = new byte[0];
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                byteArray = Base64.getDecoder().decode(avatarBase64);
+                            }
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                            Glide.with(Account.this).load(bitmap).error(R.drawable.user_ava).into(image_ava);
+
+                        }
+                    }
+//                    if (email_gg!= null){
+//
+//                    }
+
                 }
                 else {
-                    name_acc.setVisibility(View.GONE);
-                }
-                //set ava
-                String avatarBase64 = snapshot.child("avatar_base64").getValue(String.class);
-                if(avatarBase64 != null) {
-                    if(!avatarBase64.isEmpty()) {
-                        byte [] byteArray = new byte[0];
-                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                            byteArray = Base64.getDecoder().decode(avatarBase64);
-                        }
-                        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                        Glide.with(Account.this).load(bitmap).error(R.drawable.user_ava).into(image_ava);
+                    //Lấy thông tin tài khoản khi đăng kí trong ứng dụng
+                    User user_data = snapshot.getValue(User.class);
+                    String logfullname = snapshot.child("fullname").getValue(String.class);
+                    String logemail = snapshot.child("email").getValue(String.class);
 
+                    if (logfullname!= null){
+                        name_acc.setVisibility(View.VISIBLE);
+                        name_acc.setText(logfullname);
+                    }  else {
+                        name_acc.setVisibility(View.GONE);
+                    }
+
+                    //set ava
+                    String avatarBase64 = snapshot.child("avatar_base64").getValue(String.class);
+                    if(avatarBase64 != null) {
+                        if(!avatarBase64.isEmpty()) {
+                            byte [] byteArray = new byte[0];
+                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                byteArray = Base64.getDecoder().decode(avatarBase64);
+                            }
+                            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                            Glide.with(Account.this).load(bitmap).error(R.drawable.user_ava).into(image_ava);
+
+                        }
+                    }
+
+                    if (logemail != null){
+                        email_acc.setVisibility(View.VISIBLE);
+                        email_acc.setText(logemail);
+//
+                    }
+                    else {
+                        email_acc.setVisibility(View.GONE);
                     }
                 }
 
-                if (logemail != null){
-                    email_acc.setVisibility(View.VISIBLE);
-                    email_acc.setText(logemail);
-//
-                }
-
-                else if (email_gg!= null){
-                    email_acc.setVisibility(View.VISIBLE);
-                    email_acc.setText(email_gg);
-                }
-                else {
-                    email_acc.setVisibility(View.GONE);
-                }
             }
 
             @Override
@@ -238,7 +254,6 @@ public class Account extends Fragment {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
-
 
     }
 
