@@ -243,87 +243,67 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //lấy thông tin đăng nhập bằng google
         GoogleSignInAccount user_gg = GoogleSignIn.getLastSignedInAccount(this);
 
+        ref.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                //Lấy thông tin tài khoản đăng nhập bằng gg
 
-     ref.addValueEventListener(new ValueEventListener() {
-         @Override
-         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(user_gg!= null){
-                    //Lấy thông tin tài khoản đăng nhập bằng gg
-                    Uri photoUrl = user_gg.getPhotoUrl();
-                    String name_gg=user_gg.getDisplayName();
-                    String email_gg=user_gg.getEmail();
+                Uri photoUrl = user_gg.getPhotoUrl();
+                String name_gg=user_gg.getDisplayName();
+                String email_gg=user_gg.getEmail();
 
-                    if (name_gg!= null){
-                        name_acc.setText(name_gg);
-                        Glide.with(MainActivity.this).load(photoUrl).error(R.drawable.user_ava).into(image_ava);
-                    }
-                    else {
-                        name_acc.setVisibility(View.GONE);
-                    }
 
-                    //set ava
-                    String avatarBase64 = snapshot.child("avatar_base64").getValue(String.class);
-                    if(avatarBase64 != null) {
-                        if(!avatarBase64.isEmpty()) {
-                            byte [] byteArray = new byte[0];
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                byteArray = Base64.getDecoder().decode(avatarBase64);
-                            }
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                            Glide.with(MainActivity.this).load(bitmap).error(R.drawable.user_ava).into(image_ava);
+                //Lấy thông tin tài khoản khi đăng kí trong ứng dụng
+                User user_data = snapshot.getValue(User.class);
+                String logfullname = snapshot.child("fullname").getValue(String.class);
+                String logemail = snapshot.child("email").getValue(String.class);
 
-                        }
-                    }
-                    if (email_gg!= null){
-                        email_acc.setVisibility(View.VISIBLE);
-                        email_acc.setText(email_gg);
-                    }
-                    else {
-                        email_acc.setVisibility(View.GONE);
-                    }
-
+                if (logfullname!= null){
+                    name_acc.setVisibility(View.VISIBLE);
+                    name_acc.setText(logfullname);
                 }
-             //Lấy thông tin tài khoản khi đăng kí trong ứng dụng
-             User user_data = snapshot.getValue(User.class);
-             String logfullname = snapshot.child("fullname").getValue(String.class);
-             String logemail = snapshot.child("email").getValue(String.class);
 
-             if (logfullname!= null){
-                 name_acc.setVisibility(View.VISIBLE);
-                 name_acc.setText(logfullname);
-             }  else {
-                 name_acc.setVisibility(View.GONE);
-             }
+                else if (name_gg!= null){
+                    name_acc.setText(name_gg);
+                    Glide.with(MainActivity.this).load(photoUrl).error(R.drawable.user_ava).into(image_ava);
+                }
+                else {
+                    name_acc.setVisibility(View.GONE);
+                }
+                //set ava
+                String avatarBase64 = snapshot.child("avatar_base64").getValue(String.class);
+                if(avatarBase64 != null) {
+                    if(!avatarBase64.isEmpty()) {
+                        byte [] byteArray = new byte[0];
+                        if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                            byteArray = Base64.getDecoder().decode(avatarBase64);
+                        }
+                        Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                        Glide.with(MainActivity.this).load(bitmap).error(R.drawable.user_ava).into(image_ava);
 
-             //set ava
-             String avatarBase64 = snapshot.child("avatar_base64").getValue(String.class);
-             if(avatarBase64 != null) {
-                 if(!avatarBase64.isEmpty()) {
-                     byte [] byteArray = new byte[0];
-                     if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                         byteArray = Base64.getDecoder().decode(avatarBase64);
-                     }
-                     Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                     Glide.with(MainActivity.this).load(bitmap).error(R.drawable.user_ava).into(image_ava);
+                    }
+                }
 
-                 }
-             }
-
-             if (logemail != null){
-                 email_acc.setVisibility(View.VISIBLE);
-                 email_acc.setText(logemail);
+                if (logemail != null){
+                    email_acc.setVisibility(View.VISIBLE);
+                    email_acc.setText(logemail);
 //
-             }
-             else {
-                 email_acc.setVisibility(View.GONE);
-             }
-         }
+                }
 
-         @Override
-         public void onCancelled(@NonNull DatabaseError error) {
-             Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
-         }
-     });
+                else if (email_gg!= null){
+                    email_acc.setVisibility(View.VISIBLE);
+                    email_acc.setText(email_gg);
+                }
+                else {
+                    email_acc.setVisibility(View.GONE);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+                Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
+            }
+        });
 
 
     }

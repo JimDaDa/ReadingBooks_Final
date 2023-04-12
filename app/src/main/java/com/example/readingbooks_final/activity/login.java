@@ -138,7 +138,7 @@ public class login extends AppCompatActivity {
         String user_email = email.getText().toString().trim();
         String user_password = password.getText().toString().trim();
         FirebaseAuth auth=FirebaseAuth.getInstance();
-        ProgressDialog.show(login.this,"","Loading...", true);
+        progressDialog.show();
         if(user_email.isEmpty() || user_password.isEmpty())
         {
             Toast.makeText(getApplicationContext(), "Các thông tin không được bỏ trống", Toast.LENGTH_SHORT).show();
@@ -251,7 +251,7 @@ public class login extends AppCompatActivity {
 
     private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
         AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-        ProgressDialog.show(login.this,"Login","Loading...", true);
+        progressDialog.show();
         mAuth.signInWithCredential(credential)
                 .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                     @Override

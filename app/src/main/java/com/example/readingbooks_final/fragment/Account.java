@@ -180,42 +180,13 @@ public class Account extends Fragment {
         ref.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(user_gg!= null){
-                    //Lấy thông tin tài khoản đăng nhập bằng gg
-                    Uri photoUrl = user_gg.getPhotoUrl();
-                    String name_gg=user_gg.getDisplayName();
-                    String email_gg=user_gg.getEmail();
+                //Lấy thông tin tài khoản đăng nhập bằng gg
 
-                    if (name_gg!= null){
-                        name_acc.setText(name_gg);
-                        Glide.with(Account.this).load(photoUrl).error(R.drawable.user_ava).into(image_ava);
-                    }
-                    else {
-                        name_acc.setVisibility(View.GONE);
-                    }
+                Uri photoUrl = user_gg.getPhotoUrl();
+                String name_gg=user_gg.getDisplayName();
+                String email_gg=user_gg.getEmail();
 
-                    //set ava
-                    String avatarBase64 = snapshot.child("avatar_base64").getValue(String.class);
-                    if(avatarBase64 != null) {
-                        if(!avatarBase64.isEmpty()) {
-                            byte [] byteArray = new byte[0];
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                byteArray = Base64.getDecoder().decode(avatarBase64);
-                            }
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                            Glide.with(Account.this).load(bitmap).error(R.drawable.user_ava).into(image_ava);
 
-                        }
-                    }
-                    if (email_gg!= null){
-                        email_acc.setVisibility(View.VISIBLE);
-                        email_acc.setText(email_gg);
-                    }
-                    else {
-                        email_acc.setVisibility(View.GONE);
-                    }
-
-                }
                 //Lấy thông tin tài khoản khi đăng kí trong ứng dụng
                 User user_data = snapshot.getValue(User.class);
                 String logfullname = snapshot.child("fullname").getValue(String.class);
@@ -224,10 +195,15 @@ public class Account extends Fragment {
                 if (logfullname!= null){
                     name_acc.setVisibility(View.VISIBLE);
                     name_acc.setText(logfullname);
-                }  else {
-                    name_acc.setVisibility(View.GONE);
                 }
 
+                else if (name_gg!= null){
+                    name_acc.setText(name_gg);
+                    Glide.with(Account.this).load(photoUrl).error(R.drawable.user_ava).into(image_ava);
+                }
+                else {
+                    name_acc.setVisibility(View.GONE);
+                }
                 //set ava
                 String avatarBase64 = snapshot.child("avatar_base64").getValue(String.class);
                 if(avatarBase64 != null) {
@@ -247,6 +223,11 @@ public class Account extends Fragment {
                     email_acc.setText(logemail);
 //
                 }
+
+                else if (email_gg!= null){
+                    email_acc.setVisibility(View.VISIBLE);
+                    email_acc.setText(email_gg);
+                }
                 else {
                     email_acc.setVisibility(View.GONE);
                 }
@@ -257,7 +238,6 @@ public class Account extends Fragment {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
             }
         });
-
 
 
     }
