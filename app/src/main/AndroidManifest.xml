@@ -28,7 +28,7 @@
             android:name=".activity.profile"
             android:exported="false"
             android:theme="@style/Theme.Profile"
-            android:parentActivityName=".MainActivity" />
+            android:parentActivityName=".fragment.Account" />
         <activity
             android:name=".activity.sign_up"
             android:exported="false"

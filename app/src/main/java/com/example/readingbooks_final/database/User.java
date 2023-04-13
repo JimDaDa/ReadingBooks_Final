@@ -9,16 +9,43 @@ public class User {
     private String email;
     private String password;
     private String phone;
+    
+    private String avatar;
 
 
     public User(){}
 
-    public User(String id, String fullname, String email, String password, String phone) {
+    public User(String id, String fullname, String email, String password, String phone, String avatar) {
         this.id = id;
         this.fullname = fullname;
         this.email = email;
         this.password = password;
         this.phone = phone;
+        this.avatar=avatar;
+    }
+
+    public User(String id, String fullname, String user_email, String user_ava) {
+        this.id = id;
+        this.fullname = fullname;
+        this.email = user_email;
+        this.avatar=user_ava;
+    }
+
+    public User(String id, String fullname, String user_email, String password, String user_phone) {
+        this.id = id;
+        this.fullname = fullname;
+        this.email = user_email;
+        this.password = password;
+        this.phone = user_phone;
+
+    }
+
+    public String getAvatar() {
+        return avatar;
+    }
+
+    public void setAvatar(String avatar) {
+        this.avatar = avatar;
     }
 
     public String getId() {
@@ -68,6 +95,7 @@ public class User {
         result.put("email",email);
         result.put("password",password);
         result.put("phone",phone);
+        result.put("avatar_base64", avatar);
 
 
         return result ;

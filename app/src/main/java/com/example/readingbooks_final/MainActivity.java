@@ -238,84 +238,38 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         //Lấy thông tin tài khoản
         String userId = user.getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-//        assert userId != null;
-        DatabaseReference ref = database.getReference("Users").child(userId);
-        //lấy thông tin đăng nhập bằng google
-        GoogleSignInAccount user_gg = GoogleSignIn.getLastSignedInAccount(this);
 
-        ref.addValueEventListener(new ValueEventListener() {
+        DatabaseReference ref = database.getReference("Users").child(userId);
+
+        ref.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                if(user_gg!= null){
-                    //Lấy thông tin tài khoản đăng nhập bằng gg
-                    Uri photoUrl = user_gg.getPhotoUrl();
-                    String name_gg=user_gg.getDisplayName();
-                    String email_gg=user_gg.getEmail();
-                    name_acc.setText(name_gg);
-                   // Glide.with(MainActivity.this).load(photoUrl).error(R.drawable.user_ava).into(image_ava);
-                    email_acc.setVisibility(View.VISIBLE);
-                    email_acc.setText(email_gg);
 
-//                    if (name_gg!= null){
-//
-//                    }
+                User user_cur = snapshot.getValue(User.class);
 
+                if (user_cur!= null) {
+                    String fullname = user_cur.getFullname();
+                    String email = user_cur.getEmail();
+                    String avatarBase64= user_cur.getAvatar();
+                   // String avatarBase64 = snapshot.child("avatar").getValue(String.class);
+                    name_acc.setText(fullname);
+                    email_acc.setText(email);
+                    Glide.with(MainActivity.this).load(avatarBase64).error(R.drawable.user_ava).into(image_ava);
 
                     //set ava
-                    String avatarBase64 = snapshot.child("avatar_base64").getValue(String.class);
-                    if(avatarBase64 != null) {
-                        if(!avatarBase64.isEmpty()) {
-                            byte [] byteArray = new byte[0];
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                byteArray = Base64.getDecoder().decode(avatarBase64);
-                            }
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                            Glide.with(MainActivity.this).load(bitmap).error(R.drawable.user_ava).into(image_ava);
 
-                        }
-                    }
-//                    if (email_gg!= null){
+//                    if (avatarBase64 != null) {
+//                        if (!avatarBase64.isEmpty()) {
+//                            byte[] byteArray = new byte[0];
+////                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+////                                byteArray = Base64.getDecoder().decode(avatarBase64);
+////                            }
+//                            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+//                            Glide.with(MainActivity.this).load(bitmap).error(R.drawable.user_ava).into(image_ava);
+//                        }
 //
 //                    }
-
                 }
-                else {
-                    //Lấy thông tin tài khoản khi đăng kí trong ứng dụng
-                    User user_data = snapshot.getValue(User.class);
-                    String logfullname = snapshot.child("fullname").getValue(String.class);
-                    String logemail = snapshot.child("email").getValue(String.class);
-
-                    if (logfullname!= null){
-                        name_acc.setVisibility(View.VISIBLE);
-                        name_acc.setText(logfullname);
-                    }  else {
-                        name_acc.setVisibility(View.GONE);
-                    }
-
-                    //set ava
-                    String avatarBase64 = snapshot.child("avatar_base64").getValue(String.class);
-                    if(avatarBase64 != null) {
-                        if(!avatarBase64.isEmpty()) {
-                            byte [] byteArray = new byte[0];
-                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                byteArray = Base64.getDecoder().decode(avatarBase64);
-                            }
-                            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                            Glide.with(MainActivity.this).load(bitmap).error(R.drawable.user_ava).into(image_ava);
-
-                        }
-                    }
-
-                    if (logemail != null){
-                        email_acc.setVisibility(View.VISIBLE);
-                        email_acc.setText(logemail);
-//
-                    }
-                    else {
-                        email_acc.setVisibility(View.GONE);
-                    }
-                }
-
             }
 
             @Override
@@ -323,6 +277,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 Toast.makeText(MainActivity.this, "Error", Toast.LENGTH_SHORT).show();
             }
         });
+
 
 
     }

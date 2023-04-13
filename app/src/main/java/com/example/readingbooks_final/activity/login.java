@@ -39,6 +39,7 @@ import com.google.firebase.auth.FirebaseUser;
 import com.google.firebase.auth.GoogleAuthProvider;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
+import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
@@ -267,8 +268,8 @@ public class login extends AppCompatActivity {
 
 
                                     Intent action = new Intent(login.this, MainActivity.class);
+                                    addUser();
                                     startActivity(action);
-
                                     finishAffinity();
 
                                 }
@@ -290,5 +291,23 @@ public class login extends AppCompatActivity {
                         }
                     }
                 });
+    }
+    private void addUser(){
+        GoogleSignInAccount user_gg = GoogleSignIn.getLastSignedInAccount(this);
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        FirebaseDatabase database=FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference=database.getReference("Users");
+
+        //Lấy id là UID trên firebase
+        String  id=auth.getCurrentUser().getUid();
+
+        String fullname = user_gg.getDisplayName();
+        String user_email = user_gg.getEmail();
+        String user_ava = String.valueOf(user_gg.getPhotoUrl());
+
+
+
+        User user = new User(id,fullname, user_email, user_ava);
+        databaseReference.child(id).setValue(user);
     }
 }

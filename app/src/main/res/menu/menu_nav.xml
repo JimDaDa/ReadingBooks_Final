@@ -22,7 +22,7 @@
     <item
         android:id="@+id/action_category"
         android:title="@string/action_category"
-        android:icon="@drawable/notifications"
+        android:icon="@drawable/category"
         />
     <item
         android:id="@+id/action_account"
