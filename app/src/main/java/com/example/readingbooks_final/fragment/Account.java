@@ -135,7 +135,49 @@ public class Account extends Fragment {
             @Override
             public void onClick(View view) {
                 // Khi click vào edit pro5 thì sẽ lấy dữ liệu đang hiển thị đóng gói lại chuyển sang trang profile
+                FirebaseAuth  user= FirebaseAuth.getInstance();
+                String userId = user.getUid();
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                // assert userId != null;
+                assert userId != null;
+                DatabaseReference ref=database.getReference("Users").child(userId);
 
+//                ref.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        Intent intent= new Intent(view.getContext(), profile.class);
+//                        User user_cur = snapshot.getValue(User.class);
+//                        if (user_cur!= null) {
+//                            String content_name= name_acc.getText().toString().trim();
+//                            String content_email= email_acc.getText().toString().trim();
+//                            String content_phone= phone.getText().toString().trim();
+//                            String content_ava=user_cur.getAvatar();
+//
+//                            Bundle bundle_recieve= new Bundle();
+//
+//                            bundle_recieve.putString(NAME_REPLY, content_name);
+//                            bundle_recieve.putString(EMAIL_REPLY,content_email);
+//                            bundle_recieve.putString(PHONE_REPLY,content_phone);
+//                            bundle_recieve.putString(PHOTO_REPLY,content_ava);
+//
+//                            // Lấy avatar
+////                            image_ava.setDrawingCacheEnabled(true);
+////                            Bitmap bitmap = image_ava.getDrawingCache();
+//                            //Đóng gói lại
+//                            //intent.putExtra(PHOTO_REPLY,bitmap);
+//                            intent.putExtras(bundle_recieve);
+//                            //startActivityForResult(intent,100);
+//                            launcherActivityInfo.launch(intent);
+//
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+//
                  Intent intent= new Intent(view.getContext(), profile.class);
                // Intent intent = new Intent(getContext(), profile.class);
                 //Lấy các thông tin từ các textview
@@ -201,9 +243,9 @@ public class Account extends Fragment {
                         if(avatar != null) {
                             if(!avatar.isEmpty()) {
                                 byte [] byteArray = new byte[0];
-                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                    byteArray = Base64.getDecoder().decode(avatar);
-                                }
+//                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                                    byteArray = Base64.getDecoder().decode(avatar);
+//                                }
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                                 Glide.with(Account.this).load(avatarBase64).error(bitmap).into(image_ava);
 

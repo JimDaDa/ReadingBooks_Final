@@ -265,9 +265,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if(avatar != null) {
                             if(!avatar.isEmpty()) {
                                 byte [] byteArray = new byte[0];
-                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-                                    byteArray = Base64.getDecoder().decode(avatar);
-                                }
+                              //  byteArray = Base64.getDecoder().decode(avatar);
+
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                                 Glide.with(MainActivity.this).load(avatarBase64).error(bitmap).into(image_ava);
 
