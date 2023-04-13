@@ -244,8 +244,9 @@ public class Account extends Fragment {
                             if(!avatar.isEmpty()) {
                                 byte [] byteArray = new byte[0];
 //                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//                                    byteArray = Base64.getDecoder().decode(avatar);
+//                                    byteArray = Base64.getDecoder().decode(avatarBase64);
 //                                }
+                                byteArray = Base64.getDecoder().decode(avatarBase64);
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                                 Glide.with(Account.this).load(avatarBase64).error(bitmap).into(image_ava);
 

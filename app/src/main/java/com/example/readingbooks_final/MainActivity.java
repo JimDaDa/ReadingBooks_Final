@@ -14,6 +14,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.net.Uri;
+import android.os.Build;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.View;
@@ -265,8 +266,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         if(avatar != null) {
                             if(!avatar.isEmpty()) {
                                 byte [] byteArray = new byte[0];
-                              //  byteArray = Base64.getDecoder().decode(avatar);
-
+//                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
+//                                    byteArray = Base64.getDecoder().decode(avatarBase64);
+//                                }
+                                byteArray = Base64.getDecoder().decode(avatarBase64);
                                 Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
                                 Glide.with(MainActivity.this).load(avatarBase64).error(bitmap).into(image_ava);
 
