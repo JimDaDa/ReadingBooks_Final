@@ -53,7 +53,6 @@ public class Account extends Fragment {
     public static final String PHONE_REPLY = "phone";
     public static final String PHOTO_REPLY = "photo";
 
-    private Uri photo;
     private MainActivity mainActivity;
     private Bitmap avatarImage;
 
@@ -76,21 +75,23 @@ public class Account extends Fragment {
                         Intent intent = result.getData();
 
                         if (intent==null){
+                            return;
                         }
                         else {
-                        photo = intent.getData();
+                      //  Uri photo = intent.getData();
 
-
-                            image_ava.setImageURI(photo);
 
 
                             String name_reply = intent.getStringExtra(NAME_REPLY);
                             String phone_reply = intent.getStringExtra(PHONE_REPLY);
                             String email_reply = intent.getStringExtra(EMAIL_REPLY);
+                            Uri photo= intent.getParcelableExtra(PHOTO_REPLY);
 
                             name_acc.setText(name_reply);
                             phone.setText(phone_reply);
                             email_acc.setText(email_reply);
+                            image_ava.setImageURI(photo);
+                            Glide.with(Account.this).load(photo).into(image_ava);
                         }
 
 
@@ -129,6 +130,7 @@ public class Account extends Fragment {
 
     }
     private void edit_pro5(){
+
         edit_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -146,11 +148,12 @@ public class Account extends Fragment {
                 bundle_recieve.putString(NAME_REPLY, content_name);
                 bundle_recieve.putString(EMAIL_REPLY,content_email);
                 bundle_recieve.putString(PHONE_REPLY,content_phone);
+
                 // Lấy avatar
                 image_ava.setDrawingCacheEnabled(true);
                 Bitmap bitmap = image_ava.getDrawingCache();
                 //Đóng gói lại
-                intent.putExtra(PHOTO_REPLY,bitmap);
+                //intent.putExtra(PHOTO_REPLY,bitmap);
                 intent.putExtras(bundle_recieve);
                 //startActivityForResult(intent,100);
                 launcherActivityInfo.launch(intent);
@@ -182,25 +185,53 @@ public class Account extends Fragment {
                     String fullname = user_cur.getFullname();
                     String email = user_cur.getEmail();
                     String phone_user = user_cur.getPhone();
-                    String avatarBase64= user_cur.getAvatar();
+                    String avatarBase64= String.valueOf(user_cur.getAvatar());
+
                     name_acc.setText(fullname);
                     email_acc.setText(email);
                     phone.setText(phone_user);
-                    Glide.with(Account.this).load(avatarBase64).error(R.drawable.user_ava).into(image_ava);
+//                    Glide.with(Account.this).load(avatarBase64).into(image_ava);
+//                    System.out.println(avatarBase64);
+                    if (avatarBase64.isEmpty()){
+                        Glide.with(Account.this).load(R.drawable.user_ava).into(image_ava);
+                    }
+                    if (!avatarBase64.isEmpty())
+                    {
+                        String avatar = snapshot.child("avatar").getValue(String.class);
+                        if(avatar != null) {
+                            if(!avatar.isEmpty()) {
+                                byte [] byteArray = new byte[0];
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                    byteArray = Base64.getDecoder().decode(avatar);
+                                }
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                                Glide.with(Account.this).load(avatarBase64).error(bitmap).into(image_ava);
 
-                    //set ava
-                //    String avatarBase64 = snapshot.child("avatar").getValue(String.class);
-//                    if (avatarBase64 != null) {
-//                        if (!avatarBase64.isEmpty()) {
-//                            byte[] byteArray = new byte[0];
-////                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-////                                byteArray = Base64.getDecoder().decode(avatarBase64);
-////                            }
-//                            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-//                            Glide.with(Account.this).load(bitmap).error(R.drawable.user_ava).into(image_ava);
-//                        }
+                            }
+                        }
+                    }
+//                    if (avatarBase64 == null) {
 //
 //                    }
+
+//                        if (avatarBase64!=null){
+//                        //set ava
+//                        String avatar = snapshot.child("avatar").getValue(String.class);
+//                        if(avatar != null) {
+//                            if(!avatar.isEmpty()) {
+//                                byte [] byteArray = new byte[0];
+//                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                                    byteArray = Base64.getDecoder().decode(avatar);
+//                                }
+//                                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+//                                Glide.with(Account.this).load(avatarBase64).error(bitmap).into(image_ava);
+//
+//                            }
+//                        }
+//                    }
+
+
+
                 }
             }
 

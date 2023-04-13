@@ -28,6 +28,7 @@ import android.widget.ImageView;
 import android.widget.TextView;
 
 import com.example.readingbooks_final.R;
+import com.example.readingbooks_final.database.User;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.auth.FirebaseUser;
@@ -123,33 +124,39 @@ public class profile extends AppCompatActivity {
                 reference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        String content_name= name.getText().toString().trim();
-                        String content_phone= phone.getText().toString().trim();
-                        String content_email= email.getText().toString().trim();
+                        User user_cur = snapshot.getValue(User.class);
+                        if (user_cur!= null){
+                            String content_name= name.getText().toString().trim();
+                            String content_phone= phone.getText().toString().trim();
+                            String content_email= email.getText().toString().trim();
+                            String content_avatar= user_cur.getAvatar();
 
-                        //Update profile
-                        String name_up= String.valueOf(reference.child("fullname").setValue(content_name));
-                        String phone_up= String.valueOf(reference.child("phone").setValue(content_phone));
+                            //Update profile
+                            String name_up= String.valueOf(reference.child("fullname").setValue(content_name));
+                            String phone_up= String.valueOf(reference.child("phone").setValue(content_phone));
+                            //String ava_up =String.valueOf(reference.child("avatar").setValue(content_avatar));
 
-                        Intent intent_reply= new Intent();
-                        Bundle bundle_reply= new Bundle();
+                            Intent intent_reply= new Intent();
+                            Bundle bundle_reply= new Bundle();
 
                         if(avatarImage != null) {
                             ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
                             avatarImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
                             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                reference.child("avatar_base64").setValue(Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray()));
+                                reference.child("avatar").setValue(Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray()));
                             }
 
                         }
 
-                        bundle_reply.putString(NAME_REPLY, content_name);
-                        bundle_reply.putString(PHONE_REPLY,content_phone);
-                        bundle_reply.putString(EMAIL_REPLY,content_email);
+                            bundle_reply.putString(NAME_REPLY, content_name);
+                            bundle_reply.putString(PHONE_REPLY,content_phone);
+                            bundle_reply.putString(EMAIL_REPLY,content_email);
 
-                        intent_reply.putExtras(bundle_reply);
-                        setResult(Activity.RESULT_OK, intent_reply);
-                        finish();
+                            intent_reply.putExtras(bundle_reply);
+                            setResult(Activity.RESULT_OK, intent_reply);
+                            finish();
+                        }
+
                     }
 
                     @Override

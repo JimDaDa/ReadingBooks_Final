@@ -250,11 +250,49 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (user_cur!= null) {
                     String fullname = user_cur.getFullname();
                     String email = user_cur.getEmail();
-                    String avatarBase64= user_cur.getAvatar();
+                    //String avatarBase64= user_cur.getAvatar();
+                    String avatarBase64= String.valueOf(user_cur.getAvatar());
                    // String avatarBase64 = snapshot.child("avatar").getValue(String.class);
                     name_acc.setText(fullname);
                     email_acc.setText(email);
-                    Glide.with(MainActivity.this).load(avatarBase64).error(R.drawable.user_ava).into(image_ava);
+
+                    if (avatarBase64.isEmpty()){
+                        Glide.with(MainActivity.this).load(R.drawable.user_ava).into(image_ava);
+                    }
+                    if (!avatarBase64.isEmpty())
+                    {
+                        String avatar = snapshot.child("avatar").getValue(String.class);
+                        if(avatar != null) {
+                            if(!avatar.isEmpty()) {
+                                byte [] byteArray = new byte[0];
+                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+                                    byteArray = Base64.getDecoder().decode(avatar);
+                                }
+                                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+                                Glide.with(MainActivity.this).load(avatarBase64).error(bitmap).into(image_ava);
+
+                            }
+                        }
+                    }
+                   // Glide.with(MainActivity.this).load(avatarBase64).error(R.drawable.user_ava).into(image_ava);
+//                    if (avatarBase64 == null){
+//                        Glide.with(MainActivity.this).load(R.drawable.user_ava).into(image_ava);
+//                    }
+//                    if (avatarBase64!=null){
+//                        //set ava
+//                        String avatar = snapshot.child("avatar").getValue(String.class);
+//                        if(avatar != null) {
+//                            if(!avatar.isEmpty()) {
+//                                byte [] byteArray = new byte[0];
+//                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
+//                                    byteArray = Base64.getDecoder().decode(avatar);
+//                                }
+//                                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
+//                                Glide.with(MainActivity.this).load(avatarBase64).error(bitmap).into(image_ava);
+//
+//                            }
+//                        }
+//                    }
 
                     //set ava
 

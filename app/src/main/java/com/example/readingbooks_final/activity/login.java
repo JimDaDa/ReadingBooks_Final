@@ -12,6 +12,8 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.app.Activity;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
@@ -298,9 +300,9 @@ public class login extends AppCompatActivity {
         FirebaseDatabase database=FirebaseDatabase.getInstance();
         DatabaseReference databaseReference=database.getReference("Users");
 
+
         //Lấy id là UID trên firebase
         String  id=auth.getCurrentUser().getUid();
-
         String fullname = user_gg.getDisplayName();
         String user_email = user_gg.getEmail();
         String user_ava = String.valueOf(user_gg.getPhotoUrl());

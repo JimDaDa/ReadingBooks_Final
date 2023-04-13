@@ -1,5 +1,7 @@
 package com.example.readingbooks_final.database;
 
+import android.net.Uri;
+
 import java.util.HashMap;
 import java.util.Map;
 
@@ -11,6 +13,7 @@ public class User {
     private String phone;
     
     private String avatar;
+
 
 
     public User(){}
@@ -39,6 +42,9 @@ public class User {
         this.phone = user_phone;
 
     }
+
+//    public User(String id, String fullname, String user_email, Uri user_ava) {
+//    }
 
     public String getAvatar() {
         return avatar;
