@@ -3,11 +3,13 @@
     xmlns:tools="http://schemas.android.com/tools">
 
     <uses-permission android:name="android.permission.INTERNET" />
-    <uses-permission android:name="android.permission.CAMERA"/>
-    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES"/>
+    <uses-permission android:name="android.permission.CAMERA" />
+    <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-    <uses-feature android:name="android.hardware.camera"
+
+    <uses-feature
+        android:name="android.hardware.camera"
         android:required="true" />
 
     <application
@@ -20,15 +22,23 @@
         android:theme="@style/Theme.ReadingBooks_Final"
         tools:targetApi="31">
         <activity
+            android:name=".activity.Write_tab3"
+            android:exported="false"
+            android:theme="@style/Theme.Profile"/>
+        <activity
+            android:name=".activity.Write_tab2"
+            android:exported="false"
+            android:theme="@style/Theme.Profile" />
+        <activity
             android:name=".activity.forget_pass"
             android:exported="false"
             android:parentActivityName=".activity.login"
-            android:theme="@style/Theme.Login"/>
+            android:theme="@style/Theme.Login" />
         <activity
             android:name=".activity.profile"
             android:exported="false"
-            android:theme="@style/Theme.Profile"
-            android:parentActivityName=".fragment.Account" />
+            android:parentActivityName=".fragment.Account"
+            android:theme="@style/Theme.Profile" />
         <activity
             android:name=".activity.sign_up"
             android:exported="false"

@@ -23,5 +23,6 @@
     <string name="category">Category</string>
     <string name="status">Status</string>
     <string name="reading_list">Reading List</string>
+    <string name="add_books">Add Books</string>
     <!--    <string name="default_web_client_id">512054367217-hc8pq3b5iifip6mj1es1lku2ieu131a4.apps.googleusercontent.com</string>-->
 </resources>
