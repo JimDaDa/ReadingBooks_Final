@@ -2,6 +2,7 @@ package com.example.readingbooks_final.fragment;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
@@ -16,6 +17,7 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -27,6 +29,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.readingbooks_final.MainActivity;
 import com.example.readingbooks_final.R;
+import com.example.readingbooks_final.activity.login;
 import com.example.readingbooks_final.activity.profile;
 import com.example.readingbooks_final.database.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -52,6 +55,7 @@ public class Account extends Fragment {
     private TextView name_acc, email_acc,phone;
 
     private TextView deleteAcc;
+    private ProgressDialog progressDialog;
 
 
     public static final String NAME_REPLY = "name";
@@ -288,9 +292,11 @@ public class Account extends Fragment {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         builder.setTitle("Confirm");
         builder.setMessage("Are you sure to delete Account?");
+
         builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
+//                progressDialog.show();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
 
                 DatabaseReference ref=database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -298,7 +304,25 @@ public class Account extends Fragment {
                 ref.setValue(null).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
                     public void onComplete(@NonNull Task<Void> task) {
+                        FirebaseAuth user_au = FirebaseAuth.getInstance();
 
+                        user_au.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
+                        @Override
+                        public void onComplete(@NonNull Task<Void> task) {
+
+                            if (task.isSuccessful()){
+                              //  progressDialog.dismiss();
+                                Intent intent = new Intent(getActivity(), login.class);
+                                Toast.makeText(getActivity(), "Delete Success", Toast.LENGTH_SHORT).show();
+                                startActivity(intent);
+
+                            }
+                            else {
+                                Toast.makeText(getActivity(),"Error", Toast.LENGTH_SHORT).show();
+                            }
+
+                        }
+                    });
                     }
                 });
             }
