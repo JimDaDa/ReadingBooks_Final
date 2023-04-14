@@ -17,23 +17,23 @@ import java.util.ArrayList;
 import java.util.List;
 import com.example.readingbooks_final.R;
 
-public class Book_Home_Adapter  extends RecyclerView.Adapter<Book_Home_Adapter.ViewHolder>  {
+public class Trending_Book_Adapter extends RecyclerView.Adapter<Trending_Book_Adapter.ViewHolder>  {
     private List<Books_data> dataList= new ArrayList<>();
 
-    public Book_Home_Adapter(List<Books_data> dataList) {
+    public Trending_Book_Adapter(List<Books_data> dataList) {
         this.dataList = dataList;
     }
 
 
     @NonNull
     @Override
-    public Book_Home_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
+    public Trending_Book_Adapter.ViewHolder onCreateViewHolder(@NonNull ViewGroup parent, int viewType) {
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.home_item, parent,false);
-        return new Book_Home_Adapter.ViewHolder(view);
+        return new Trending_Book_Adapter.ViewHolder(view);
     }
 
     @Override
-    public void onBindViewHolder(@NonNull Book_Home_Adapter.ViewHolder holder, int position) {
+    public void onBindViewHolder(@NonNull Trending_Book_Adapter.ViewHolder holder, int position) {
         Glide.with(holder.itemView.getContext()).load(dataList.get(position)
                         .getDrawableRes()).transform(new CenterCrop(),new RoundedCorners(16))
                 .into(holder.book_item1View);

@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
+<androidx.constraintlayout.widget.ConstraintLayout
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
@@ -10,11 +10,7 @@
 
 
 
-    <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="wrap_content"
-        android:layout_height="match_parent"
-        android:background="@color/background"
-        >
+
 
         <View
             android:id="@+id/view"
@@ -70,50 +66,54 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view1" />
 
-        <EditText
-            android:id="@+id/type_email"
-            android:layout_width="316dp"
-            android:layout_height="54dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:drawablePadding="16dp"
-            android:ems="10"
-            android:hint="Enter Story Title"
-            android:padding="16dp"
-            android:textAlignment="center"
-            app:layout_constraintEnd_toEndOf="@+id/view2"
-            app:layout_constraintStart_toStartOf="@+id/view2"
-            app:layout_constraintTop_toTopOf="@+id/view2" />
+    <TextView
+        android:id="@+id/edit_story"
+        android:layout_width="310dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginEnd="32dp"
+        android:drawableLeft="@drawable/edit_story"
+        android:drawablePadding="16dp"
+        android:ems="16"
+        android:padding="16dp"
+        android:text="Edit Another Story"
+        android:textAlignment="textStart"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintStart_toStartOf="@+id/view2"
+        app:layout_constraintTop_toTopOf="@+id/view2" />
 
-        <View
-            android:id="@+id/view3"
-            android:layout_width="409dp"
-            android:layout_height="70dp"
-            android:layout_marginTop="4dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view2"
-            app:layout_constraintBottom_toBottomOf="parent"/>
+    <View
+        android:id="@+id/view3"
+        android:layout_width="409dp"
+        android:layout_height="70dp"
+        android:layout_marginTop="4dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view2"
+        app:layout_constraintVertical_bias="0.204" />
 
-        <Button
-            android:id="@+id/btnReset"
-            android:layout_width="316dp"
-            android:layout_height="69dp"
-            android:layout_marginStart="32dp"
-            android:layout_marginEnd="32dp"
-            android:background="@drawable/round_button"
-            android:padding="16dp"
-            android:text="ENTER"
-            android:textColor="@color/white"
-            android:textSize="18sp"
-            android:textStyle="bold"
-            app:layout_constraintBottom_toBottomOf="@+id/view3"
-            app:layout_constraintEnd_toEndOf="@+id/view3"
-            app:layout_constraintHorizontal_bias="0.689"
-            app:layout_constraintStart_toStartOf="@+id/view3"
-            app:layout_constraintTop_toTopOf="@+id/view3"
-            app:layout_constraintVertical_bias="0.141" />
+    <TextView
+        android:id="@+id/create_story"
+        android:layout_width="310dp"
+        android:layout_height="60dp"
+        android:drawableLeft="@drawable/create_story"
+        android:drawablePadding="16dp"
+        android:ems="10"
+        android:padding="16dp"
+        android:text="Create a new story"
+        android:textAlignment="textStart"
+        android:textSize="18sp"
+        app:layout_constraintEnd_toEndOf="@+id/view3"
+        app:layout_constraintStart_toStartOf="@+id/view3"
+        app:layout_constraintTop_toTopOf="@+id/view3" />
 
-    </androidx.constraintlayout.widget.ConstraintLayout>
-</ScrollView>
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="Switch" />
+
+
+</androidx.constraintlayout.widget.ConstraintLayout>

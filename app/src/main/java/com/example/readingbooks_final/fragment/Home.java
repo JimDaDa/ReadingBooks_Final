@@ -13,7 +13,7 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import com.example.readingbooks_final.R;
-import com.example.readingbooks_final.adapter.Book_Home_Adapter;
+import com.example.readingbooks_final.adapter.Trending_Book_Adapter;
 import com.example.readingbooks_final.database.Books_data;
 
 import java.util.ArrayList;
@@ -26,7 +26,11 @@ public class Home extends Fragment {
     private Bundle savedInstanceState;
     private RecyclerView bookRecyclerView;
 
+    private RecyclerView hotRecyclerView;
+
+
     private final List<Books_data> books_headList= new ArrayList<>();
+    private final List<Books_data> hot_headList= new ArrayList<>();
 
     private View view;
 
@@ -49,10 +53,12 @@ public class Home extends Fragment {
         // Inflate the layout for this fragment
         View view = inflater.inflate(R.layout.fragment_home, container, false);
         bookRecyclerView= view.findViewById(R.id.bookRecycler);
+        hotRecyclerView= view.findViewById(R.id.hotRecycler);
         //Gọi hàm
         //AnhXa();
         setAnimation(R.anim.layout_slide);
         Home_Books();
+        Hot_Books();
         return view;
     }
     //Hàm ánh xạ view
@@ -71,21 +77,41 @@ public class Home extends Fragment {
         //Gọi hàm setDiscountedRecycler
         // setAdapterBookHead();
 
+    }
+
+    private void  Hot_Books(){
+        hot_headList.add(new Books_data(R.drawable.book1));
+        hot_headList.add(new Books_data(R.drawable.book2));
+        hot_headList.add(new Books_data(R.drawable.book3));
+        hot_headList.add(new Books_data(R.drawable.book4));
+        hot_headList.add(new Books_data(R.drawable.book5));
+        hot_headList.add(new Books_data(R.drawable.book6));
+        hot_headList.add(new Books_data(R.drawable.book7));
+
+        //Gọi hàm setDiscountedRecycler
+        // setAdapterBookHead();
 
     }
 
     private void setAdapterBookHead() {
-        Book_Home_Adapter book_head_adapter= new Book_Home_Adapter(books_headList);
+        Trending_Book_Adapter book_head_adapter= new Trending_Book_Adapter(books_headList);
         bookRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false));
         bookRecyclerView.setHasFixedSize(true);
         bookRecyclerView.setAdapter(book_head_adapter);
-
     }
 
+    private void setAdapterHotHead() {
+        Trending_Book_Adapter book_head_adapter= new Trending_Book_Adapter(hot_headList);
+        hotRecyclerView.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.HORIZONTAL,false));
+        hotRecyclerView.setHasFixedSize(true);
+        hotRecyclerView.setAdapter(book_head_adapter);
+    }
 
     private void setAnimation(int animation){
         LayoutAnimationController layoutAnimationController= AnimationUtils.loadLayoutAnimation(getActivity(), animation);
         bookRecyclerView.setLayoutAnimation(layoutAnimationController);
+        hotRecyclerView.setLayoutAnimation(layoutAnimationController);
         setAdapterBookHead();
+        setAdapterHotHead();
     }
 }
