@@ -47,6 +47,8 @@ public class Account extends Fragment {
     private ImageButton edit_profile;
     private TextView name_acc, email_acc,phone;
 
+    private TextView deleteAcc;
+
 
     public static final String NAME_REPLY = "name";
     public static final String EMAIL_REPLY = "email";
@@ -117,6 +119,7 @@ public class Account extends Fragment {
         edit_pro5();
         showUser();
         Update();
+        deleteAccount();
         return view;
     }
 
@@ -127,6 +130,7 @@ public class Account extends Fragment {
         edit_profile=view.findViewById(R.id.edit_profile);
         phone=view.findViewById(R.id.phone);
         mainActivity=(MainActivity) getActivity();
+        deleteAcc= view.findViewById(R.id.deleteAcc);
 
     }
     private void edit_pro5(){
@@ -142,42 +146,7 @@ public class Account extends Fragment {
                 assert userId != null;
                 DatabaseReference ref=database.getReference("Users").child(userId);
 
-//                ref.addListenerForSingleValueEvent(new ValueEventListener() {
-//                    @Override
-//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                        Intent intent= new Intent(view.getContext(), profile.class);
-//                        User user_cur = snapshot.getValue(User.class);
-//                        if (user_cur!= null) {
-//                            String content_name= name_acc.getText().toString().trim();
-//                            String content_email= email_acc.getText().toString().trim();
-//                            String content_phone= phone.getText().toString().trim();
-//                            String content_ava=user_cur.getAvatar();
-//
-//                            Bundle bundle_recieve= new Bundle();
-//
-//                            bundle_recieve.putString(NAME_REPLY, content_name);
-//                            bundle_recieve.putString(EMAIL_REPLY,content_email);
-//                            bundle_recieve.putString(PHONE_REPLY,content_phone);
-//                            bundle_recieve.putString(PHOTO_REPLY,content_ava);
-//
-//                            // Lấy avatar
-////                            image_ava.setDrawingCacheEnabled(true);
-////                            Bitmap bitmap = image_ava.getDrawingCache();
-//                            //Đóng gói lại
-//                            //intent.putExtra(PHOTO_REPLY,bitmap);
-//                            intent.putExtras(bundle_recieve);
-//                            //startActivityForResult(intent,100);
-//                            launcherActivityInfo.launch(intent);
-//
-//                        }
-//                    }
-//
-//                    @Override
-//                    public void onCancelled(@NonNull DatabaseError error) {
-//
-//                    }
-//                });
-//
+
                  Intent intent= new Intent(view.getContext(), profile.class);
                // Intent intent = new Intent(getContext(), profile.class);
                 //Lấy các thông tin từ các textview
@@ -297,6 +266,14 @@ public class Account extends Fragment {
         mainActivity.showUser();
 
 
+    }
+    private void deleteAccount(){
+        deleteAcc.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
     }
 
 }

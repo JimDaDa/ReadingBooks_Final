@@ -66,21 +66,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private final Account account = new Account();
 
     private int current =Home_Frag;
-    private GoogleSignInOptions gso;
-    private GoogleSignInClient gsc;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Object signInRequest = BeginSignInRequest.builder()
-                .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-                        .setSupported(true)
-                        // Your server's client ID, not your Android client ID.
-                        .setServerClientId(getString(R.string.default_web_client_id))
-                        // Only show accounts previously used to sign in.
-                        .setFilterByAuthorizedAccounts(true)
-                        .build())
-                .build();
+
 
 
         //Gọi hàm
@@ -100,8 +91,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         image_ava=nav_top.getHeaderView(0).findViewById(R.id.img_ava);
         name_acc=nav_top.getHeaderView(0).findViewById(R.id.name_acc);
         email_acc=nav_top.getHeaderView(0).findViewById(R.id.email_acc);
-        gso =new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestEmail().build();
-        gsc = GoogleSignIn.getClient(this,gso);
+
     }
     //Tạo icon toggle trên toolbar
     private void createIconToggleOnToolbar(){
@@ -251,9 +241,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (user_cur!= null) {
                     String fullname = user_cur.getFullname();
                     String email = user_cur.getEmail();
-                    //String avatarBase64= user_cur.getAvatar();
+
                     String avatarBase64= String.valueOf(user_cur.getAvatar());
-                   // String avatarBase64 = snapshot.child("avatar").getValue(String.class);
+
                     name_acc.setText(fullname);
                     email_acc.setText(email);
 
@@ -276,39 +266,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                             }
                         }
                     }
-                   // Glide.with(MainActivity.this).load(avatarBase64).error(R.drawable.user_ava).into(image_ava);
-//                    if (avatarBase64 == null){
-//                        Glide.with(MainActivity.this).load(R.drawable.user_ava).into(image_ava);
-//                    }
-//                    if (avatarBase64!=null){
-//                        //set ava
-//                        String avatar = snapshot.child("avatar").getValue(String.class);
-//                        if(avatar != null) {
-//                            if(!avatar.isEmpty()) {
-//                                byte [] byteArray = new byte[0];
-//                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//                                    byteArray = Base64.getDecoder().decode(avatar);
-//                                }
-//                                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-//                                Glide.with(MainActivity.this).load(avatarBase64).error(bitmap).into(image_ava);
-//
-//                            }
-//                        }
-//                    }
 
-                    //set ava
-
-//                    if (avatarBase64 != null) {
-//                        if (!avatarBase64.isEmpty()) {
-//                            byte[] byteArray = new byte[0];
-////                            if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-////                                byteArray = Base64.getDecoder().decode(avatarBase64);
-////                            }
-//                            Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-//                            Glide.with(MainActivity.this).load(bitmap).error(R.drawable.user_ava).into(image_ava);
-//                        }
-//
-//                    }
                 }
             }
 

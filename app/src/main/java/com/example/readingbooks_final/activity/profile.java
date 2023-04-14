@@ -77,6 +77,7 @@ public class profile extends AppCompatActivity {
         ReceiveData();
         clickSave();
         set_ava();
+
     }
 
     private void AnhXa(){
@@ -184,6 +185,8 @@ public class profile extends AppCompatActivity {
             }
         });
     }
+
+
 
     // Sau khi chọn ảnh xong thì sẽ update ở trang profile
     final ActivityResultLauncher<Intent> launcherActivityAva = registerForActivityResult(

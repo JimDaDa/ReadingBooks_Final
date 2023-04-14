@@ -152,35 +152,7 @@
             app:layout_constraintTop_toBottomOf="@+id/view2"
             app:layout_constraintVertical_bias="0.038" />
 
-<!--        <TextView-->
-<!--            android:id="@+id/textView8"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="32dp"-->
-<!--            android:layout_marginTop="12dp"-->
-<!--            android:layout_marginEnd="32dp"-->
-<!--            android:text="Or Login With"-->
-<!--            android:textColor="@color/boder"-->
-<!--            android:textSize="16sp"-->
-<!--            android:textStyle="bold"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/view3"-->
-<!--            app:layout_constraintHorizontal_bias="0.494"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/view3"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/view3" />-->
 
-<!--        <ImageButton-->
-<!--            android:id="@+id/logingg"-->
-<!--            android:layout_width="wrap_content"-->
-<!--            android:layout_height="wrap_content"-->
-<!--            android:layout_marginStart="32dp"-->
-<!--            android:layout_marginTop="12dp"-->
-<!--            android:layout_marginEnd="32dp"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/view3"-->
-<!--            app:layout_constraintHorizontal_bias="0.498"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/view3"-->
-<!--            app:layout_constraintTop_toBottomOf="@+id/textView8"-->
-<!--            app:layout_constraintBottom_toBottomOf="@+id/view3"-->
-<!--            app:srcCompat="@drawable/gg" />-->
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

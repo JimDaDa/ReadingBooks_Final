@@ -54,9 +54,7 @@ public class login extends AppCompatActivity {
     private  EditText password;
     private Button btnLogin;
     private TextView layout_signUp;
-   // private ImageButton login_gg;
-    private GoogleSignInOptions gso;
-    private GoogleSignInClient gsc;
+
     private TextView forgot;
     private ProgressDialog progressDialog;
     private FirebaseAuth mAuth;
@@ -82,21 +80,16 @@ public class login extends AppCompatActivity {
         AnhXaDoiTuong();
         getLayout_signUp();
         setBtnLogin();
-        //setbtnLogin_gg();
         Forgot_pass();
     }
 
     private void AnhXaDoiTuong(){
         // Ánh xạ các đối tượng
-        gso =new GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN).requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build();
-        gsc = GoogleSignIn.getClient(login.this,gso);
+
         email=findViewById(R.id.email);
         password=findViewById(R.id.password);
         btnLogin=findViewById(R.id.btnLogin);
         layout_signUp=findViewById(R.id.layout_signup);
-       // login_gg=findViewById(R.id.logingg);
         forgot=findViewById(R.id.forgot_pass);
         progressDialog=new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
@@ -188,131 +181,5 @@ public class login extends AppCompatActivity {
     }
 
 
-    //Login bằng tài khoản google
-    // Xử lý sự kiện click vào biểu tượng đăng nhập bằng google
-//    private void setbtnLogin_gg(){
-//
-//        login_gg.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                Login_GG();
-//            }
-//        });
-//    }
 
-
-    // Hàm đăng nhập bằng tài khoản google
-//    private void Login_GG(){
-//        Object signInRequest = BeginSignInRequest.builder()
-//                .setGoogleIdTokenRequestOptions(BeginSignInRequest.GoogleIdTokenRequestOptions.builder()
-//                        .setSupported(true)
-//                        // Your server's client ID, not your Android client ID.
-//                        .setServerClientId(getString(R.string.default_web_client_id))
-//                        // Only show accounts previously used to sign in.
-//                        .setFilterByAuthorizedAccounts(true)
-//                        .build())
-//                .build();
-//
-//        Intent intent=gsc.getSignInIntent();
-//        launcherActivityGG.launch(intent);
-//
-//
-//    }
-
-//    final ActivityResultLauncher<Intent> launcherActivityGG = registerForActivityResult(
-//            new ActivityResultContracts.StartActivityForResult(),
-//            new ActivityResultCallback<ActivityResult>() {
-//                @Override
-//
-//                public void onActivityResult(ActivityResult result) {
-//
-//                    if(result.getResultCode() == Activity.RESULT_OK) {
-//
-//                        Intent user_intent = result.getData();
-//
-//                        try {
-//                            Task<GoogleSignInAccount> task = GoogleSignIn.getSignedInAccountFromIntent(user_intent);
-//                            try {
-//
-//                                // Google Sign In was successful, authenticate with Firebase
-//                                GoogleSignInAccount signedInAccount = task.getResult(ApiException.class);
-//                                signedInAccount.getId();
-//                                firebaseAuthWithGoogle(signedInAccount);
-//                            } catch (ApiException e) {
-//                                // Google Sign In failed, update UI appropriately
-//                                //...
-//                                Toast.makeText(login.this, e.toString(), Toast.LENGTH_SHORT).show();
-//                            }
-//                        } catch (Exception e) {
-//                            e.printStackTrace();
-//                        }
-//                    }
-//                }
-//            });
-//
-//
-//
-//
-//
-//    private void firebaseAuthWithGoogle(GoogleSignInAccount account) {
-//        AuthCredential credential = GoogleAuthProvider.getCredential(account.getIdToken(), null);
-//        progressDialog.show();
-//        mAuth.signInWithCredential(credential)
-//                .addOnCompleteListener(new OnCompleteListener<AuthResult>() {
-//                    @Override
-//                    public void onComplete(@NonNull Task<AuthResult> task) {
-//                        progressDialog.dismiss();
-//                        if(task.isSuccessful()) {
-//                            ValueEventListener postListener = new ValueEventListener() {
-//                                @Override
-//                                public void onDataChange(DataSnapshot dataSnapshot) {
-//                                    // Get Post object and use the values to update the UI
-//
-//                                    User current_user = dataSnapshot.getValue(User.class);
-//
-//
-//                                    Intent action = new Intent(login.this, MainActivity.class);
-//                                    addUser();
-//                                    startActivity(action);
-//                                    finishAffinity();
-//
-//                                }
-//
-//                                @Override
-//                                public void onCancelled(DatabaseError databaseError) {
-//                                    // Getting Post failed, log a message
-//                                    Log.w(TAG, "loadPost:onCancelled", databaseError.toException());
-//                                }
-//                            };
-//                            FirebaseDatabase.getInstance().getReference("Users")
-//                                    .child(FirebaseAuth.getInstance().getCurrentUser().getUid()).addValueEventListener(postListener);
-//
-//                        }
-//                        else
-//                        {
-//                            Toast.makeText(getApplicationContext(), "Tài khoản không tồn tại", Toast.LENGTH_SHORT).show();
-//
-//                        }
-//                    }
-//                });
-//    }
-//    private void addUser(){
-//        GoogleSignInAccount user_gg = GoogleSignIn.getLastSignedInAccount(this);
-//        FirebaseAuth auth = FirebaseAuth.getInstance();
-//        FirebaseDatabase database=FirebaseDatabase.getInstance();
-//        DatabaseReference databaseReference=database.getReference("Users");
-//
-//
-//        //Lấy id là UID trên firebase
-//        String  id= Objects.requireNonNull(auth.getCurrentUser()).getUid();
-//        assert user_gg != null;
-//        String fullname = user_gg.getDisplayName();
-//        String user_email = user_gg.getEmail();
-//        String user_ava = String.valueOf(user_gg.getPhotoUrl());
-//
-//
-//
-//        User user = new User(id,fullname, user_email, user_ava);
-//        databaseReference.child(id).setValue(user);
-//    }
 }
