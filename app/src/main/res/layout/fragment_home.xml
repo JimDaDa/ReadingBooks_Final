@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<ScrollView
-    xmlns:android="http://schemas.android.com/apk/res/android"
+<ScrollView xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
@@ -10,10 +9,9 @@
     android:padding="1dp">
 
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_width="wrap_content"
+        android:layout_height="0dp"
         android:background="@color/background">
 
 
@@ -48,26 +46,28 @@
 
         </EditText>
 
+        <!--        <androidx.recyclerview.widget.RecyclerView-->
+        <!--            android:layout_width="match_parent"-->
+        <!--            android:layout_height="match_parent"-->
+        <!--            android:id="@+id/home_item"-->
+        <!--            app:layout_constraintTop_toTopOf="@+id/view1"-->
+        <!--            app:layout_constraintStart_toStartOf="@+id/view1"-->
+        <!--            app:layout_constraintEnd_toEndOf="@+id/view1"-->
+        <!--            app:layout_constraintBottom_toBottomOf="parent">-->
+        <!--            -->
+        <!--            -->
+        <!--        </androidx.recyclerview.widget.RecyclerView>-->
+
         <View
             android:id="@+id/view1"
-            android:layout_width="407dp"
-            android:layout_height="233dp"
+            android:layout_width="398dp"
+            android:layout_height="238dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
+            app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/view" />
-
-<!--        <androidx.recyclerview.widget.RecyclerView-->
-<!--            android:layout_width="match_parent"-->
-<!--            android:layout_height="match_parent"-->
-<!--            android:id="@+id/home_item"-->
-<!--            app:layout_constraintTop_toTopOf="@+id/view1"-->
-<!--            app:layout_constraintStart_toStartOf="@+id/view1"-->
-<!--            app:layout_constraintEnd_toEndOf="@+id/view1"-->
-<!--            app:layout_constraintBottom_toBottomOf="parent">-->
-<!--            -->
-<!--            -->
-<!--        </androidx.recyclerview.widget.RecyclerView>-->
+            app:layout_constraintTop_toBottomOf="@+id/view"
+            app:layout_constraintVertical_bias="1.0" />
 
         <TextView
             android:id="@+id/category_1"
@@ -86,16 +86,14 @@
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
 
-            <androidx.recyclerview.widget.RecyclerView
-                android:id="@+id/bookRecycler"
-                android:layout_width="match_parent"
-                android:layout_height="wrap_content"
-                android:layout_marginTop="16dp"
-                app:layout_constraintEnd_toEndOf="@+id/view1"
-                app:layout_constraintStart_toStartOf="@+id/view1"
-                app:layout_constraintTop_toBottomOf="@+id/category_1" />
-
-
+        <androidx.recyclerview.widget.RecyclerView
+            android:id="@+id/bookRecycler"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="16dp"
+            app:layout_constraintEnd_toEndOf="@+id/view1"
+            app:layout_constraintStart_toStartOf="@+id/view1"
+            app:layout_constraintTop_toBottomOf="@+id/category_1" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
