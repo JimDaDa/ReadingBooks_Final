@@ -35,7 +35,9 @@ import java.util.UUID;
 
 public class Write_tab2 extends AppCompatActivity {
 
-    private EditText title_book, author_book, category_book, status_book, description_book;
+    private EditText title_book, author_book, description_book;
+
+    private TextView category_book, status_book;
     private RoundedImageView roundedImageView;
     private String[] category = new String[] {"Fiction", "Romantic", "Non-Fiction", "Horror", "Detective"};
     private String[] status = new String[] {"Completed", "Continues"};
@@ -113,31 +115,43 @@ public class Write_tab2 extends AppCompatActivity {
     }
 
     private void chooseCategory(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select category");
-        builder.setSingleChoiceItems(category, 2, new DialogInterface.OnClickListener() {
+        category_book.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                category_book.setText(category[i]);
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Write_tab2.this);
+                builder.setTitle("Select category");
+                builder.setSingleChoiceItems(category, 2, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        category_book.setText(category[i]);
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
     }
 
     private void chooseStatus(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(this);
-        builder.setTitle("Select status");
-        builder.setSingleChoiceItems(status, 2, new DialogInterface.OnClickListener() {
+        status_book.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                status_book.setText(status[i]);
+            public void onClick(View v) {
+                AlertDialog.Builder builder = new AlertDialog.Builder(Write_tab2.this);
+                builder.setTitle("Select status");
+                builder.setSingleChoiceItems(status, 2, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        status_book.setText(status[i]);
+                    }
+                });
+
+                AlertDialog alertDialog = builder.create();
+                alertDialog.show();
             }
         });
 
-        AlertDialog alertDialog = builder.create();
-        alertDialog.show();
     }
 
 

@@ -61,7 +61,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_title_book" />
 
-        <EditText
+        <TextView
             android:id="@+id/tv_category_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
@@ -69,7 +69,7 @@
             android:background="@drawable/boder_create"
             android:elevation="1dp"
             android:ems="10"
-            android:hint="Category"
+            android:hint="@string/choose_category"
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textSize="12sp"
@@ -77,7 +77,7 @@
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/tv_author_book" />
 
-        <EditText
+        <TextView
             android:id="@+id/tv_status_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
@@ -85,7 +85,7 @@
             android:background="@drawable/boder_create"
             android:elevation="1dp"
             android:ems="10"
-            android:hint="Status"
+            android:hint="Choose Status"
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textSize="12sp"

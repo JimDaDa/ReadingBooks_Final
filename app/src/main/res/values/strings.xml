@@ -26,5 +26,6 @@
     <string name="add_books">Add Books</string>
     <string name="add_chapter">Add Chapter</string>
     <string name="chapter_title">Chapter Title</string>
+    <string name="choose_category">Choose Category</string>
     <!--    <string name="default_web_client_id">512054367217-hc8pq3b5iifip6mj1es1lku2ieu131a4.apps.googleusercontent.com</string>-->
 </resources>
