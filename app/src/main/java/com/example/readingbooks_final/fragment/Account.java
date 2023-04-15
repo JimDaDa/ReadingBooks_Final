@@ -1,5 +1,7 @@
 package com.example.readingbooks_final.fragment;
 
+import static android.content.Intent.getIntent;
+
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
@@ -64,7 +66,7 @@ public class Account extends Fragment {
     public static final String PHOTO_REPLY = "photo";
 
     private MainActivity mainActivity;
-    private Bitmap avatarImage;
+  //  private Bitmap avatarImage;
 
 
 
@@ -88,20 +90,17 @@ public class Account extends Fragment {
                             return;
                         }
                         else {
-                      //  Uri photo = intent.getData();
-
-
-
+                            Uri photo = intent.getData();
                             String name_reply = intent.getStringExtra(NAME_REPLY);
                             String phone_reply = intent.getStringExtra(PHONE_REPLY);
                             String email_reply = intent.getStringExtra(EMAIL_REPLY);
-                            Uri photo= intent.getParcelableExtra(PHOTO_REPLY);
+                            String ava_reply = intent.getStringExtra(PHOTO_REPLY);
 
                             name_acc.setText(name_reply);
-                            phone.setText(phone_reply);
                             email_acc.setText(email_reply);
-                            image_ava.setImageURI(photo);
-                            Glide.with(Account.this).load(photo).into(image_ava);
+                            phone.setText(phone_reply);
+                            Glide.with(Account.this).load(ava_reply).into(image_ava);
+
                         }
 
 
@@ -111,6 +110,8 @@ public class Account extends Fragment {
 
 
             });
+
+
 
     @Override
     public void onCreate(Bundle savedInstanceState) {
@@ -141,6 +142,8 @@ public class Account extends Fragment {
         deleteAcc= view.findViewById(R.id.deleteAcc);
 
     }
+
+
     private void edit_pro5(){
 
         edit_profile.setOnClickListener(new View.OnClickListener() {
@@ -150,32 +153,38 @@ public class Account extends Fragment {
                 FirebaseAuth  user= FirebaseAuth.getInstance();
                 String userId = user.getUid();
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
-                // assert userId != null;
+
                 assert userId != null;
                 DatabaseReference ref=database.getReference("Users").child(userId);
 
+                ref.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        User user_cur = snapshot.getValue(User.class);
+                        if (user_cur!= null){
+                            Intent intent= new Intent(getContext(), profile.class);
+                            String content_name= name_acc.getText().toString().trim();
+                            String content_email= email_acc.getText().toString().trim();
+                            String content_phone= phone.getText().toString().trim();
+                            String content_avatar= user_cur.getAvatar();
 
-                 Intent intent= new Intent(view.getContext(), profile.class);
-               // Intent intent = new Intent(getContext(), profile.class);
-                //Lấy các thông tin từ các textview
-                String content_name= name_acc.getText().toString().trim();
-                String content_email= email_acc.getText().toString().trim();
-                String content_phone= phone.getText().toString().trim();
+                            intent.putExtra(NAME_REPLY, content_name);
+                            intent.putExtra(EMAIL_REPLY,content_email);
+                            intent.putExtra(PHONE_REPLY,content_phone);
+                            intent.putExtra(PHOTO_REPLY,content_avatar);
 
-                Bundle bundle_recieve= new Bundle();
+                            launcherActivityInfo.launch(intent);
+                        }
 
-                bundle_recieve.putString(NAME_REPLY, content_name);
-                bundle_recieve.putString(EMAIL_REPLY,content_email);
-                bundle_recieve.putString(PHONE_REPLY,content_phone);
 
-                // Lấy avatar
-                image_ava.setDrawingCacheEnabled(true);
-                Bitmap bitmap = image_ava.getDrawingCache();
-                //Đóng gói lại
-                //intent.putExtra(PHOTO_REPLY,bitmap);
-                intent.putExtras(bundle_recieve);
-                //startActivityForResult(intent,100);
-                launcherActivityInfo.launch(intent);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
 
 
 
@@ -190,7 +199,6 @@ public class Account extends Fragment {
         FirebaseAuth  user= FirebaseAuth.getInstance();
         String userId = user.getUid();
         FirebaseDatabase database = FirebaseDatabase.getInstance();
-       // assert userId != null;
         assert userId != null;
         DatabaseReference ref=database.getReference("Users").child(userId);
 
@@ -200,60 +208,21 @@ public class Account extends Fragment {
 
                 User user_cur = snapshot.getValue(User.class);
 
-                if (user_cur!= null) {
+                if (user_cur != null) {
                     String fullname = user_cur.getFullname();
                     String email = user_cur.getEmail();
                     String phone_user = user_cur.getPhone();
-                    String avatarBase64= String.valueOf(user_cur.getAvatar());
+                    String avatar = user_cur.getAvatar();
 
                     name_acc.setText(fullname);
                     email_acc.setText(email);
                     phone.setText(phone_user);
-//                    Glide.with(Account.this).load(avatarBase64).into(image_ava);
-//                    System.out.println(avatarBase64);
-                    if (avatarBase64.isEmpty()){
-                        Glide.with(Account.this).load(R.drawable.user_ava).into(image_ava);
-                    }
-                    if (!avatarBase64.isEmpty())
-                    {
-                        String avatar = snapshot.child("avatar").getValue(String.class);
-                        if(avatar != null) {
-                            if(!avatar.isEmpty()) {
-                                byte [] byteArray = new byte[0];
-//                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//                                    byteArray = Base64.getDecoder().decode(avatarBase64);
-//                                }
-                                byteArray = Base64.getDecoder().decode(avatarBase64);
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                                Glide.with(Account.this).load(avatarBase64).error(bitmap).into(image_ava);
-
-                            }
-                        }
-                    }
-//                    if (avatarBase64 == null) {
-//
-//                    }
-
-//                        if (avatarBase64!=null){
-//                        //set ava
-//                        String avatar = snapshot.child("avatar").getValue(String.class);
-//                        if(avatar != null) {
-//                            if(!avatar.isEmpty()) {
-//                                byte [] byteArray = new byte[0];
-//                                if (android.os.Build.VERSION.SDK_INT >= android.os.Build.VERSION_CODES.O) {
-//                                    byteArray = Base64.getDecoder().decode(avatar);
-//                                }
-//                                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-//                                Glide.with(Account.this).load(avatarBase64).error(bitmap).into(image_ava);
-//
-//                            }
-//                        }
-//                    }
-
+                    Glide.with(Account.this).load(avatar).error(R.drawable.user_ava).into(image_ava);
 
 
                 }
             }
+
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {

@@ -1,5 +1,9 @@
 package com.example.readingbooks_final;
 
+import static com.example.readingbooks_final.fragment.Account.EMAIL_REPLY;
+import static com.example.readingbooks_final.fragment.Account.NAME_REPLY;
+import static com.example.readingbooks_final.fragment.Account.PHOTO_REPLY;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBarDrawerToggle;
@@ -81,6 +85,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         workOnToolBar();
         showUser();
         eventHandlingNavigationBottom();
+        recieveData();
     }
     //Ánh xạ các đối tượng
     private void AnhXaDoiTuong(){
@@ -241,31 +246,14 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 if (user_cur!= null) {
                     String fullname = user_cur.getFullname();
                     String email = user_cur.getEmail();
+                    String avatar = user_cur.getAvatar();
 
-                    String avatarBase64= String.valueOf(user_cur.getAvatar());
 
                     name_acc.setText(fullname);
                     email_acc.setText(email);
+                    Glide.with(MainActivity.this).load(avatar).error(R.drawable.user_ava).into(image_ava);
 
-                    if (avatarBase64.isEmpty()){
-                        Glide.with(MainActivity.this).load(R.drawable.user_ava).into(image_ava);
-                    }
-                    if (!avatarBase64.isEmpty())
-                    {
-                        String avatar = snapshot.child("avatar").getValue(String.class);
-                        if(avatar != null) {
-                            if(!avatar.isEmpty()) {
-                                byte [] byteArray = new byte[0];
-//                                if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-//                                    byteArray = Base64.getDecoder().decode(avatarBase64);
-//                                }
-                                byteArray = Base64.getDecoder().decode(avatarBase64);
-                                Bitmap bitmap = BitmapFactory.decodeByteArray(byteArray, 0, byteArray.length);
-                                Glide.with(MainActivity.this).load(avatarBase64).error(bitmap).into(image_ava);
 
-                            }
-                        }
-                    }
 
                 }
             }
@@ -278,6 +266,18 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
 
+    }
+    private void recieveData(){
+        Intent intent = getIntent();
+        String name_reply = intent.getStringExtra(NAME_REPLY);
+
+        String email_reply = intent.getStringExtra(EMAIL_REPLY);
+        String ava_reply = intent.getStringExtra(PHOTO_REPLY);
+
+
+        name_acc.setText(name_reply);
+        email_acc.setText(email_reply);
+        Glide.with(MainActivity.this).load(ava_reply).error(R.drawable.user_ava).into(image_ava);
     }
 
 

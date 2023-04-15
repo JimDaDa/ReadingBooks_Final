@@ -1,43 +1,48 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout
+<ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
-    android:elevation="1dp">
+    android:padding="1dp">
+<androidx.constraintlayout.widget.ConstraintLayout
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/background">
 
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout4"
-        android:layout_width="383dp"
-        android:layout_height="478dp"
-        android:layout_marginTop="72dp"
+        android:layout_width="379dp"
+        android:layout_height="510dp"
+        android:layout_marginTop="60dp"
         android:background="@drawable/background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.488">
 
-        <TextView
-            android:id="@+id/add_cover"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="72dp"
-            android:text="Add a cover"
-            android:textColor="#4E944F"
-            android:textSize="24sp"
-            android:textStyle="bold"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+        <!--        <TextView-->
+        <!--            android:id="@+id/add_cover"-->
+        <!--            android:layout_width="wrap_content"-->
+        <!--            android:layout_height="wrap_content"-->
+        <!--            android:layout_marginTop="72dp"-->
+        <!--            android:text="Add a cover"-->
+        <!--            android:textColor="#4E944F"-->
+        <!--            android:textSize="24sp"-->
+        <!--            android:textStyle="bold"-->
+        <!--            app:layout_constraintEnd_toEndOf="parent"-->
+        <!--            app:layout_constraintStart_toStartOf="parent"-->
+        <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
         <TextView
             android:id="@+id/tv_title_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
-            android:layout_marginTop="32dp"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/boder_create"
             android:elevation="1dp"
             android:ems="10"
@@ -45,16 +50,16 @@
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_author_book"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.497"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/add_cover" />
+            app:layout_constraintHorizontal_bias="0.551"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_author_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/boder_create"
             android:elevation="1dp"
             android:ems="10"
@@ -62,16 +67,16 @@
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_category_book"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.478"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title_book" />
+            app:layout_constraintHorizontal_bias="0.551"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_category_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/boder_create"
             android:elevation="1dp"
             android:ems="10"
@@ -79,15 +84,15 @@
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_status_book"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_author_book" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_status_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginBottom="12dp"
             android:background="@drawable/boder_create"
             android:elevation="1dp"
             android:ems="10"
@@ -95,15 +100,16 @@
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_description_book"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_category_book" />
+            app:layout_constraintHorizontal_bias="0.551"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_description_book"
             android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:layout_marginTop="12dp"
+            android:layout_height="145dp"
+
             android:background="@drawable/boder_create"
             android:elevation="1dp"
             android:ems="10"
@@ -113,38 +119,42 @@
             android:paddingLeft="10dp"
             android:paddingTop="3dp"
             android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_status_book" />
+            app:layout_constraintHorizontal_bias="0.517"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
 
     <com.makeramen.roundedimageview.RoundedImageView
 
-        android:id="@+id/roundedImageView"
+        android:id="@+id/cover3"
         android:layout_width="109dp"
         android:layout_height="137dp"
         android:layout_marginStart="32dp"
         android:layout_marginTop="72dp"
         android:layout_marginEnd="32dp"
         android:scaleType="centerCrop"
-        android:src="@drawable/book1"
+        android:src="@drawable/add"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:riv_corner_radius="6dp" />
-
+        app:riv_corner_radius="6dp"
+        app:riv_border_width="2dp"/>
 
 
     <Button
-        android:id="@+id/create"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:text="Button"
+        android:id="@+id/addChapter"
+        android:layout_width="148dp"
+        android:layout_height="48dp"
+        android:text="Add Chapter"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.489"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4" />
+        app:layout_constraintTop_toBottomOf="@+id/constraintLayout4"
+        app:layout_constraintVertical_bias="0.386" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>
+</ScrollView>

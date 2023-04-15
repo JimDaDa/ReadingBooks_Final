@@ -26,7 +26,9 @@ import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
+import com.bumptech.glide.Glide;
 import com.example.readingbooks_final.R;
 import com.example.readingbooks_final.database.User;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
@@ -36,11 +38,15 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.Base64;
+import java.util.UUID;
 
 public class profile extends AppCompatActivity {
 
@@ -101,14 +107,14 @@ public class profile extends AppCompatActivity {
         String name_reply = intent.getStringExtra(NAME_REPLY);
         String phone_reply = intent.getStringExtra(PHONE_REPLY);
         String email_reply = intent.getStringExtra(EMAIL_REPLY);
-        Bitmap bm = intent.getParcelableExtra(PHOTO_REPLY);
-        avatar.setImageBitmap(bm);
+        String ava_reply = intent.getStringExtra(PHOTO_REPLY);
 
         name.setText(name_reply);
         fullname.setText(name_reply);
         email_acc.setText(email_reply);
         phone.setText(phone_reply);
         email.setText(email_reply);
+        Glide.with(profile.this).load(ava_reply).into(avatar);
 
     }
 
@@ -138,22 +144,12 @@ public class profile extends AppCompatActivity {
                             //String ava_up =String.valueOf(reference.child("avatar").setValue(content_avatar));
 
                             Intent intent_reply= new Intent();
-                            Bundle bundle_reply= new Bundle();
 
-                        if(avatarImage != null) {
-                            ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
-                            avatarImage.compress(Bitmap.CompressFormat.PNG, 100, byteArrayOutputStream);
-                            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.O) {
-                                reference.child("avatar").setValue(Base64.getEncoder().encodeToString(byteArrayOutputStream.toByteArray()));
-                            }
+                            intent_reply.putExtra(NAME_REPLY, content_name);
+                            intent_reply.putExtra(PHONE_REPLY,content_phone);
+                            intent_reply.putExtra(EMAIL_REPLY,content_email);
+                            intent_reply.putExtra(PHOTO_REPLY,content_avatar);
 
-                        }
-
-                            bundle_reply.putString(NAME_REPLY, content_name);
-                            bundle_reply.putString(PHONE_REPLY,content_phone);
-                            bundle_reply.putString(EMAIL_REPLY,content_email);
-
-                            intent_reply.putExtras(bundle_reply);
                             setResult(Activity.RESULT_OK, intent_reply);
                             finish();
                         }
@@ -186,7 +182,33 @@ public class profile extends AppCompatActivity {
         });
     }
 
+    public void uploadImage(Uri photo) {
+        //Tạo tên file hình ngẫu nhiên
 
+        String filename = UUID.randomUUID().toString();
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("avatar").child(filename);
+
+        //Upload ảnh lên firebase storage
+
+        storageReference.putFile(photo).addOnSuccessListener(taskSnapshot -> {
+            //get url
+            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                FirebaseUser auth= FirebaseAuth.getInstance().getCurrentUser();
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+
+                String cover = uri.toString();
+                DatabaseReference databaseReference = database.getReference("Users").child(auth.getUid());
+                databaseReference.child("avatar").setValue(cover);
+
+
+
+
+            });
+        }).addOnFailureListener(e -> {
+            Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+
+    }
 
     // Sau khi chọn ảnh xong thì sẽ update ở trang profile
     final ActivityResultLauncher<Intent> launcherActivityAva = registerForActivityResult(
@@ -202,13 +224,12 @@ public class profile extends AppCompatActivity {
                             return;
                         }
                         Uri photo = intent.getData();
+                        uploadImage(photo);
 
-                        try {
-                            avatarImage = MediaStore.Images.Media.getBitmap(getContentResolver(), photo);
-                            avatar.setImageBitmap(avatarImage);
-                        } catch (IOException e) {
-                            throw new RuntimeException(e);
-                        }
+
+                       // uploadImage(photo, id);
+                        Glide.with(profile.this).load(photo).into(avatar);
+
 
 
                     }

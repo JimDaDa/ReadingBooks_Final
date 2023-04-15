@@ -22,9 +22,15 @@
         android:theme="@style/Theme.ReadingBooks_Final"
         tools:targetApi="31">
         <activity
+            android:name=".Write_tab5"
+            android:exported="false" />
+        <activity
+            android:name=".Write_tab4"
+            android:exported="false" />
+        <activity
             android:name=".activity.Write_tab3"
             android:exported="false"
-            android:theme="@style/Theme.Profile"/>
+            android:theme="@style/Theme.Profile" />
         <activity
             android:name=".activity.Write_tab2"
             android:exported="false"
