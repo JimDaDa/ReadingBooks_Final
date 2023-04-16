@@ -20,6 +20,7 @@ import android.graphics.BitmapFactory;
 import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
@@ -369,4 +370,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         exit.addCategory(Intent.CATEGORY_HOME);
         startActivity(exit);
     }
+
+//    @Override
+//    protected void onPause() {
+//        super.onPause();
+//        if (!isFinishing()) {
+//            Toast.makeText(this, "error", Toast.LENGTH_SHORT).show();
+//
+//        }
+//    }
 }

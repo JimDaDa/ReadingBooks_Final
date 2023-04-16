@@ -19,6 +19,8 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
+import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
@@ -36,6 +38,8 @@ public class Write extends Fragment {
     private TextView create_story, edit_story;
 
     private View view;
+
+
     public Write() {
         // Required empty public constructor
     }
@@ -75,6 +79,7 @@ public class Write extends Fragment {
                 startActivityForResult.launch(intent);
 
 
+
             }
         });
     }
@@ -83,6 +88,7 @@ public class Write extends Fragment {
         edit_story.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                    //Hiển thị trang chứa truyện vừa tạo
 
             }
         });
@@ -94,12 +100,13 @@ public class Write extends Fragment {
                 @Override
                 public void onActivityResult(ActivityResult result) {
 //
-                    if(result.getResultCode() == Activity.RESULT_OK) {
+                    if(result.getResultCode() ==Activity.RESULT_OK) {
 
                         Intent intent = result.getData();
                         if (intent==null){
                             return;
                         }
+                       // String newData = intent.getStringExtra("data back");
 
                         String title_reply = intent.getStringExtra(TITLE);
                         String author_reply = intent.getStringExtra(AUTHOR);
@@ -107,8 +114,8 @@ public class Write extends Fragment {
                         String status_reply = intent.getStringExtra(STATUS);
                         String description_reply = intent.getStringExtra(DESCRIPTION);
                         String cover_reply = intent.getStringExtra(COVER);
-                        String title_content = intent.getStringExtra(TITLE_CHAPTER);
-                        String chap_content = intent.getStringExtra(CONTENT_CHAPTER);
+//                        String title_content = intent.getStringExtra(TITLE_CHAPTER);
+//                        String chap_content = intent.getStringExtra(CONTENT_CHAPTER);
 
 
 
@@ -117,4 +124,14 @@ public class Write extends Fragment {
                     }
                 }
             });
+
+//    private void replaceFrag(){
+//        Write write1= new Write();
+//
+//        FragmentManager fragmentManager=getSupportFragmentManager();
+//        FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
+//        transaction.replace(R.id.content_tool,write);
+//        transaction.addToBackStack(null);
+//        transaction.commit();
+//    }
 }

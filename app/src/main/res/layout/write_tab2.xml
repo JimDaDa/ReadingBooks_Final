@@ -14,24 +14,40 @@
     android:background="@color/background"
     android:layout_above="@+id/nd">
 
+    <com.makeramen.roundedimageview.RoundedImageView
+
+        android:id="@+id/cover3"
+        android:layout_width="109dp"
+        android:layout_height="137dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginTop="44dp"
+        android:layout_marginEnd="32dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/add"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:riv_border_width="2dp"
+        app:riv_corner_radius="6dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/nd"
-        android:layout_width="372dp"
-        android:layout_height="581dp"
-        android:layout_marginTop="72dp"
+        android:layout_width="358dp"
+        android:layout_height="469dp"
+        android:layout_marginTop="180dp"
         android:background="@drawable/background"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.485"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="0.0">
+        app:layout_constraintVertical_bias="1.0">
 
         <EditText
             android:id="@+id/tv_title_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/boder_create"
             android:elevation="1dp"
             android:ems="10"
@@ -39,16 +55,16 @@
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_author_book"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.615"
-            app:layout_constraintStart_toStartOf="parent"
-            tools:layout_editor_absoluteY="58dp" />
+            app:layout_constraintHorizontal_bias="0.473"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/tv_author_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/boder_create"
             android:elevation="1dp"
             android:ems="10"
@@ -56,16 +72,15 @@
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_category_book"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.478"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_title_book" />
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_category_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginBottom="24dp"
             android:background="@drawable/boder_create"
             android:elevation="1dp"
             android:ems="10"
@@ -73,15 +88,16 @@
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_status_book"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_author_book" />
+            app:layout_constraintHorizontal_bias="0.473"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
             android:id="@+id/tv_status_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
-            android:layout_marginTop="12dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/boder_create"
             android:elevation="1dp"
             android:ems="10"
@@ -89,15 +105,16 @@
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textSize="12sp"
+            app:layout_constraintBottom_toTopOf="@+id/tv_description_book"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_category_book" />
+            app:layout_constraintHorizontal_bias="0.473"
+            app:layout_constraintStart_toStartOf="parent" />
 
         <EditText
             android:id="@+id/tv_description_book"
-            android:layout_width="347dp"
-            android:layout_height="239dp"
-            android:layout_marginTop="12dp"
+            android:layout_width="350dp"
+            android:layout_height="150dp"
+            android:layout_marginBottom="20dp"
             android:background="@drawable/boder_create"
             android:elevation="1dp"
             android:ems="10"
@@ -107,9 +124,10 @@
             android:paddingLeft="10dp"
             android:paddingTop="3dp"
             android:textSize="12sp"
+            app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/tv_status_book" />
+            app:layout_constraintHorizontal_bias="0.473"
+            app:layout_constraintStart_toStartOf="parent" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>

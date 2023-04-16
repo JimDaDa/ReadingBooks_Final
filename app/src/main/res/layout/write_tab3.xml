@@ -145,10 +145,10 @@
 
 
     <Button
-        android:id="@+id/addChapter"
+        android:id="@+id/create"
         android:layout_width="148dp"
         android:layout_height="48dp"
-        android:text="Add Chapter"
+        android:text="@string/create"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.489"

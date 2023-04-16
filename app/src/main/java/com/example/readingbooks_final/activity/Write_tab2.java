@@ -14,6 +14,7 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -25,8 +26,11 @@ import com.bumptech.glide.Glide;
 import com.example.readingbooks_final.R;
 import com.example.readingbooks_final.database.Books_data;
 import com.google.firebase.auth.FirebaseAuth;
+import com.google.firebase.database.DataSnapshot;
+import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.ValueEventListener;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.makeramen.roundedimageview.RoundedImageView;
@@ -38,7 +42,7 @@ public class Write_tab2 extends AppCompatActivity {
     private EditText title_book, author_book, description_book;
 
     private TextView category_book, status_book;
-    private RoundedImageView roundedImageView;
+    private RoundedImageView roundImage;
     private String[] category = new String[] {"Fiction", "Romantic", "Non-Fiction", "Horror", "Detective"};
     private String[] status = new String[] {"Completed", "Continues"};
 
@@ -61,7 +65,7 @@ public class Write_tab2 extends AppCompatActivity {
         initView();
         chooseCategory();
         chooseStatus();
-        //clickAddCover();
+        clickAddCover();
     }
     private void initView(){
         title_book= findViewById(R.id.tv_title_book);
@@ -69,8 +73,7 @@ public class Write_tab2 extends AppCompatActivity {
         category_book=findViewById(R.id.tv_category_book);
         status_book=findViewById(R.id.tv_status_book);
         description_book=findViewById(R.id.tv_description_book);
-
-        roundedImageView=findViewById(R.id.cover3);
+        roundImage=findViewById(R.id.cover3);
     }
 
     @Override
@@ -90,32 +93,77 @@ public class Write_tab2 extends AppCompatActivity {
             // Add books lên database
             addBooks();
             // put sang màn hình 3
-            putDatatoTab3();
+            //putDatatoTab3();
 
         }
         return super.onOptionsItemSelected(item);
     }
 
 
+//    private void addBooks(){
+//        FirebaseAuth auth = FirebaseAuth.getInstance();
+//        FirebaseDatabase database=FirebaseDatabase.getInstance();
+//        DatabaseReference databaseReference=database.getReference("Books");
+//
+//        //Lấy id là UID trên firebase
+//        String id_books= database.getReference().push().getKey();
+//        String  id_user=auth.getCurrentUser().getUid();
+//
+//        String title = title_book.getText().toString().trim();
+//        String author = author_book.getText().toString().trim();
+//        String categoryy = category_book.getText().toString().trim();
+//        String statuss = status_book.getText().toString().trim();
+//        String description = description_book.getText().toString().trim();
+//        String photo1 ="";
+//
+//
+//        Books_data books = new Books_data(id_books,id_user, title, author, categoryy,statuss,description,photo1);
+//        databaseReference.child(id_books).setValue(books);
+//
+//    }
+
     private void addBooks(){
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseDatabase database=FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference=database.getReference("Books");
+        DatabaseReference bookRef = database.getReference().child("Books");
 
-        //Lấy id là UID trên firebase
-        String id_books= database.getReference().push().getKey();
-        String  id_user=auth.getCurrentUser().getUid();
+        String content_title = title_book.getText().toString().trim();
+        String content_author = author_book.getText().toString().trim();
+        String content_category = category_book.getText().toString().trim();
+        String content_status = status_book.getText().toString().trim();
+        String content_description = description_book.getText().toString().trim();
 
-        String title = title_book.getText().toString().trim();
-        String author = author_book.getText().toString().trim();
-        String categoryy = category_book.getText().toString().trim();
-        String statuss = status_book.getText().toString().trim();
-        String description = description_book.getText().toString().trim();
-        String photo1 ="";
+        bookRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                for (DataSnapshot books: snapshot.getChildren()){
+                    String id_books =books.getKey();
+                    DatabaseReference databaseReference = database.getReference("Books").child(id_books);
 
+                    String title_up= String.valueOf(databaseReference.child("title").setValue(content_title));
+                    String author_up=String.valueOf(databaseReference.child("authors").setValue(content_author));
+                    String category_up=String.valueOf(databaseReference.child("category").setValue(content_category));
+                    String status_up=String.valueOf(databaseReference.child("status").setValue(content_status));
+                    String description_up=String.valueOf(databaseReference.child("description").setValue(content_description));
+                    Intent intent = new Intent();
+                    intent.putExtra(TITLE, content_title);
+                    intent.putExtra(AUTHOR, content_author);
+                    intent.putExtra(CATEGORY, content_category);
+                    intent.putExtra(STATUS, content_status);
+                    intent.putExtra(DESCRIPTION, content_description);
+                    setResult(RESULT_OK,intent);
+                    finish();
 
-        Books_data books = new Books_data(id_books,id_user, title, author, categoryy,statuss,description,photo1);
-        databaseReference.child(id_books).setValue(books);
+                    Toast.makeText(Write_tab2.this, "Add Books Successfully", Toast.LENGTH_SHORT).show();
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
     }
 
     private void chooseCategory(){
@@ -173,9 +221,140 @@ public class Write_tab2 extends AppCompatActivity {
             intent.putExtra(CATEGORY, content_category);
             intent.putExtra(STATUS, content_status);
             intent.putExtra(DESCRIPTION, content_description);
+
             startActivity(intent);
+          //  startActivityForResult.launch(intent);
 
         }
 
+//    final ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
+//            new ActivityResultContracts.StartActivityForResult(),
+//            new ActivityResultCallback<ActivityResult>() {
+//                @Override
+//                public void onActivityResult(ActivityResult result) {
+////
+//                    if(result.getResultCode() == Activity.RESULT_OK) {
+//
+//                        Intent intent = result.getData();
+//                        if (intent==null){
+//                            return;
+//                        }
+//                        // String newData = intent.getStringExtra("data back");
+//
+//                        String title_reply = intent.getStringExtra(TITLE);
+//                        String author_reply = intent.getStringExtra(AUTHOR);
+//                        String category_reply = intent.getStringExtra(CATEGORY);
+//                        String status_reply = intent.getStringExtra(STATUS);
+//                        String description_reply = intent.getStringExtra(DESCRIPTION);
+//                        String cover_reply = intent.getStringExtra(COVER);
+//
+////                        String title_content = intent.getStringExtra(TITLE_CHAPTER);
+////                        String chap_content = intent.getStringExtra(CONTENT_CHAPTER);
+//
+//
+//
+//
+//
+//                    }
+//                }
+//            });
+
+    private void clickAddCover(){
+        roundImage.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //Chọn ảnh
+                chooseImage();
+            }
+        });
+    }
+
+    private void chooseImage(){
+        Intent intent= new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
+        startActivityForResult.launch(intent);
+    }
+
+    public void uploadImage(Uri photo) {
+        //Tạo tên file hình ngẫu nhiên
+
+        String filename = UUID.randomUUID().toString();
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("cover").child(filename);
+
+        //Upload ảnh lên firebase storage
+
+        storageReference.putFile(photo).addOnSuccessListener(taskSnapshot -> {
+            //get url
+            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                String cover = uri.toString();
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                FirebaseDatabase database=FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference=database.getReference("Books");
+                String title = "";
+                String author = "";
+                String categoryy = "";
+                String statuss = "";
+                String description = "";
+                //Lấy id là UID trên firebase
+                String id_books= database.getReference().push().getKey();
+                String  id_user=auth.getCurrentUser().getUid();
+                Books_data books = new Books_data(id_books,id_user,cover,title, author, categoryy,statuss,description);
+                databaseReference.child(id_books).setValue(books);
+
+
+
+                // FirebaseAuth auth = FirebaseAuth.getInstance();
+//                FirebaseDatabase database=FirebaseDatabase.getInstance();
+//                DatabaseReference bookRef = database.getReference().child("Books");
+//
+//                bookRef.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        for (DataSnapshot books: snapshot.getChildren()){
+//                            String id_books =books.getKey();
+//                            DatabaseReference databaseReference = database.getReference("Books").child(id_books);
+//                            databaseReference.child("imgUrl").setValue(cover);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//
+//                    }
+//                });
+
+
+
+
+
+            });
+        }).addOnFailureListener(e -> {
+            Toast.makeText(Write_tab2.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+
+    }
+
+    final ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+//
+                    if(result.getResultCode() == Activity.RESULT_OK) {
+
+                        Intent intent = result.getData();
+                        if (intent==null){
+                            return;
+                        }
+
+                        Uri photo = intent.getData();
+                        uploadImage(photo);
+                        Glide.with(Write_tab2.this).load(photo).into(roundImage);
+
+
+
+
+                    }
+                }
+            });
 
 }

@@ -7,16 +7,22 @@ import static com.example.readingbooks_final.activity.Write_tab2.DESCRIPTION;
 import static com.example.readingbooks_final.activity.Write_tab2.STATUS;
 import static com.example.readingbooks_final.activity.Write_tab2.TITLE;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import com.example.readingbooks_final.R;
 import com.example.readingbooks_final.database.Books_data;
@@ -40,7 +46,7 @@ public class Write_tab4 extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         actionBar.setDisplayShowHomeEnabled(true);
-        initView();
+//        initView();
        // recieveData();
     }
     private void initView(){
@@ -106,7 +112,8 @@ public class Write_tab4 extends AppCompatActivity {
                     intent.putExtra(COVER,cover_reply);
                     intent.putExtra(TITLE_CHAPTER,title_content);
                     intent.putExtra(CONTENT_CHAPTER,chap_content);
-                    startActivity(intent);
+                    //startActivity(intent);
+                    startActivityForResult.launch(intent);
                 }
 
 
@@ -121,4 +128,35 @@ public class Write_tab4 extends AppCompatActivity {
 
 
     }
+
+    final ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+//
+                    if(result.getResultCode() == Activity.RESULT_OK) {
+
+                        Intent intent = result.getData();
+                        if (intent==null){
+                            return;
+                        }
+                        // String newData = intent.getStringExtra("data back");
+
+//                        String title_reply = intent.getStringExtra(TITLE);
+//                        String author_reply = intent.getStringExtra(AUTHOR);
+//                        String category_reply = intent.getStringExtra(CATEGORY);
+//                        String status_reply = intent.getStringExtra(STATUS);
+//                        String description_reply = intent.getStringExtra(DESCRIPTION);
+//                        String cover_reply = intent.getStringExtra(COVER);
+//                        String title_content = intent.getStringExtra(TITLE_CHAPTER);
+//                        String chap_content = intent.getStringExtra(CONTENT_CHAPTER);
+
+
+
+
+
+                    }
+                }
+            });
 }

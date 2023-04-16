@@ -10,19 +10,26 @@ import static com.example.readingbooks_final.activity.Write_tab2.TITLE;
 import static com.example.readingbooks_final.activity.Write_tab4.CONTENT_CHAPTER;
 import static com.example.readingbooks_final.activity.Write_tab4.TITLE_CHAPTER;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.fragment.app.FragmentManager;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.readingbooks_final.MainActivity;
 import com.example.readingbooks_final.R;
 import com.example.readingbooks_final.fragment.Write;
 import com.google.firebase.database.DatabaseReference;
@@ -94,10 +101,11 @@ public class Write_tab5 extends AppCompatActivity {
         String chap_content = intent2.getStringExtra(CONTENT_CHAPTER);
 
         Intent intent= new Intent();
-        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK|FLAG_ACTIVITY_CLEAR_TASK);
+       // intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TASK);
+       // String data = "";
 
 //
-        intent.putExtra(TITLE, title_reply);
+       // intent.putExtra("data back", data);
         intent.putExtra(AUTHOR, author_reply);
         intent.putExtra(CATEGORY, category_reply);
         intent.putExtra(STATUS, status_reply);
@@ -106,14 +114,42 @@ public class Write_tab5 extends AppCompatActivity {
         intent.putExtra(TITLE_CHAPTER,title_content);
         intent.putExtra(CONTENT_CHAPTER,chap_content);
         //startActivity(intent);
+        startActivityForResult.launch(intent);
         setResult(RESULT_OK,intent);
         finish();
 
 //        Write write = new Write();
-//        FragmentManager fragmentManager=
-//        FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.content_tool,write);
-//        transaction.addToBackStack("write");
-//        transaction.commit();
+
     }
+
+    final ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+//
+                    if(result.getResultCode() == Activity.RESULT_OK) {
+
+                        Intent intent = result.getData();
+                        if (intent==null){
+                            return;
+                        }
+                        // String newData = intent.getStringExtra("data back");
+
+//                        String title_reply = intent.getStringExtra(TITLE);
+//                        String author_reply = intent.getStringExtra(AUTHOR);
+//                        String category_reply = intent.getStringExtra(CATEGORY);
+//                        String status_reply = intent.getStringExtra(STATUS);
+//                        String description_reply = intent.getStringExtra(DESCRIPTION);
+//                        String cover_reply = intent.getStringExtra(COVER);
+//                        String title_content = intent.getStringExtra(TITLE_CHAPTER);
+//                        String chap_content = intent.getStringExtra(CONTENT_CHAPTER);
+
+
+
+
+
+                    }
+                }
+            });
 }
