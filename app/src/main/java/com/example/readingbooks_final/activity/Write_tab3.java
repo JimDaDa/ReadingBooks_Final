@@ -19,6 +19,7 @@ import android.app.Activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.TextView;
@@ -148,6 +149,15 @@ public class Write_tab3 extends AppCompatActivity {
             Toast.makeText(Write_tab3.this, e.getMessage(), Toast.LENGTH_SHORT).show();
         });
 
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId()== android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 
     final ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(

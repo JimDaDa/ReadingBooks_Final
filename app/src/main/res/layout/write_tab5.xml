@@ -9,19 +9,7 @@
     android:elevation="1dp">
 
 
-    <com.makeramen.roundedimageview.RoundedImageView
 
-        android:id="@+id/cover3"
-        android:layout_width="210dp"
-        android:layout_height="279dp"
-        android:layout_marginTop="36dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/book1"
-        app:layout_constraintEnd_toEndOf="@+id/view13"
-        app:layout_constraintHorizontal_bias="0.493"
-        app:layout_constraintStart_toStartOf="@+id/view13"
-        app:layout_constraintTop_toBottomOf="@+id/view12"
-        app:riv_corner_radius="6dp" />
 
     <View
         android:id="@+id/view12"
@@ -30,6 +18,28 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <View
+        android:id="@+id/view13"
+        android:layout_width="398dp"
+        android:layout_height="331dp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/view12" />
+
+    <com.makeramen.roundedimageview.RoundedImageView
+
+        android:id="@+id/cover5"
+        android:layout_width="210dp"
+        android:layout_height="279dp"
+        android:layout_marginTop="36dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/book1"
+        app:layout_constraintEnd_toEndOf="@+id/view13"
+        app:layout_constraintHorizontal_bias="0.494"
+        app:layout_constraintStart_toStartOf="@+id/view13"
+        app:layout_constraintTop_toBottomOf="@+id/view12"
+        app:riv_corner_radius="6dp" />
 
     <TextView
         android:id="@+id/textView6"
@@ -43,24 +53,6 @@
         app:layout_constraintTop_toTopOf="@+id/view12" />
 
     <View
-        android:id="@+id/view13"
-        android:layout_width="398dp"
-        android:layout_height="331dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/view12" />
-
-    <TextView
-        android:id="@+id/textView8"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_marginTop="76dp"
-        android:text="Tên Truyện"
-        app:layout_constraintEnd_toEndOf="@+id/view14"
-        app:layout_constraintStart_toStartOf="@+id/view14"
-        app:layout_constraintTop_toTopOf="@+id/view14" />
-
-    <View
         android:id="@+id/view14"
         android:layout_width="342dp"
         android:layout_height="213dp"
@@ -69,5 +61,17 @@
         app:layout_constraintHorizontal_bias="0.492"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view13" />
+
+    <TextView
+        android:id="@+id/title5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="76dp"
+        android:text="Tên Truyện"
+        app:layout_constraintEnd_toEndOf="@+id/view14"
+        app:layout_constraintStart_toStartOf="@+id/view14"
+        app:layout_constraintTop_toTopOf="@+id/view14" />
+
+
 
 </androidx.constraintlayout.widget.ConstraintLayout>
