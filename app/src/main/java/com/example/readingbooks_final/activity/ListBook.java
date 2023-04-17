@@ -1,10 +1,13 @@
 package com.example.readingbooks_final.activity;
 
+import androidx.annotation.NonNull;
+import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
@@ -23,7 +26,11 @@ public class ListBook extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.my_list);
+        ActionBar actionBar=getSupportActionBar();
         story_list = findViewById(R.id.story_list);
+        actionBar.setDisplayHomeAsUpEnabled(true);
+
+        // actionBar.setDisplayShowHomeEnabled(true);
         //setAdapter();
         setAnimation(R.anim.layout_slide);
         addBooks();
@@ -50,5 +57,14 @@ public class ListBook extends AppCompatActivity {
         LayoutAnimationController layoutAnimationController= AnimationUtils.loadLayoutAnimation(this, animation);
         story_list.setLayoutAnimation(layoutAnimationController);
         setAdapter();
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+        if (item.getItemId()== android.R.id.home){
+            onBackPressed();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

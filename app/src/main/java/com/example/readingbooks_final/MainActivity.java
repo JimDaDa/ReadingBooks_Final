@@ -65,12 +65,15 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int Home_Frag=1;
     private static final int Books_Frag=2;
     private static final int Write_Frag=3;
+
     private static final int Category_Frag=4;
     private static final int Profile_Frag=5;
+
 
     private final Account account = new Account();
 
     private int current =Home_Frag;
+    //private ListBook listBook = new ListBook();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -87,6 +90,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         showUser();
         eventHandlingNavigationBottom();
         recieveData();
+
     }
     //Ánh xạ các đối tượng
     private void AnhXaDoiTuong(){
@@ -218,6 +222,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
 
     }
+
+
 
 
     public void LogOut(){
@@ -361,6 +367,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
             case 4:
                 replaceFragment(account, position);
                 break;
+//            case 5:
+//                replaceFragment(listBook, position);
 
         }
     }
@@ -370,6 +378,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         exit.addCategory(Intent.CATEGORY_HOME);
         startActivity(exit);
     }
+
+
 
 //    @Override
 //    protected void onPause() {

@@ -49,8 +49,8 @@ public class Write_tab5 extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
 
         actionBar.setDisplayShowHomeEnabled(true);
-        initView();
-        recieveData();
+//        initView();
+//        recieveData();
     }
 
     private void initView(){

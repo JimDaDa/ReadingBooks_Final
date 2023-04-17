@@ -28,7 +28,9 @@ import android.view.ViewGroup;
 import android.widget.TextView;
 
 import com.bumptech.glide.Glide;
+import com.example.readingbooks_final.MainActivity;
 import com.example.readingbooks_final.R;
+import com.example.readingbooks_final.activity.ListBook;
 import com.example.readingbooks_final.activity.Write_tab2;
 import com.example.readingbooks_final.activity.Write_tab3;
 
@@ -38,6 +40,13 @@ public class Write extends Fragment {
     private TextView create_story, edit_story;
 
     private View view;
+    private MainActivity mainActivity;
+    private static final int Write_Frag=1;
+
+    private static final int List_Frag=2;
+    private int current =Write_Frag;
+
+
 
 
     public Write() {
@@ -89,7 +98,7 @@ public class Write extends Fragment {
             @Override
             public void onClick(View v) {
                     //Hiển thị trang chứa truyện vừa tạo
-
+                    openListBook();
             }
         });
     }
@@ -125,13 +134,34 @@ public class Write extends Fragment {
                 }
             });
 
-//    private void replaceFrag(){
-//        Write write1= new Write();
-//
-//        FragmentManager fragmentManager=getSupportFragmentManager();
-//        FragmentTransaction transaction =getSupportFragmentManager().beginTransaction();
-//        transaction.replace(R.id.content_tool,write);
-//        transaction.addToBackStack(null);
+//    private void replaceFragment(Fragment fragment, int position) {
+//       FragmentManager getSupportManager =  mainActivity.getSupportFragmentManager();
+//        FragmentTransaction transaction=getSupportManager.beginTransaction();
+//        transaction.replace(R.id.content_tool,fragment, fragment.getClass().getName());
 //        transaction.commit();
 //    }
+//    public void displayView(int position){
+//        switch (position){
+//            case 0:
+//                replaceFragment(new ListBook(), position);
+//                break;
+//
+//
+//
+//        }
+//    }
+
+//    public  void Open_List(){
+//        if (current!=List_Frag){
+//            displayView(0);
+//            current=List_Frag;
+//        }
+//
+//    }
+
+    private void openListBook(){
+        Intent intent = new Intent(getActivity(), ListBook.class);
+        startActivity(intent);
+    }
+
 }

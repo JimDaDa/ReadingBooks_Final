@@ -43,8 +43,8 @@ public class Write_tab2 extends AppCompatActivity {
 
     private TextView category_book, status_book;
     private RoundedImageView roundImage;
-    private String[] category = new String[] {"Fiction", "Romantic", "Non-Fiction", "Horror", "Detective"};
-    private String[] status = new String[] {"Completed", "Continues"};
+    private String[] category = new String[] {"Science Fiction", "Romantic", "Non-Fiction", "Horror", "Detective", "Thriller", "History"};
+    private String[] status = new String[] {"Completed", "Incomplete"};
 
     public static final String TITLE = "TITLE";
     public static final String AUTHOR = "AUTHOR";
