@@ -12,7 +12,6 @@ public class Books_data {
     private String status;
 
 
-
     public Books_data(){}
     public Books_data(int drawableRes) {
         this.drawableRes = drawableRes;
@@ -32,21 +31,7 @@ public class Books_data {
         this.status = status;
     }
 
-//    public Books_data(String id, String title, String authors, String category, String description, String imgUrl, int pageCount, int drawableRes, float rating, boolean status) {
-//        this.id = id;
-//        this.title = title;
-//        this.authors = authors;
-//        this.category = category;
-//        this.description = description;
-//        this.imgUrl = imgUrl;
-//        this.pageCount = pageCount;
-//        this.drawableRes = drawableRes;
-//        this.rating = rating;
-//        this.status = status;
-//    }
-//Constructor add books
-//    public Books_data(String id_books, String id_user, String title, String author, String categoryy, String statuss, String description) {
-//    }
+
 
     public Books_data(String id_books, String id_user, String cover, String title, String author, String categoryy, String statuss, String description) {
         this.id = id_books;
