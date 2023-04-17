@@ -22,25 +22,28 @@
         android:theme="@style/Theme.ReadingBooks_Final"
         tools:targetApi="31">
         <activity
+            android:name=".activity.ListBook"
+            android:exported="false" />
+        <activity
             android:name=".activity.Write_tab5"
             android:exported="false"
-            android:theme="@style/Theme.Profile"
-            android:parentActivityName=".fragment.Write"/>
+            android:parentActivityName=".fragment.Write"
+            android:theme="@style/Theme.Profile" />
         <activity
             android:name=".activity.Write_tab4"
             android:exported="false"
-            android:theme="@style/Theme.Profile"
-            android:parentActivityName=".fragment.Write"/>
+            android:parentActivityName=".fragment.Write"
+            android:theme="@style/Theme.Profile" />
         <activity
             android:name=".activity.Write_tab3"
             android:exported="false"
-            android:theme="@style/Theme.Profile"
-            android:parentActivityName=".fragment.Write"/>
+            android:parentActivityName=".fragment.Write"
+            android:theme="@style/Theme.Profile" />
         <activity
             android:name=".activity.Write_tab2"
             android:exported="false"
-            android:theme="@style/Theme.Profile"
-            android:parentActivityName=".fragment.Write"/>
+            android:parentActivityName=".fragment.Write"
+            android:theme="@style/Theme.Profile" />
         <activity
             android:name=".activity.forget_pass"
             android:exported="false"
@@ -77,7 +80,6 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-
     </application>
 
 </manifest>

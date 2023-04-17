@@ -1,15 +1,10 @@
-package com.example.readingbooks_final.fragment;
+package com.example.readingbooks_final.activity;
 
-import android.annotation.SuppressLint;
-import android.os.Bundle;
-
-import androidx.fragment.app.Fragment;
+import androidx.appcompat.app.AppCompatActivity;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
-import android.view.LayoutInflater;
-import android.view.View;
-import android.view.ViewGroup;
+import android.os.Bundle;
 import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
@@ -20,40 +15,22 @@ import com.example.readingbooks_final.database.Books_data;
 import java.util.ArrayList;
 import java.util.List;
 
-
-public class ListBook extends Fragment {
-
+public class ListBook extends AppCompatActivity {
     private RecyclerView story_list;
 
     private List<Books_data> books= new ArrayList<>();
-
-
-
-    public ListBook() {
-        // Required empty public constructor
-    }
-
-
     @Override
-    public void onCreate(Bundle savedInstanceState) {
+    protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-
-    }
-
-    @SuppressLint("MissingInflatedId")
-    @Override
-    public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                             Bundle savedInstanceState) {
-        View view=inflater.inflate(R.layout.my_list,container,false);
-        story_list = view.findViewById(R.id.story_list);
+        setContentView(R.layout.my_list);
+        story_list = findViewById(R.id.story_list);
         //setAdapter();
         setAnimation(R.anim.layout_slide);
         addBooks();
-        return view;
     }
     private void setAdapter(){
         Library_Adapter booksAdapter= new Library_Adapter(books);
-        story_list.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
+        story_list.setLayoutManager(new LinearLayoutManager(this, LinearLayoutManager.VERTICAL,false));
         story_list.setHasFixedSize(true);
         story_list.setAdapter(booksAdapter);
     }
@@ -70,7 +47,7 @@ public class ListBook extends Fragment {
     }
 
     private void setAnimation(int animation){
-        LayoutAnimationController layoutAnimationController= AnimationUtils.loadLayoutAnimation(getActivity(), animation);
+        LayoutAnimationController layoutAnimationController= AnimationUtils.loadLayoutAnimation(this, animation);
         story_list.setLayoutAnimation(layoutAnimationController);
         setAdapter();
     }

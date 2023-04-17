@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="#FAF5EB"
     android:padding="1dp">
 
     <View
@@ -253,7 +253,7 @@
             android:layout_width="323dp"
             android:layout_height="51dp"
             android:background="@drawable/boder_profile"
-            android:drawableLeft="@drawable/phone"
+            android:drawableLeft="@drawable/mobile"
             android:drawablePadding="16dp"
             android:ems="10"
             android:hint="Phone"
@@ -288,13 +288,9 @@
             android:text="Delete Account"
             app:layout_constraintBottom_toBottomOf="@+id/view7"
             app:layout_constraintEnd_toEndOf="@+id/view7"
-            app:layout_constraintHorizontal_bias="0.501"
+            app:layout_constraintHorizontal_bias="0.492"
             app:layout_constraintStart_toStartOf="@+id/view7"
-            app:layout_constraintTop_toBottomOf="@+id/view8"/>
-
-
-
-
+            app:layout_constraintTop_toBottomOf="@+id/view8" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
