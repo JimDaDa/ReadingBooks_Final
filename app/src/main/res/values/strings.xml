@@ -28,5 +28,10 @@
     <string name="chapter_title">Chapter Title</string>
     <string name="choose_category">Choose Category</string>
     <string name="create">Create</string>
+    <string name="edit">Edit</string>
+    <string name="add_chapter_show_info_book">Add Chapter</string>
+    <string name="update_book">update book</string>
+    <string name="add_chapters">add chapter</string>
+    <string name="edit_chapter">edit_chapter</string>
     <!--    <string name="default_web_client_id">512054367217-hc8pq3b5iifip6mj1es1lku2ieu131a4.apps.googleusercontent.com</string>-->
 </resources>

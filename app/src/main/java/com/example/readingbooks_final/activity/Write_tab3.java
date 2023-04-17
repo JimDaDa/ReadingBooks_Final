@@ -27,7 +27,6 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
-import com.example.readingbooks_final.MainActivity;
 import com.example.readingbooks_final.R;
 import com.example.readingbooks_final.database.Books_data;
 import com.google.firebase.database.DataSnapshot;
@@ -69,7 +68,7 @@ public class Write_tab3 extends AppCompatActivity {
         category_book=findViewById(R.id.tv_category_book);
         status_book=findViewById(R.id.tv_status_book);
         description_book=findViewById(R.id.tv_description_book);
-        createBooks=findViewById(R.id.create);
+        createBooks=findViewById(R.id.edit_book);
         roundImage=findViewById(R.id.cover3);
 
     }

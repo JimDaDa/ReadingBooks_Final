@@ -12,6 +12,7 @@ public class Books_data {
     private String status;
 
 
+
     public Books_data(){}
     public Books_data(int drawableRes) {
         this.drawableRes = drawableRes;
@@ -47,15 +48,16 @@ public class Books_data {
 //    public Books_data(String id_books, String id_user, String title, String author, String categoryy, String statuss, String description) {
 //    }
 
-    public Books_data(String id_books, String id_user, String title, String author, String categoryy, String statuss, String description, String photo1) {
+    public Books_data(String id_books, String id_user, String cover, String title, String author, String categoryy, String statuss, String description) {
         this.id = id_books;
         this.id_user = id_user;
+        this.imgUrl=cover;
         this.title = title;
         this.authors = author;
         this.category = categoryy;
-        this.description = description;
-        this.imgUrl = photo1;
         this.status = statuss;
+        this.description = description;
+
     }
 
     public Books_data(String cover) {

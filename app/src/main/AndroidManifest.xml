@@ -22,9 +22,21 @@
         android:theme="@style/Theme.ReadingBooks_Final"
         tools:targetApi="31">
         <activity
+            android:name=".activity.add_chapter"
+            android:exported="false"
+            android:theme="@style/Theme.Profile" />
+        <activity
+            android:name=".activity.edit_book"
+            android:exported="false"
+            android:theme="@style/Theme.Profile" />
+        <activity
+            android:name=".activity.show_info_book"
+            android:exported="false"
+            android:theme="@style/Theme.Profile" />
+        <activity
             android:name=".activity.ListBook"
             android:exported="false"
-            android:theme="@style/Theme.Profile"/>
+            android:theme="@style/Theme.Profile" />
         <activity
             android:name=".activity.Write_tab5"
             android:exported="false"

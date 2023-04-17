@@ -297,7 +297,7 @@ public class Write_tab2 extends AppCompatActivity {
                 //Lấy id là UID trên firebase
                 String id_books= database.getReference().push().getKey();
                 String  id_user=auth.getCurrentUser().getUid();
-                Books_data books = new Books_data(id_books,id_user,cover,title, author, categoryy,statuss,description);
+                Books_data books = new Books_data(id_books,id_user,cover,title,author,categoryy,statuss,description);
                 databaseReference.child(id_books).setValue(books);
 
 
