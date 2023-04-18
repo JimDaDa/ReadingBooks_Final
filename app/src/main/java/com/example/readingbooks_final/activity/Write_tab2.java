@@ -10,6 +10,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -35,6 +36,7 @@ import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+
 import java.util.UUID;
 
 public class Write_tab2 extends AppCompatActivity {
@@ -43,7 +45,7 @@ public class Write_tab2 extends AppCompatActivity {
 
     private TextView category_book, status_book;
     private RoundedImageView roundImage;
-    private String[] category = new String[] {"Science Fiction", "Romantic", "Non-Fiction", "Horror", "Detective", "Thriller", "History"};
+    private String[] category = new String[] {"Science Fiction", "Romantic", "Non-Fiction", "Horror", "Detective", "Thriller", "History", "Story", "Action"};
     private String[] status = new String[] {"Completed", "Incomplete"};
 
     public static final String TITLE = "TITLE";
@@ -52,7 +54,8 @@ public class Write_tab2 extends AppCompatActivity {
     public static final String STATUS = "STATUS";
     public static final String DESCRIPTION = "DESCRIPTION";
     public static final String COVER = "COVER";
-    private TextView add_cover;
+   private boolean imageLoaded = false;
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -68,12 +71,15 @@ public class Write_tab2 extends AppCompatActivity {
         clickAddCover();
     }
     private void initView(){
-        title_book= findViewById(R.id.tv_title_book);
+        title_book= findViewById(R.id.edit_title_book);
         author_book=findViewById(R.id.tv_author_book);
         category_book=findViewById(R.id.tv_category_book);
         status_book=findViewById(R.id.tv_status_book);
         description_book=findViewById(R.id.tv_description_book);
-        roundImage=findViewById(R.id.cover3);
+        roundImage=findViewById(R.id.cover_details);
+        progressDialog= new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait..");
+        progressDialog.setCancelable(false);
     }
 
     @Override
@@ -84,16 +90,40 @@ public class Write_tab2 extends AppCompatActivity {
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
+
+        String content_title= title_book.getText().toString().trim();
+        String content_author= author_book.getText().toString().trim();
+        String content_category= category_book.getText().toString().trim();
+        String content_status= status_book.getText().toString().trim();
+        String content_description= description_book.getText().toString().trim();
+
+
         if (item.getItemId()== android.R.id.home){
             onBackPressed();
             return true;
         }
 
         if (item.getItemId()== R.id.add_books){
+            putDatatoTab3();
+
             // Add books lên database
-            addBooks();
+//            addBooks();
+
             // put sang màn hình 3
-            //putDatatoTab3();
+            if (!imageLoaded && content_title.isEmpty() && content_author.isEmpty() && content_category.isEmpty() && content_status.isEmpty() && content_description.isEmpty() ){
+                Toast.makeText(Write_tab2.this, "Please Choose Cover ", Toast.LENGTH_SHORT).show();
+
+
+
+            }
+            else{
+
+                putDatatoTab3();
+
+            }
+
+
+
 
         }
         return super.onOptionsItemSelected(item);
@@ -136,9 +166,63 @@ public class Write_tab2 extends AppCompatActivity {
         bookRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+//                Books_data books_data= snapshot.getValue(Books_data.class);
+//                //Test
+//                if (books_data!= null){
+//                    String id_books =books_data.getId();
+//                    DatabaseReference databaseReference = database.getReference("Books").child(id_books);
+//                    //  DatabaseReference dt= databaseReference.child("id");
+//                    System.out.println(id_books);
+//                    // System.out.println(dt);
+//
+//                    String title_up= String.valueOf(databaseReference.child("title").setValue(content_title));
+//                    String author_up=String.valueOf(databaseReference.child("authors").setValue(content_author));
+//                    String category_up=String.valueOf(databaseReference.child("category").setValue(content_category));
+//                    String status_up=String.valueOf(databaseReference.child("status").setValue(content_status));
+//                    String description_up=String.valueOf(databaseReference.child("description").setValue(content_description));
+//                    Intent intent = new Intent();
+//                    intent.putExtra(TITLE, content_title);
+//                    intent.putExtra(AUTHOR, content_author);
+//                    intent.putExtra(CATEGORY, content_category);
+//                    intent.putExtra(STATUS, content_status);
+//                    intent.putExtra(DESCRIPTION, content_description);
+//                    setResult(RESULT_OK,intent);
+//                    finish();
+//
+//                    Toast.makeText(Write_tab2.this, "Add Books Successfully", Toast.LENGTH_SHORT).show();
+//                }
+
                 for (DataSnapshot books: snapshot.getChildren()){
+
+                    //Thật
+                    Books_data books_data= snapshot.getValue(Books_data.class);
                     String id_books =books.getKey();
+
+                    System.out.println(books_data.getId());
+                    System.out.println(id_books);
                     DatabaseReference databaseReference = database.getReference("Books").child(id_books);
+
+                    //Thật
+
+//                        HashMap<String,Object> result=new HashMap();
+////                        result.put("id",id);
+////                        result.put("id_user",id_user);
+//                        result.put("title",content_title);
+//                        result.put("authors",content_author);
+//                        result.put("category",content_category);
+//                        result.put("status", content_status);
+//                         result.put("description", content_description);
+
+//                        databaseReference.setValue(result, new DatabaseReference.CompletionListener() {
+//                            @Override
+//                            public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+//                                Toast.makeText(Write_tab2.this, "Success", Toast.LENGTH_SHORT).show();
+//                            }
+//                        });
+
+
 
                     String title_up= String.valueOf(databaseReference.child("title").setValue(content_title));
                     String author_up=String.valueOf(databaseReference.child("authors").setValue(content_author));
@@ -156,6 +240,7 @@ public class Write_tab2 extends AppCompatActivity {
 
                     Toast.makeText(Write_tab2.this, "Add Books Successfully", Toast.LENGTH_SHORT).show();
                 }
+
             }
 
             @Override
@@ -163,6 +248,7 @@ public class Write_tab2 extends AppCompatActivity {
 
             }
         });
+
 
     }
 
@@ -209,20 +295,30 @@ public class Write_tab2 extends AppCompatActivity {
 
 
         private void putDatatoTab3(){
-            Intent intent = new Intent(Write_tab2.this, Write_tab3.class);
+            Intent intent = new Intent();
 
             String content_title= title_book.getText().toString().trim();
             String content_author= author_book.getText().toString().trim();
             String content_category= category_book.getText().toString().trim();
             String content_status= status_book.getText().toString().trim();
             String content_description= description_book.getText().toString().trim();
-            intent.putExtra(TITLE, content_title);
-            intent.putExtra(AUTHOR, content_author);
-            intent.putExtra(CATEGORY, content_category);
-            intent.putExtra(STATUS, content_status);
-            intent.putExtra(DESCRIPTION, content_description);
+//            if (roundImage.getDrawable() == null && content_title.isEmpty() && content_author.isEmpty() && content_category.isEmpty() && content_status.isEmpty() && content_description.isEmpty() ){
+//                Toast.makeText(Write_tab2.this, "Please do not leave blank ", Toast.LENGTH_SHORT).show();
+//
+//            }
+//            else {
+                intent.putExtra(TITLE, content_title);
+                intent.putExtra(AUTHOR, content_author);
+                intent.putExtra(CATEGORY, content_category);
+                intent.putExtra(STATUS, content_status);
+                intent.putExtra(DESCRIPTION, content_description);
 
-            startActivity(intent);
+                setResult(RESULT_OK,intent);
+                finish();
+                Toast.makeText(Write_tab2.this, "Add Books Successfully", Toast.LENGTH_SHORT).show();
+          //  }
+
+
           //  startActivityForResult.launch(intent);
 
         }
@@ -260,19 +356,38 @@ public class Write_tab2 extends AppCompatActivity {
 //            });
 
     private void clickAddCover(){
+
         roundImage.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                //Chọn ảnh
-                chooseImage();
+                String content_title = title_book.getText().toString().trim();
+                String content_author = author_book.getText().toString().trim();
+                String content_category = category_book.getText().toString().trim();
+                String content_status = status_book.getText().toString().trim();
+                String content_description = description_book.getText().toString().trim();
+                if (content_title.isEmpty() && content_author.isEmpty() && content_category.isEmpty() && content_status.isEmpty() && content_description.isEmpty()){
+                    Toast.makeText(Write_tab2.this, "Please do not leave blank ", Toast.LENGTH_SHORT).show();
+
+                }
+                else {
+                    //roundImage.setEnabled(true);
+                    //Chọn ảnh
+                    chooseImage();
+               }
+
             }
         });
     }
 
     private void chooseImage(){
+
         Intent intent= new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
         startActivityForResult.launch(intent);
+        imageLoaded= true;
     }
+
+
+
 
     public void uploadImage(Uri photo) {
         //Tạo tên file hình ngẫu nhiên
@@ -281,7 +396,7 @@ public class Write_tab2 extends AppCompatActivity {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("cover").child(filename);
 
         //Upload ảnh lên firebase storage
-
+        progressDialog.show();
         storageReference.putFile(photo).addOnSuccessListener(taskSnapshot -> {
             //get url
             storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
@@ -289,17 +404,21 @@ public class Write_tab2 extends AppCompatActivity {
                 FirebaseAuth auth = FirebaseAuth.getInstance();
                 FirebaseDatabase database=FirebaseDatabase.getInstance();
                 DatabaseReference databaseReference=database.getReference("Books");
-                String title = "";
-                String author = "";
-                String categoryy = "";
-                String statuss = "";
-                String description = "";
+                String content_title = title_book.getText().toString().trim();
+                String content_author = author_book.getText().toString().trim();
+                String content_category = category_book.getText().toString().trim();
+                String content_status = status_book.getText().toString().trim();
+                String content_description = description_book.getText().toString().trim();
+
                 //Lấy id là UID trên firebase
                 String id_books= database.getReference().push().getKey();
                 String  id_user=auth.getCurrentUser().getUid();
-                Books_data books = new Books_data(id_books,id_user,cover,title,author,categoryy,statuss,description);
-                databaseReference.child(id_books).setValue(books);
+               Books_data books = new Books_data(id_books,id_user,cover,content_title,content_author,content_category,content_status,content_description);
+              //  Books_data books = new Books_data(id_books,id_user,cover);
 
+                databaseReference.child(id_books).setValue(books);
+                progressDialog.dismiss();
+                Toast.makeText(Write_tab2.this, "Update Successfull", Toast.LENGTH_SHORT).show();
 
 
                 // FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -349,6 +468,7 @@ public class Write_tab2 extends AppCompatActivity {
                         Uri photo = intent.getData();
                         uploadImage(photo);
                         Glide.with(Write_tab2.this).load(photo).into(roundImage);
+                        imageLoaded= true;
 
 
 

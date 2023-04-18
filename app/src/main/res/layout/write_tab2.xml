@@ -16,7 +16,7 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
 
-        android:id="@+id/cover3"
+        android:id="@+id/cover_details"
         android:layout_width="109dp"
         android:layout_height="137dp"
         android:layout_marginStart="32dp"
@@ -44,7 +44,7 @@
         app:layout_constraintVertical_bias="1.0">
 
         <EditText
-            android:id="@+id/tv_title_book"
+            android:id="@+id/edit_title_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
             android:layout_marginBottom="20dp"

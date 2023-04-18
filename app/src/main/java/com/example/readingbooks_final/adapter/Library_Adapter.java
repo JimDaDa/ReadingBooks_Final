@@ -51,11 +51,11 @@ public class Library_Adapter extends RecyclerView.Adapter<Library_Adapter.ViewHo
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
 
-            imgBook = itemView.findViewById(R.id.library_item);
-            title = itemView.findViewById(R.id.library_item_title);
-            author = itemView.findViewById(R.id.library_item_author);
-            chap = itemView.findViewById(R.id.library_item_chappter);
-            rate = itemView.findViewById(R.id.library_item_score);
+            imgBook = itemView.findViewById(R.id.my_list_item);
+            title = itemView.findViewById(R.id.mylist_item_title);
+            author = itemView.findViewById(R.id.mylist_item_author);
+            chap = itemView.findViewById(R.id.mylist_item_chappter);
+            rate = itemView.findViewById(R.id.mylist_item_score);
         }
     }
 }

@@ -35,8 +35,8 @@
         <!--            app:layout_constraintStart_toStartOf="parent"-->
         <!--            app:layout_constraintTop_toTopOf="parent" />-->
 
-        <TextView
-            android:id="@+id/tv_title_book"
+        <EditText
+            android:id="@+id/edit_title_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
@@ -50,14 +50,14 @@
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_author_book"
+            app:layout_constraintBottom_toTopOf="@+id/edit_author_book"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_author_book"
+        <EditText
+            android:id="@+id/edit_author_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
@@ -70,13 +70,13 @@
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_category_book"
+            app:layout_constraintBottom_toTopOf="@+id/edit_category_book"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/tv_category_book"
+            android:id="@+id/edit_category_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
@@ -89,13 +89,13 @@
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_status_book"
+            app:layout_constraintBottom_toTopOf="@+id/edit_status_book"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.542"
             app:layout_constraintStart_toStartOf="parent" />
 
         <TextView
-            android:id="@+id/tv_status_book"
+            android:id="@+id/edit_status_book"
             android:layout_width="350dp"
             android:layout_height="50dp"
             android:layout_marginStart="16dp"
@@ -108,13 +108,13 @@
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
             android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_description_book"
+            app:layout_constraintBottom_toTopOf="@+id/edit_description_book"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.542"
             app:layout_constraintStart_toStartOf="parent" />
 
-        <TextView
-            android:id="@+id/tv_description_book"
+        <EditText
+            android:id="@+id/edit_description_book"
             android:layout_width="356dp"
             android:layout_height="185dp"
 
@@ -140,7 +140,7 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
 
-        android:id="@+id/cover3"
+        android:id="@+id/cover_edit"
         android:layout_width="126dp"
         android:layout_height="156dp"
         android:layout_marginStart="32dp"

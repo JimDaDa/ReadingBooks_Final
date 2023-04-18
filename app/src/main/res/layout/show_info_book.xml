@@ -148,7 +148,7 @@
 
     <com.makeramen.roundedimageview.RoundedImageView
 
-        android:id="@+id/cover3"
+        android:id="@+id/cover_details"
         android:layout_width="126dp"
         android:layout_height="156dp"
         android:layout_marginStart="32dp"

@@ -9,4 +9,8 @@
         android:id="@+id/edit_chapter"
         android:icon="@drawable/edit_add"
         app:showAsAction="always"/>
+    <item android:title="@string/delete_books"
+        android:id="@+id/deleteBook"
+        android:icon="@drawable/delete"
+        app:showAsAction="always"/>
 </menu>

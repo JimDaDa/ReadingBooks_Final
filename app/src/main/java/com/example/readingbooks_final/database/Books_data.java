@@ -1,9 +1,10 @@
 package com.example.readingbooks_final.database;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class Books_data {
+public class Books_data implements Serializable {
 
     private String id, id_user;
     private String title, authors,category, description, imgUrl;
@@ -45,8 +46,27 @@ public class Books_data {
 
     }
 
+    public Books_data(String id_books, String id_user, String cover) {
+        this.id = id_books;
+        this.id_user = id_user;
+        this.imgUrl=cover;
+
+
+
+    }
+
     public Books_data(String cover) {
         this.imgUrl = cover;
+    }
+
+    public Books_data(String title, String author, String categoryy, String statuss, String description) {
+
+        this.title = title;
+        this.authors = author;
+        this.category = categoryy;
+        this.status = statuss;
+        this.description = description;
+
     }
 
 //    public Books_data(String id_books, String id_user, String title, String author, String categoryy, String statuss, String description) {

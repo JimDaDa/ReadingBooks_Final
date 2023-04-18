@@ -6,12 +6,9 @@ import static com.example.readingbooks_final.activity.Write_tab2.COVER;
 import static com.example.readingbooks_final.activity.Write_tab2.DESCRIPTION;
 import static com.example.readingbooks_final.activity.Write_tab2.STATUS;
 import static com.example.readingbooks_final.activity.Write_tab2.TITLE;
-import static com.example.readingbooks_final.activity.Write_tab4.CONTENT_CHAPTER;
-import static com.example.readingbooks_final.activity.Write_tab4.TITLE_CHAPTER;
 
 import android.app.Activity;
 import android.content.Intent;
-import android.net.Uri;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
@@ -19,20 +16,16 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
 
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
 import com.example.readingbooks_final.MainActivity;
 import com.example.readingbooks_final.R;
 import com.example.readingbooks_final.activity.ListBook;
 import com.example.readingbooks_final.activity.Write_tab2;
-import com.example.readingbooks_final.activity.Write_tab3;
 
 
 public class Write extends Fragment {
