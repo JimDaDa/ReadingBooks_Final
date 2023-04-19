@@ -186,8 +186,7 @@ public class edit_book extends AppCompatActivity {
                }
            });
         }
-//        Intent intent= new Intent();
-//        Bundle bundle2 = new Bundle();
+
 
 
 

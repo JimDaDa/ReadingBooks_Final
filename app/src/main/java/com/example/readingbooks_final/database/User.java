@@ -2,10 +2,11 @@ package com.example.readingbooks_final.database;
 
 import android.net.Uri;
 
+import java.io.Serializable;
 import java.util.HashMap;
 import java.util.Map;
 
-public class User {
+public class User implements Serializable {
     private String id;
     private String fullname;
     private String email;

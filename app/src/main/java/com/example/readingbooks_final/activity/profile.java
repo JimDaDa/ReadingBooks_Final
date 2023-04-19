@@ -31,6 +31,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.readingbooks_final.R;
+import com.example.readingbooks_final.database.Books_data;
 import com.example.readingbooks_final.database.User;
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
 import com.google.firebase.auth.FirebaseAuth;
@@ -60,15 +61,7 @@ public class profile extends AppCompatActivity {
     private ImageButton edit_ava;
 
 
-    private GoogleSignInAccount user_gg;
 
-
-
-    private String name_up, phone_up, ava_up;
-
-    Bitmap avatarImage;
-
-    private DatabaseReference reference;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -103,57 +96,126 @@ public class profile extends AppCompatActivity {
 
 
     //Nhận dữ liệu từ trang Account
-    private void ReceiveData(){
-        Intent intent = getIntent();
-        String name_reply = intent.getStringExtra(NAME_REPLY);
-        String phone_reply = intent.getStringExtra(PHONE_REPLY);
-        String email_reply = intent.getStringExtra(EMAIL_REPLY);
-        String ava_reply = intent.getStringExtra(PHOTO_REPLY);
+//    private void ReceiveData(){
+//        Intent intent = getIntent();
+//        String name_reply = intent.getStringExtra(NAME_REPLY);
+//        String phone_reply = intent.getStringExtra(PHONE_REPLY);
+//        String email_reply = intent.getStringExtra(EMAIL_REPLY);
+//        String ava_reply = intent.getStringExtra(PHOTO_REPLY);
+//
+//        name.setText(name_reply);
+//        fullname.setText(name_reply);
+//        email_acc.setText(email_reply);
+//        phone.setText(phone_reply);
+//        email.setText(email_reply);
+//        Glide.with(profile.this).load(ava_reply).into(avatar);
+//
+//    }
 
-        name.setText(name_reply);
-        fullname.setText(name_reply);
-        email_acc.setText(email_reply);
-        phone.setText(phone_reply);
-        email.setText(email_reply);
-        Glide.with(profile.this).load(ava_reply).into(avatar);
+
+    private void ReceiveData(){
+        Bundle bundle = getIntent().getExtras();
+        if (bundle!= null){
+            User user= (User) bundle.get("objectUser");
+            name.setText(user.getFullname());
+            fullname.setText(user.getFullname());
+            email_acc.setText(user.getEmail());
+            phone.setText(user.getPhone());
+            email.setText(user.getEmail());
+            Glide.with(profile.this).load(user.getAvatar()).into(avatar);
+
+
+
+
+        }
 
     }
-
     //Cập nhật dữ liệu vừa chỉnh sửa lên firebase
-    public void clickSave(){
-        btnSave.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
+//    public void clickSave(){
+//        btnSave.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//
+//
+//                FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
+//                if (user!= null){
+//                    String id_user = user.getUid();
+//
+//                    FirebaseDatabase database = FirebaseDatabase.getInstance();
+//                    DatabaseReference reference= database.getReference().child("Users").child(id_user);
+//                    reference.addValueEventListener(new ValueEventListener() {
+//                        @Override
+//                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                            User user_cur = snapshot.getValue(User.class);
+//                            if (user_cur!= null){
+//                                String content_name= name.getText().toString().trim();
+//                                String content_phone= phone.getText().toString().trim();
+//                                String content_email= email.getText().toString().trim();
+//                                String content_avatar= user_cur.getAvatar();
+//
+//                                //Update profile
+//                                String name_up= String.valueOf(reference.child("fullname").setValue(content_name));
+//                                String phone_up= String.valueOf(reference.child("phone").setValue(content_phone));
+//                                //String ava_up =String.valueOf(reference.child("avatar").setValue(content_avatar));
+//
+//                                Intent intent_reply= new Intent();
+//
+//                                intent_reply.putExtra(NAME_REPLY, content_name);
+//                                intent_reply.putExtra(PHONE_REPLY,content_phone);
+//                                intent_reply.putExtra(EMAIL_REPLY,content_email);
+//                                intent_reply.putExtra(PHOTO_REPLY,content_avatar);
+//
+//                                setResult(Activity.RESULT_OK, intent_reply);
+//                                finish();
+//                            }
+//
+//                        }
+//                        @Override
+//                        public void onCancelled(@NonNull DatabaseError error) {
+//
+//                        }
+//                    });
+//                }
+//
+//
+//
+//            }
+//        });
+//    }
 
-                FirebaseUser user= FirebaseAuth.getInstance().getCurrentUser();
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-                assert user != null;
-                reference= database.getReference("Users").child(user.getUid());
-                reference.addValueEventListener(new ValueEventListener() {
+
+
+
+
+public void clickSave(){
+    btnSave.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            Bundle bundle = getIntent().getExtras();
+            if (bundle!= null){
+                User user= (User) bundle.get("objectUser");
+                String id_user= user.getId();
+               // FirebaseAuth auth = FirebaseAuth.getInstance();
+                FirebaseDatabase database=FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference=database.getReference().child("Users").child(id_user);
+                String content_name= name.getText().toString().trim();
+                String content_phone= phone.getText().toString().trim();
+                databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User user_cur = snapshot.getValue(User.class);
-                        if (user_cur!= null){
-                            String content_name= name.getText().toString().trim();
-                            String content_phone= phone.getText().toString().trim();
-                            String content_email= email.getText().toString().trim();
-                            String content_avatar= user_cur.getAvatar();
-
+                        User user1= snapshot.getValue(User.class);
+                        if (user1!= null){
                             //Update profile
-                            String name_up= String.valueOf(reference.child("fullname").setValue(content_name));
-                            String phone_up= String.valueOf(reference.child("phone").setValue(content_phone));
-                            //String ava_up =String.valueOf(reference.child("avatar").setValue(content_avatar));
-
-                            Intent intent_reply= new Intent();
-
-                            intent_reply.putExtra(NAME_REPLY, content_name);
-                            intent_reply.putExtra(PHONE_REPLY,content_phone);
-                            intent_reply.putExtra(EMAIL_REPLY,content_email);
-                            intent_reply.putExtra(PHOTO_REPLY,content_avatar);
-
+                            String name_up= String.valueOf(databaseReference.child("fullname").setValue(content_name));
+                            String phone_up= String.valueOf(databaseReference.child("phone").setValue(content_phone));
+                            Intent intent_reply=new Intent();
+                            Bundle bundle2 = new Bundle();
+                            bundle2.putSerializable("objectUser", user1);
+                            intent_reply.putExtras(bundle2);
                             setResult(Activity.RESULT_OK, intent_reply);
                             finish();
                         }
+
 
                     }
 
@@ -162,11 +224,11 @@ public class profile extends AppCompatActivity {
 
                     }
                 });
-
-
             }
-        });
-    }
+        }
+    });
+}
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -192,7 +254,6 @@ public class profile extends AppCompatActivity {
 
     public void uploadImage(Uri photo) {
         //Tạo tên file hình ngẫu nhiên
-
         String filename = UUID.randomUUID().toString();
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("avatar").child(filename);
 
@@ -202,13 +263,27 @@ public class profile extends AppCompatActivity {
             //get url
             storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
                 FirebaseUser auth= FirebaseAuth.getInstance().getCurrentUser();
-                FirebaseDatabase database = FirebaseDatabase.getInstance();
-
                 String cover = uri.toString();
-                DatabaseReference databaseReference = database.getReference("Users").child(auth.getUid());
-                databaseReference.child("avatar").setValue(cover);
+                Bundle bundle = getIntent().getExtras();
+                if (bundle!= null){
+                    User user= (User) bundle.get("objectUser");
+                    String id_user= user.getId();
+                    FirebaseDatabase database=FirebaseDatabase.getInstance();
+                    DatabaseReference databaseReference=database.getReference("Users").child(id_user);
+                    databaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
 
+                            databaseReference.child("avatar").setValue(cover);
+                        }
 
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+                }
 
 
             });
@@ -217,6 +292,33 @@ public class profile extends AppCompatActivity {
         });
 
     }
+//public void uploadImage(Uri photo) {
+//    //Tạo tên file hình ngẫu nhiên
+//
+//    String filename = UUID.randomUUID().toString();
+//    StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("avatar").child(filename);
+//
+//    //Upload ảnh lên firebase storage
+//
+//    storageReference.putFile(photo).addOnSuccessListener(taskSnapshot -> {
+//        //get url
+//        storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+//            FirebaseUser auth= FirebaseAuth.getInstance().getCurrentUser();
+//            FirebaseDatabase database = FirebaseDatabase.getInstance();
+//
+//            String cover = uri.toString();
+//            DatabaseReference databaseReference = database.getReference("Users").child(auth.getUid());
+//            databaseReference.child("avatar").setValue(cover);
+//
+//
+//
+//
+//        });
+//    }).addOnFailureListener(e -> {
+//        Toast.makeText(this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//    });
+//
+//}
 
     // Sau khi chọn ảnh xong thì sẽ update ở trang profile
     final ActivityResultLauncher<Intent> launcherActivityAva = registerForActivityResult(
@@ -233,10 +335,9 @@ public class profile extends AppCompatActivity {
                         }
                         Uri photo = intent.getData();
                         uploadImage(photo);
-
-
-                       // uploadImage(photo, id);
                         Glide.with(profile.this).load(photo).into(avatar);
+
+
 
 
 
