@@ -1,5 +1,4 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
@@ -8,130 +7,170 @@
     android:layout_height="match_parent"
     android:background="@color/background"
     android:padding="1dp">
-<androidx.constraintlayout.widget.ConstraintLayout
-    android:layout_width="match_parent"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    android:layout_above="@+id/nd">
-
-    <com.makeramen.roundedimageview.RoundedImageView
-
-        android:id="@+id/cover_details"
-        android:layout_width="109dp"
-        android:layout_height="137dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="44dp"
-        android:layout_marginEnd="32dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/add"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:riv_border_width="2dp"
-        app:riv_corner_radius="6dp" />
 
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/nd"
-        android:layout_width="358dp"
-        android:layout_height="469dp"
-        android:layout_marginTop="180dp"
-        android:background="@drawable/background"
-        app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.485"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintVertical_bias="1.0">
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:background="@color/background"
+        android:layout_above="@+id/nd">
 
-        <EditText
-            android:id="@+id/edit_title_book"
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/boder_create"
-            android:elevation="1dp"
-            android:ems="10"
-            android:hint="Story Title"
-            android:inputType="textPersonName"
-            android:paddingLeft="10dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_author_book"
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/cover_details"
+            android:layout_width="131dp"
+            android:layout_height="153dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="16dp"
+            android:layout_marginEnd="32dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/add"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.473"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.497"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_border_width="2dp"
+            app:riv_corner_radius="6dp" />
 
-        <EditText
-            android:id="@+id/tv_author_book"
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/boder_create"
-            android:elevation="1dp"
-            android:ems="10"
-            android:hint="Author"
-            android:inputType="textPersonName"
-            android:paddingLeft="10dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_category_book"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_category_book"
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="24dp"
-            android:background="@drawable/boder_create"
-            android:elevation="1dp"
-            android:ems="10"
-            android:hint="@string/choose_category"
-            android:inputType="textPersonName"
-            android:paddingLeft="10dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_status_book"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.473"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <TextView
-            android:id="@+id/tv_status_book"
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/boder_create"
-            android:elevation="1dp"
-            android:ems="10"
-            android:hint="Choose Status"
-            android:inputType="textPersonName"
-            android:paddingLeft="10dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_description_book"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.473"
-            app:layout_constraintStart_toStartOf="parent" />
-
-        <EditText
-            android:id="@+id/tv_description_book"
-            android:layout_width="350dp"
-            android:layout_height="150dp"
-            android:layout_marginBottom="20dp"
-            android:background="@drawable/boder_create"
-            android:elevation="1dp"
-            android:ems="10"
-            android:gravity="start|top"
-            android:hint="Story Description"
-            android:inputType="textMultiLine"
-            android:paddingLeft="10dp"
-            android:paddingTop="3dp"
-            android:textSize="12sp"
+        <androidx.constraintlayout.widget.ConstraintLayout
+            android:id="@+id/nd"
+            android:layout_width="370dp"
+            android:layout_height="501dp"
+            android:layout_marginStart="32dp"
+            android:layout_marginTop="180dp"
+            android:layout_marginEnd="32dp"
+            android:layout_marginBottom="16dp"
+            android:background="@drawable/background"
+            android:foregroundGravity="center_vertical"
+            android:paddingLeft="16dp"
+            android:paddingRight="16dp"
             app:layout_constraintBottom_toBottomOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.473"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.52"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:layout_constraintVertical_bias="0.0">
 
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/background"
+                android:hint="Story Title"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toTopOf="parent">
 
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/edit_title_book"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout2"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/background"
+                android:hint="Author"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tv_author_book"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:inputType="text" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout4"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/background"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout2">
+
+                <TextView
+                    android:id="@+id/tv_category_book"
+                    android:layout_width="300dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/boder_create"
+                    android:elevation="1dp"
+                    android:ems="10"
+                    android:hint="@string/choose_category"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="10dp"
+                    android:textSize="12sp" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout5"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="300dp"
+                android:layout_height="60dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/background"
+                android:hint="Author"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout4">
+
+                <TextView
+                    android:id="@+id/tv_status_book"
+                    android:layout_width="300dp"
+                    android:layout_height="60dp"
+                    android:layout_marginBottom="24dp"
+                    android:background="@drawable/boder_create"
+                    android:elevation="1dp"
+                    android:ems="10"
+                    android:hint="Choose Status"
+                    android:inputType="textPersonName"
+                    android:paddingLeft="10dp"
+                    android:textSize="12sp"
+                    app:layout_constraintBottom_toTopOf="@+id/tv_status_book"
+                    app:layout_constraintEnd_toEndOf="parent"
+                    app:layout_constraintHorizontal_bias="0.473"
+                    app:layout_constraintStart_toStartOf="parent" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/textInputLayout6"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="300dp"
+                android:layout_height="150dp"
+                android:layout_marginTop="16dp"
+                android:layout_marginEnd="8dp"
+                android:background="@drawable/background"
+                android:hint="Story Description"
+                app:layout_constraintEnd_toEndOf="parent"
+                app:layout_constraintStart_toStartOf="parent"
+                app:layout_constraintTop_toBottomOf="@+id/textInputLayout5">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/tv_description_book"
+                    android:layout_width="300dp"
+                    android:layout_height="140dp"
+                    android:gravity="top"
+                    android:inputType="textMultiLine"
+                    android:lines="6"
+                    android:overScrollMode="always"
+                    android:scrollbarStyle="insideInset"
+                    android:scrollbars="vertical"
+                    android:scrollHorizontally="false" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </androidx.constraintlayout.widget.ConstraintLayout>
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

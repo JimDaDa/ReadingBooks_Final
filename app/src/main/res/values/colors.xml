@@ -17,4 +17,6 @@
     <color name="medium_gray">#F3F3F3</color>
     <color name="bar">#94AE89</color>
     <color name="boder_create">#D7E0EB</color>
+    <color name="write">#FFF3E5</color>
+    <color name="boder_write">#FF8200</color>
 </resources>

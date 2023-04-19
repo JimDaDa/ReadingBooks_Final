@@ -41,7 +41,7 @@
             android:name=".activity.Write_tab2"
             android:exported="false"
             android:parentActivityName=".fragment.Write"
-            android:theme="@style/Theme.Profile" />
+            android:theme="@style/Theme.Write" />
         <activity
             android:name=".activity.forget_pass"
             android:exported="false"

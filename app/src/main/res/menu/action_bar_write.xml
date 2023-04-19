@@ -4,6 +4,6 @@
 
     <item android:title="@string/add_books"
         android:id="@+id/add_books"
-        android:icon="@drawable/add"
+        android:icon="@drawable/plus"
        app:showAsAction="always"/>
 </menu>

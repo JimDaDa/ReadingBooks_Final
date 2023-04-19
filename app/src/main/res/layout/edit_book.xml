@@ -8,19 +8,32 @@
     android:background="@color/background"
     android:padding="1dp">
 
+    <com.google.android.material.textfield.TextInputLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Name"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp">
+        <com.google.android.material.textfield.TextInputEditText
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="text"/>
+
+
+    </com.google.android.material.textfield.TextInputLayout>
+
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:id="@+id/constraintLayout4"
-        android:layout_width="385dp"
-        android:layout_height="600dp"
+        android:layout_width="379dp"
+        android:layout_height="432dp"
         android:layout_marginStart="16dp"
-        android:layout_marginTop="104dp"
         android:layout_marginEnd="16dp"
         android:background="@drawable/background"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintHorizontal_bias="0.615"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        tools:layout_editor_absoluteY="274dp">
 
         <!--        <TextView-->
         <!--            android:id="@+id/add_cover"-->
@@ -34,6 +47,7 @@
         <!--            app:layout_constraintEnd_toEndOf="parent"-->
         <!--            app:layout_constraintStart_toStartOf="parent"-->
         <!--            app:layout_constraintTop_toTopOf="parent" />-->
+
 
         <EditText
             android:id="@+id/edit_title_book"
@@ -55,6 +69,8 @@
             app:layout_constraintHorizontal_bias="1.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toTopOf="parent" />
+
+
 
         <EditText
             android:id="@+id/edit_author_book"
@@ -144,11 +160,12 @@
         android:layout_width="126dp"
         android:layout_height="156dp"
         android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
+        android:layout_marginTop="128dp"
         android:layout_marginEnd="32dp"
         android:scaleType="centerCrop"
         android:src="@drawable/add"
         app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
         app:riv_border_width="5dp"

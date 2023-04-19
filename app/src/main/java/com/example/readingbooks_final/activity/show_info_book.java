@@ -16,6 +16,8 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.text.Html;
+import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.TextView;
@@ -42,6 +44,9 @@ public class show_info_book extends AppCompatActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
+
+
+
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_info_book);
         ActionBar actionBar=getSupportActionBar();
@@ -59,6 +64,8 @@ public class show_info_book extends AppCompatActivity {
         description_book=findViewById(R.id.tv_description_book);
         cover_details=findViewById(R.id.cover_details);
 
+
+
     }
     private void RecieveData(){
     Bundle bundle = getIntent().getExtras();
@@ -69,9 +76,9 @@ public class show_info_book extends AppCompatActivity {
         category_book.setText(books_data.getCategory());
         status_book.setText(books_data.isStatus());
         description_book.setText(books_data.getDescription());
+        description_book.setMovementMethod(new ScrollingMovementMethod());
         Glide.with(show_info_book.this).load(books_data.getImgUrl()).into(cover_details);
-
-    }
+     }
     }
 
     @Override
@@ -142,10 +149,6 @@ public class show_info_book extends AppCompatActivity {
                         }
 
                        // Glide.with(show_info_book.this).load(photo).into(cover_details);
-
-
-
-
 
 
                     }

@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:title="@string/add_chapter_show_info_book"
         android:id="@+id/add_chapter_show_info_book"
-        android:icon="@drawable/add"
+        android:icon="@drawable/plus"
         app:showAsAction="always"/>
     <item android:title="@string/edit_chapter"
         android:id="@+id/edit_chapter"

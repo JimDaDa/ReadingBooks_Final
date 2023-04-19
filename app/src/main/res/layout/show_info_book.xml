@@ -1,175 +1,132 @@
 <?xml version="1.0" encoding="utf-8"?>
-
 <ScrollView
     xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:layout_width="wrap_content"
-    android:layout_height="match_parent"
-    android:background="@color/background"
-    android:padding="1dp">
-
-<androidx.constraintlayout.widget.ConstraintLayout
-
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:background="@color/background"
     android:padding="1dp">
 
-
     <androidx.constraintlayout.widget.ConstraintLayout
-        android:id="@+id/constraintLayout4"
-        android:layout_width="385dp"
-        android:layout_height="600dp"
-        android:layout_marginStart="16dp"
-        android:layout_marginTop="104dp"
-        android:layout_marginEnd="16dp"
-        android:background="@drawable/background"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.615"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent">
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@color/background"
+        android:layout_above="@+id/nd">
 
-        <!--        <TextView-->
-        <!--            android:id="@+id/add_cover"-->
-        <!--            android:layout_width="wrap_content"-->
-        <!--            android:layout_height="wrap_content"-->
-        <!--            android:layout_marginTop="72dp"-->
-        <!--            android:text="Add a cover"-->
-        <!--            android:textColor="#4E944F"-->
-        <!--            android:textSize="24sp"-->
-        <!--            android:textStyle="bold"-->
-        <!--            app:layout_constraintEnd_toEndOf="parent"-->
-        <!--            app:layout_constraintStart_toStartOf="parent"-->
-        <!--            app:layout_constraintTop_toTopOf="parent" />-->
+        <com.makeramen.roundedimageview.RoundedImageView
+            android:id="@+id/cover_details"
+            android:layout_width="140dp"
+            android:layout_height="190dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="24dp"
+            android:scaleType="centerCrop"
+            android:src="@drawable/add"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toTopOf="parent"
+            app:riv_border_width="2dp"
+            app:riv_corner_radius="6dp" />
+
 
         <TextView
             android:id="@+id/tv_title_book"
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginTop="116dp"
+            android:layout_width="209dp"
+            android:layout_height="113dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="24dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/boder_create"
-            android:elevation="1dp"
-            android:ems="10"
+            android:fontFamily="@font/ac"
             android:hint="Story Title"
+
             android:inputType="textPersonName"
-            android:paddingLeft="10dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_author_book"
+            android:justificationMode="inter_word"
+            android:paddingLeft="5dp"
+            android:singleLine="false"
+            android:textColor="#220E0E"
+            android:textSize="20sp"
+            android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintHorizontal_bias="0.25"
+            app:layout_constraintStart_toEndOf="@+id/cover_details"
             app:layout_constraintTop_toTopOf="parent" />
 
         <TextView
             android:id="@+id/tv_author_book"
-            android:layout_width="350dp"
-            android:layout_height="50dp"
-            android:layout_marginStart="16dp"
+            android:layout_width="212dp"
+            android:layout_height="53dp"
+            android:layout_marginStart="6dp"
+            android:layout_marginTop="16dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/boder_create"
-            android:elevation="1dp"
-            android:ems="10"
+            android:background="@drawable/background"
+            android:fontFamily="@font/ac"
             android:hint="Author"
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_category_book"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="1.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.315"
+            app:layout_constraintStart_toEndOf="@+id/cover_details"
+            app:layout_constraintTop_toBottomOf="@+id/tv_title_book" />
 
         <TextView
             android:id="@+id/tv_category_book"
-            android:layout_width="350dp"
-            android:layout_height="50dp"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
             android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/boder_create"
-            android:elevation="1dp"
-            android:ems="10"
+            android:layout_marginTop="16dp"
+            android:background="@drawable/background"
+            android:fontFamily="@font/ac"
             android:hint="Category"
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_status_book"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.542"
-            app:layout_constraintStart_toStartOf="parent" />
+            android:textSize="16sp"
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/cover_details" />
 
         <TextView
             android:id="@+id/tv_status_book"
-            android:layout_width="350dp"
-            android:layout_height="50dp"
+            android:layout_width="160dp"
+            android:layout_height="60dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="16dp"
-            android:background="@drawable/boder_create"
-            android:elevation="1dp"
-            android:ems="10"
+            android:background="@drawable/background"
+            android:fontFamily="@font/ac"
             android:hint="Status"
             android:inputType="textPersonName"
             android:paddingLeft="10dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toTopOf="@+id/tv_description_book"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.542"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintHorizontal_bias="0.487"
+            app:layout_constraintStart_toEndOf="@+id/tv_category_book"
+            app:layout_constraintTop_toBottomOf="@+id/tv_author_book" />
 
         <TextView
             android:id="@+id/tv_description_book"
-            android:layout_width="353dp"
-            android:layout_height="147dp"
-
+            android:layout_width="356dp"
+            android:layout_height="260dp"
             android:layout_marginStart="16dp"
+            android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
-            android:layout_marginBottom="64dp"
-            android:background="@drawable/boder_create"
-            android:elevation="1dp"
-            android:ems="10"
-            android:gravity="start|top"
+            android:background="@drawable/background"
+            android:fontFamily="@font/ac"
+            android:gravity="top"
             android:hint="Story Description"
             android:inputType="textMultiLine"
+            android:overScrollMode="always"
             android:paddingLeft="10dp"
             android:paddingTop="3dp"
-            android:textSize="12sp"
-            app:layout_constraintBottom_toBottomOf="parent"
+            android:scrollbarStyle="insideInset"
+            android:scrollbars="vertical"
+            android:scrollHorizontally="false"
+            android:textColor="#A81B1B"
+            android:textColorHint="#321919"
+            android:textSize="16sp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintHorizontal_bias="0.0"
-            app:layout_constraintStart_toStartOf="parent" />
+            app:layout_constraintStart_toStartOf="parent"
+            app:layout_constraintTop_toBottomOf="@+id/tv_status_book" />
 
 
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-    <com.makeramen.roundedimageview.RoundedImageView
-
-        android:id="@+id/cover_details"
-        android:layout_width="126dp"
-        android:layout_height="156dp"
-        android:layout_marginStart="32dp"
-        android:layout_marginTop="32dp"
-        android:layout_marginEnd="32dp"
-        android:scaleType="centerCrop"
-        android:src="@drawable/add"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:riv_border_width="5dp"
-        app:riv_corner_radius="10dp" />
-
-    <androidx.recyclerview.widget.RecyclerView
-        android:layout_width="469dp"
-        android:layout_height="83dp"
-        tools:ignore="MissingConstraints"
-        tools:layout_editor_absoluteX="-3dp"
-        tools:layout_editor_absoluteY="723dp" />
-
-
-</androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>
