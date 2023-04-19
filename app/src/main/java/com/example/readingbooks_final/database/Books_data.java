@@ -6,8 +6,8 @@ import java.util.Map;
 
 public class Books_data implements Serializable {
 
-    private String id, id_user;
-    private String title, authors,category, description, imgUrl, status, publishStatus, publishDate;
+    private String id, id_user, id_chapter;
+    private String title, authors,category, description, imgUrl, status, publishStatus, publishDate, titleChapter, contentChapter;
     private int pageCount;
     private float rating;
 
@@ -15,11 +15,10 @@ public class Books_data implements Serializable {
 
     public Books_data(){}
 
-
-
-    public Books_data(String id, String id_user, String title, String authors, String category, String description, String imgUrl, String status, String publishStatus, String publishDate, int pageCount, float rating) {
+    public Books_data(String id, String id_user, String id_chapter, String title, String authors, String category, String description, String imgUrl, String status, String publishStatus, String publishDate, String titleChapter, String contentChapter, int pageCount, float rating) {
         this.id = id;
         this.id_user = id_user;
+        this.id_chapter = id_chapter;
         this.title = title;
         this.authors = authors;
         this.category = category;
@@ -28,8 +27,35 @@ public class Books_data implements Serializable {
         this.status = status;
         this.publishStatus = publishStatus;
         this.publishDate = publishDate;
+        this.titleChapter = titleChapter;
+        this.contentChapter = contentChapter;
         this.pageCount = pageCount;
         this.rating = rating;
+    }
+
+
+    public String getId_chapter() {
+        return id_chapter;
+    }
+
+    public void setId_chapter(String id_chapter) {
+        this.id_chapter = id_chapter;
+    }
+
+    public String getTitleChapter() {
+        return titleChapter;
+    }
+
+    public void setTitleChapter(String titleChapter) {
+        this.titleChapter = titleChapter;
+    }
+
+    public String getContentChapter() {
+        return contentChapter;
+    }
+
+    public void setContentChapter(String contentChapter) {
+        this.contentChapter = contentChapter;
     }
 
     public Books_data(int book1) {
@@ -188,6 +214,7 @@ public class Books_data implements Serializable {
         HashMap<String,Object> result=new HashMap();
         result.put("id",id);
         result.put("id_user",id_user);
+        result.put("id_chapter",  id_chapter);
         result.put("title",title);
         result.put("authors",authors);
         result.put("category",category);
@@ -197,6 +224,8 @@ public class Books_data implements Serializable {
         result.put("status", status);
         result.put("publishStatus", publishStatus);
         result.put("publishDate", publishDate);
+        result.put("title_Chapter", titleChapter);
+        result.put("content_chapter",  contentChapter);
         return result ;
     }
 }
