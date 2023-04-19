@@ -7,18 +7,17 @@ import java.util.Map;
 public class Books_data implements Serializable {
 
     private String id, id_user;
-    private String title, authors,category, description, imgUrl;
-    private int pageCount, drawableRes;
+    private String title, authors,category, description, imgUrl, status, publishStatus, publishDate;
+    private int pageCount;
     private float rating;
-    private String status;
+
 
 
     public Books_data(){}
-    public Books_data(int drawableRes) {
-        this.drawableRes = drawableRes;
-    }
 
-    public Books_data(String id, String id_user, String title, String authors, String category, String description, String imgUrl, int pageCount, int drawableRes, float rating, String status) {
+
+
+    public Books_data(String id, String id_user, String title, String authors, String category, String description, String imgUrl, String status, String publishStatus, String publishDate, int pageCount, float rating) {
         this.id = id;
         this.id_user = id_user;
         this.title = title;
@@ -26,13 +25,36 @@ public class Books_data implements Serializable {
         this.category = category;
         this.description = description;
         this.imgUrl = imgUrl;
-        this.pageCount = pageCount;
-        this.drawableRes = drawableRes;
-        this.rating = rating;
         this.status = status;
+        this.publishStatus = publishStatus;
+        this.publishDate = publishDate;
+        this.pageCount = pageCount;
+        this.rating = rating;
     }
 
+    public Books_data(int book1) {
 
+    }
+
+    public String getStatus() {
+        return status;
+    }
+
+    public String getPublishStatus() {
+        return publishStatus;
+    }
+
+    public void setPublishStatus(String publishStatus) {
+        this.publishStatus = publishStatus;
+    }
+
+    public String getPublishDate() {
+        return publishDate;
+    }
+
+    public void setPublishDate(String publishDate) {
+        this.publishDate = publishDate;
+    }
 
     public Books_data(String id_books, String id_user, String cover, String title, String author, String categoryy, String statuss, String description) {
         this.id = id_books;
@@ -53,6 +75,11 @@ public class Books_data implements Serializable {
 
 
 
+    }
+
+    public Books_data(String title, String imgUrl) {
+        this.title = title;
+        this.imgUrl = imgUrl;
     }
 
     public Books_data(String cover) {
@@ -143,13 +170,6 @@ public class Books_data implements Serializable {
         this.pageCount = pageCount;
     }
 
-    public int getDrawableRes() {
-        return drawableRes;
-    }
-
-    public void setDrawableRes(int drawableRes) {
-        this.drawableRes = drawableRes;
-    }
 
     public float getRating() {
         return rating;
@@ -159,9 +179,6 @@ public class Books_data implements Serializable {
         this.rating = rating;
     }
 
-    public String isStatus() {
-        return status;
-    }
 
     public void setStatus(String status) {
         this.status = status;
@@ -175,10 +192,11 @@ public class Books_data implements Serializable {
         result.put("authors",authors);
         result.put("category",category);
         result.put("imgUrl",imgUrl);
-        result.put("drawableRes", drawableRes);
         result.put("rating", rating);
         result.put("pageCount", pageCount);
         result.put("status", status);
+        result.put("publishStatus", publishStatus);
+        result.put("publishDate", publishDate);
         return result ;
     }
 }

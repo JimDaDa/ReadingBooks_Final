@@ -98,7 +98,7 @@ public class edit_book extends AppCompatActivity {
             title_book.setText(books_data.getTitle());
             author_book.setText(books_data.getAuthors());
             category_book.setText(books_data.getCategory());
-            status_book.setText(books_data.isStatus());
+            status_book.setText(books_data.getStatus());
             description_book.setText(books_data.getDescription());
             Glide.with(edit_book.this).load(books_data.getImgUrl()).into(cover_edit);
 
