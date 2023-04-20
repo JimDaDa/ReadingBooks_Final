@@ -34,13 +34,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.makeramen.roundedimageview.RoundedImageView;
+
+import java.util.Date;
+import java.util.UUID;
 
 public class show_info_book extends AppCompatActivity {
 
     private ProgressDialog progressDialog;
     private TextView title_book, author_book, description_book,category_book, status_book;
     private RoundedImageView cover_details;
+    public static final String ATTACH_FILE = "ATTACH_FILE";
+    private Uri fileUrl;
+    private boolean isPublish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -54,6 +62,7 @@ public class show_info_book extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         initView();
         RecieveData();
+//        checkPublish();
     }
 
     private void initView(){
@@ -63,7 +72,9 @@ public class show_info_book extends AppCompatActivity {
         status_book=findViewById(R.id.tv_status_book);
         description_book=findViewById(R.id.tv_description_book);
         cover_details=findViewById(R.id.cover_details);
-
+        progressDialog= new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait..");
+        progressDialog.setCancelable(false);
 
 
     }
@@ -84,6 +95,18 @@ public class show_info_book extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_show_info_book, menu);
+
+        MenuItem publish = menu.findItem(R.id.publishBooks);
+        MenuItem unPublish= menu.findItem(R.id.unPublishBooks);
+        checkPublish();
+        if (isPublish){
+            publish.setVisible(false);
+            unPublish.setVisible(true);
+
+        }else {
+            publish.setVisible(true);
+            unPublish.setVisible(false);
+        }
         return true;
     }
 
@@ -93,8 +116,9 @@ public class show_info_book extends AppCompatActivity {
             onBackPressed();
             return true;
         }
-        if (item.getItemId()== R.id.add_chapter_show_info_book){
-            openChater();
+        if (item.getItemId()== R.id.add_file_books){
+
+            addFile();
         }
         if (item.getItemId()== R.id.edit_chapter){
             openEdit();
@@ -102,10 +126,245 @@ public class show_info_book extends AppCompatActivity {
         if (item.getItemId()== R.id.deleteBook){
             deleteBooks();
         }
+        if (item.getItemId()== R.id.publishBooks){
+           // checkPublish();
+            publishBooks();
+//            if (!isPublish){
+//                publishBooks();
+//                publish.setVisible(true);
+//                unPublish.setVisible(false);
+//            }
+
+
+            return true;
+        }else if (item.getItemId()==R.id.unPublishBooks){
+            //checkPublish();
+            unPublishBooks();
+//            if (isPublish){
+//                unPublishBooks();
+//                publish.setVisible(false);
+//                unPublish.setVisible(true);
+//            }
+
+            return true;
+        }
         return super.onOptionsItemSelected(item);
     }
 
-    private void openChater(){
+
+    private void addFile(){
+        Intent intent= new Intent();
+        intent.setType("application/pdf");
+        intent.setAction(Intent.ACTION_GET_CONTENT);
+        startAttach.launch(Intent.createChooser(intent, "Select File"));
+
+
+
+    }
+
+    public void uploadFile(Uri fileUrl) {
+
+        //Tạo tên file hình ngẫu nhiên
+
+        String filename = UUID.randomUUID().toString();
+        StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("File").child(filename);
+
+        //Upload file lên firebase storage
+        progressDialog.show();
+        storageReference.putFile(fileUrl).addOnSuccessListener(taskSnapshot -> {
+            //get url
+            storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
+                String file = uri.toString();
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+
+                Bundle bundle = getIntent().getExtras();
+                if (bundle!= null){
+                    Books_data books_edit= (Books_data) bundle.get("objectBooks");
+                    String id_books= books_edit.getId();
+                    FirebaseDatabase database=FirebaseDatabase.getInstance();
+                    DatabaseReference databaseReference=database.getReference("Books").child(id_books);
+                    databaseReference.addValueEventListener(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                            databaseReference.child("fileUrl").setValue(file);
+                            progressDialog.dismiss();
+                            Toast.makeText(show_info_book.this, "Upload file Successfull", Toast.LENGTH_SHORT).show();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
+
+
+                }
+
+
+
+
+            });
+        }).addOnFailureListener(e -> {
+            Toast.makeText(show_info_book.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+        });
+
+    }
+
+    final ActivityResultLauncher<Intent> startAttach = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+//
+                    if(result.getResultCode() == Activity.RESULT_OK) {
+
+                        Intent intent = result.getData();
+                        if (intent==null){
+                            return;
+                        }
+                        Uri file = intent.getData();
+                        uploadFile(file);
+
+
+
+
+                    }
+                }
+            });
+
+    private void publishBooks(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(show_info_book.this);
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure to publish Books?");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Bundle bundle = getIntent().getExtras();
+                Books_data books_data= (Books_data) bundle.get("objectBooks");
+                String id_books= books_data.getId();
+                FirebaseDatabase database=FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference=database.getReference().child("Books").child(id_books);
+                progressDialog.show();
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        Date date = new Date();
+                        Long timestamp = date.getTime();
+                        String publishStatus = "public";
+                        databaseReference.child("timestamp").setValue(timestamp);
+                        databaseReference.child("publishStatus").setValue(publishStatus);
+                        progressDialog.dismiss();
+                        Toast.makeText(show_info_book.this, "Update Successfull", Toast.LENGTH_SHORT).show();
+                        databaseReference.removeEventListener(this);
+
+                        invalidateOptionsMenu();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Do nothing
+            }
+        });
+
+        AlertDialog confirmDialog = builder.create();
+        confirmDialog.show();
+
+    }
+
+    private void unPublishBooks(){
+        AlertDialog.Builder builder = new AlertDialog.Builder(show_info_book.this);
+        builder.setTitle("Confirm");
+        builder.setMessage("Are you sure to Unpublish Books?");
+
+        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                Bundle bundle = getIntent().getExtras();
+                Books_data books_data= (Books_data) bundle.get("objectBooks");
+                String id_books= books_data.getId();
+                FirebaseDatabase database=FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference=database.getReference().child("Books").child(id_books);
+                progressDialog.show();
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+                        String publishStatus = "private";
+                        databaseReference.child("timestamp").removeValue();
+                        databaseReference.child("publishStatus").setValue(publishStatus);
+                        progressDialog.dismiss();
+                        Toast.makeText(show_info_book.this, "Unpublish Successfull", Toast.LENGTH_SHORT).show();
+                        invalidateOptionsMenu();
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+            }
+        });
+
+        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+            @Override
+            public void onClick(DialogInterface dialog, int which) {
+                //Do nothing
+            }
+        });
+
+        AlertDialog confirmDialog = builder.create();
+        confirmDialog.show();
+    }
+
+    private void checkPublish(){
+        Bundle bundle = getIntent().getExtras();
+        Books_data books_data= (Books_data) bundle.get("objectBooks");
+        String id_books= books_data.getId();
+        FirebaseDatabase database=FirebaseDatabase.getInstance();
+        DatabaseReference databaseReference=database.getReference().child("Books").child(id_books);
+        databaseReference.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+//                for (DataSnapshot bookSnapshot: snapshot.getChildren()){
+//                    Books_data books_data =bookSnapshot.getValue(Books_data.class);
+//
+//                    String publishStatus = books_data.getPublishStatus();
+//                    if (publishStatus.contains("private")){
+//                        isPublish= false;
+//
+//                    }else if (publishStatus.contains("public")){
+//                        isPublish=true;
+//                    }
+//                }
+                String publishStatus = books_data.getPublishStatus();
+                if (publishStatus.contains("private")){
+                    isPublish= false;
+
+                }else if (publishStatus.contains("public")){
+                    isPublish=true;
+                }
+                invalidateOptionsMenu();
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
 
     }
     private void openEdit(){

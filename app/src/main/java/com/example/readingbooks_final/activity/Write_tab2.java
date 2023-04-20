@@ -409,11 +409,12 @@ public class Write_tab2 extends AppCompatActivity {
                 String content_category = category_book.getText().toString().trim();
                 String content_status = status_book.getText().toString().trim();
                 String content_description = description_book.getText().toString().trim();
+                String publishStatus = "private";
 
                 //Lấy id là UID trên firebase
                 String id_books= database.getReference().push().getKey();
                 String  id_user=auth.getCurrentUser().getUid();
-               Books_data books = new Books_data(id_books,id_user,cover,content_title,content_author,content_category,content_status,content_description);
+               Books_data books = new Books_data(id_books,id_user,cover,content_title,content_author,content_category,content_status,content_description,publishStatus);
               //  Books_data books = new Books_data(id_books,id_user,cover);
 
                 databaseReference.child(id_books).setValue(books);

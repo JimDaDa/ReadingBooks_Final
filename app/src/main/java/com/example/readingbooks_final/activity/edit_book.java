@@ -14,6 +14,7 @@ import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.Activity;
+import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
@@ -51,6 +52,7 @@ public class edit_book extends AppCompatActivity {
     private String[] category = new String[] {"Science Fiction", "Romantic", "Non-Fiction", "Horror", "Detective", "Thriller", "History", "Story", "Action"};
     private String[] status = new String[] {"Completed", "Incomplete"};
     private RoundedImageView cover_edit;
+    private ProgressDialog progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -58,7 +60,9 @@ public class edit_book extends AppCompatActivity {
         ActionBar actionBar=getSupportActionBar();
         // assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
+
         initView();
+
         recieveData();
         chooseCategory();
         chooseStatus();
@@ -72,6 +76,9 @@ public class edit_book extends AppCompatActivity {
         status_book=findViewById(R.id.edit_status_book);
         description_book=findViewById(R.id.edit_description_book);
         cover_edit=findViewById(R.id.cover_edit);
+        progressDialog= new ProgressDialog(this);
+        progressDialog.setMessage("Please Wait..");
+        progressDialog.setCancelable(false);
     }
 
     @Override
@@ -242,7 +249,7 @@ public class edit_book extends AppCompatActivity {
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("cover").child(filename);
 
         //Upload ảnh lên firebase storage
-
+        progressDialog.show();
         storageReference.putFile(photo).addOnSuccessListener(taskSnapshot -> {
             //get url
             storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
@@ -260,6 +267,8 @@ public class edit_book extends AppCompatActivity {
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
 
                             databaseReference.child("imgUrl").setValue(cover);
+                            progressDialog.dismiss();
+                            Toast.makeText(edit_book.this, "Update Successfull", Toast.LENGTH_SHORT).show();
                         }
 
                         @Override

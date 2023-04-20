@@ -7,15 +7,16 @@ import java.util.Map;
 public class Books_data implements Serializable {
 
     private String id, id_user, id_chapter;
-    private String title, authors,category, description, imgUrl, status, publishStatus, publishDate, titleChapter, contentChapter;
-    private int pageCount;
+    private String title, authors,category, description, imgUrl, status, publishStatus, publishDate, fileUrl;
+    private Long timestamp;
+
     private float rating;
 
 
 
     public Books_data(){}
 
-    public Books_data(String id, String id_user, String id_chapter, String title, String authors, String category, String description, String imgUrl, String status, String publishStatus, String publishDate, String titleChapter, String contentChapter, int pageCount, float rating) {
+    public Books_data(String id, String id_user, String id_chapter, String title, String authors, String category, String description, String imgUrl, String status, String publishStatus, String publishDate, String fileUrl, Long timestamp, float rating) {
         this.id = id;
         this.id_user = id_user;
         this.id_chapter = id_chapter;
@@ -27,10 +28,16 @@ public class Books_data implements Serializable {
         this.status = status;
         this.publishStatus = publishStatus;
         this.publishDate = publishDate;
-        this.titleChapter = titleChapter;
-        this.contentChapter = contentChapter;
-        this.pageCount = pageCount;
+        this.fileUrl = fileUrl;
+        this.timestamp = timestamp;
         this.rating = rating;
+    }
+
+
+
+    public Books_data(Long timestamp, String publishStatus) {
+        this.timestamp = timestamp;
+        this.publishStatus = publishStatus;
     }
 
 
@@ -42,25 +49,17 @@ public class Books_data implements Serializable {
         this.id_chapter = id_chapter;
     }
 
-    public String getTitleChapter() {
-        return titleChapter;
+
+
+    public String getFileUrl() {
+        return fileUrl;
     }
 
-    public void setTitleChapter(String titleChapter) {
-        this.titleChapter = titleChapter;
+    public void setFileUrl(String fileUrl) {
+        this.fileUrl = fileUrl;
     }
 
-    public String getContentChapter() {
-        return contentChapter;
-    }
 
-    public void setContentChapter(String contentChapter) {
-        this.contentChapter = contentChapter;
-    }
-
-    public Books_data(int book1) {
-
-    }
 
     public String getStatus() {
         return status;
@@ -82,7 +81,7 @@ public class Books_data implements Serializable {
         this.publishDate = publishDate;
     }
 
-    public Books_data(String id_books, String id_user, String cover, String title, String author, String categoryy, String statuss, String description) {
+    public Books_data(String id_books, String id_user, String cover, String title, String author, String categoryy, String statuss, String description , String publishStatus) {
         this.id = id_books;
         this.id_user = id_user;
         this.imgUrl=cover;
@@ -91,6 +90,7 @@ public class Books_data implements Serializable {
         this.category = categoryy;
         this.status = statuss;
         this.description = description;
+        this.publishStatus= publishStatus;
 
     }
 
@@ -122,15 +122,6 @@ public class Books_data implements Serializable {
 
     }
 
-//    public Books_data(String id_books, String id_user, String title, String author, String categoryy, String statuss, String description) {
-//        this.id = id_books;
-//        this.id_user = id_user;
-//        this.title = title;
-//        this.authors = author;
-//        this.category = categoryy;
-//        this.description = description;
-//        this.status = statuss;
-//    }
 
     public String getId_user() {
         return id_user;
@@ -188,14 +179,13 @@ public class Books_data implements Serializable {
         this.imgUrl = imgUrl;
     }
 
-    public int getPageCount() {
-        return pageCount;
+    public Long getTimestamp() {
+        return timestamp;
     }
 
-    public void setPageCount(int pageCount) {
-        this.pageCount = pageCount;
+    public void setTimestamp(Long timestamp) {
+        this.timestamp = timestamp;
     }
-
 
     public float getRating() {
         return rating;
@@ -220,12 +210,11 @@ public class Books_data implements Serializable {
         result.put("category",category);
         result.put("imgUrl",imgUrl);
         result.put("rating", rating);
-        result.put("pageCount", pageCount);
+        result.put("timestamp", timestamp);
         result.put("status", status);
         result.put("publishStatus", publishStatus);
         result.put("publishDate", publishDate);
-        result.put("title_Chapter", titleChapter);
-        result.put("content_chapter",  contentChapter);
+        result.put("fileUrl", fileUrl);
         return result ;
     }
 }

@@ -1,7 +1,13 @@
 package com.example.readingbooks_final.fragment;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -14,6 +20,8 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import com.example.readingbooks_final.R;
+import com.example.readingbooks_final.activity.DetailBooks;
+import com.example.readingbooks_final.activity.show_info_book;
 import com.example.readingbooks_final.adapter.Hot_Book_Adapter;
 import com.example.readingbooks_final.adapter.Trending_Book_Adapter;
 import com.example.readingbooks_final.call_interface.OnClickHomeBookListener;
@@ -24,6 +32,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -45,13 +54,13 @@ public class Home extends Fragment {
     private Hot_Book_Adapter hot_book_adapter= new Hot_Book_Adapter(hot_headList, new OnClickHotBookListener() {
         @Override
         public void onClickHotBook(Books_data books_data) {
-
+            openInforBook(books_data);
         }
     });
     private Trending_Book_Adapter trending_book_adapter= new Trending_Book_Adapter(books_headList, new OnClickHomeBookListener() {
        @Override
        public void onClickTrendingBook(Books_data books_data) {
-
+           openInforBook(books_data);
        }
    });
 
@@ -123,31 +132,25 @@ public class Home extends Fragment {
     });
 
     }
-
+// Những Sách được đăng gần nhất
     private void  Hot_Books(){
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseDatabase database=FirebaseDatabase.getInstance();
         DatabaseReference databaseReference=database.getReference("Books");
-
-        databaseReference.addValueEventListener(new ValueEventListener() {
+        Query hot= databaseReference.orderByChild("timestamp").limitToLast(10);
+        hot.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 for (DataSnapshot booksnapshot: snapshot.getChildren()){
+                  //  DataSnapshot lastbook= snapshot.getChildren().iterator().next();
                     Books_data books_data =booksnapshot.getValue(Books_data.class);
-                    String id_books = books_data.getId();
-                    String id_user_inTable= books_data.getId_user();
-                    String  id_user=auth.getCurrentUser().getUid();
 
-                    DatabaseReference databaseReference = database.getReference("Books").child(id_books);
-                    System.out.println(books_data.getCategory().contains("Detective"));
-                    if (books_data.getCategory().contains("Detective") || books_data.getCategory().contains("Science Fiction")){
 
                         hot_headList.add(books_data);
-                    }
+
                 }
                 hot_book_adapter.notifyDataSetChanged();
             }
-
 
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
@@ -180,6 +183,33 @@ public class Home extends Fragment {
         setAdapterHotHead();
     }
     private void openInforBook(Books_data books_data){
+        Intent intent=new Intent(getActivity(), DetailBooks.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("objectBooks", books_data);
+        intent.putExtras(bundle);
+
+        startActivityForResult.launch(intent);
 
     }
+
+    final ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+//
+                    if(result.getResultCode() == Activity.RESULT_OK) {
+
+                        Intent intent = result.getData();
+                        if (intent==null){
+                            return;
+                        }
+
+                        hot_book_adapter.notifyDataSetChanged();
+
+                    }
+
+                }
+
+            });
 }
