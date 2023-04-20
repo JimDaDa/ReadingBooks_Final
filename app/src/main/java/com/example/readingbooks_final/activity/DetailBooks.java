@@ -1,12 +1,19 @@
 package com.example.readingbooks_final.activity;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -29,6 +36,7 @@ public class DetailBooks extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         initView();
         recieveData();
+        clickButtonRead();
     }
 
     @Override
@@ -58,5 +66,45 @@ public class DetailBooks extends AppCompatActivity {
             Glide.with(DetailBooks.this).load(books_data.getImgUrl()).into(cover_detail);
         }
     }
+    private void clickButtonRead(){
+        read_books.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Bundle bundle = getIntent().getExtras();
+                Books_data books_data= (Books_data) bundle.get("objectBooks");
+
+                Intent intent=new Intent(DetailBooks.this, Read_Books.class);
+                Bundle bundle2 = new Bundle();
+                bundle2.putSerializable("objectBooks", books_data);
+                intent.putExtras(bundle2);
+
+               // startActivity(intent);
+                 startActivityForResult.launch(intent);
+            }
+        });
+
+
+    }
+    final ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+//
+                    if(result.getResultCode() == Activity.RESULT_OK) {
+
+                        Intent intent = result.getData();
+                        if (intent==null){
+                            return;
+                        }
+
+
+                        }
+
+
+
+                    }
+
+            });
 
 }
