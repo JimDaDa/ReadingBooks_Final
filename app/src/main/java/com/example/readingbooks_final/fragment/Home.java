@@ -144,9 +144,13 @@ public class Home extends Fragment {
                 for (DataSnapshot booksnapshot: snapshot.getChildren()){
                   //  DataSnapshot lastbook= snapshot.getChildren().iterator().next();
                     Books_data books_data =booksnapshot.getValue(Books_data.class);
-
-
+                    String publish = books_data.getPublishStatus();
+                    if (publish.contains("public")){
                         hot_headList.add(books_data);
+                    }
+
+
+
 
                 }
                 hot_book_adapter.notifyDataSetChanged();

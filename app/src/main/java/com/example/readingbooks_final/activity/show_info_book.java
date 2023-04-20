@@ -154,8 +154,12 @@ public class show_info_book extends AppCompatActivity {
 
     private void addFile(){
         Intent intent= new Intent();
-        intent.setType("application/pdf");
+       // intent.setType("application/pdf");
+        intent.setType("*/*");
+      //  String [] mimetypes = {"application/pdf", "application/epub+zip"};
         intent.setAction(Intent.ACTION_GET_CONTENT);
+       // intent.putExtra(Intent.EXTRA_MIME_TYPES,mimetypes);
+
         startAttach.launch(Intent.createChooser(intent, "Select File"));
 
 
