@@ -31,6 +31,7 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.readingbooks_final.MainActivity;
 import com.example.readingbooks_final.R;
+import com.example.readingbooks_final.activity.ListBook;
 import com.example.readingbooks_final.activity.edit_book;
 import com.example.readingbooks_final.activity.login;
 import com.example.readingbooks_final.activity.profile;
@@ -54,9 +55,9 @@ import java.util.Objects;
 
 public class Account extends Fragment {
     private View view;
-    private ImageView image_ava;
+    private ImageView image_ava,edit_profile, my_list_read;
 
-    private ImageButton edit_profile;
+   // private ImageButton edit_profile;
     private TextView name_acc, email_acc,phone;
 
     private TextView deleteAcc;
@@ -163,6 +164,7 @@ public class Account extends Fragment {
 
         AnhXa();
         edit_pro5();
+        openList();
         showUser();
         Update();
         deleteAccount();
@@ -173,11 +175,22 @@ public class Account extends Fragment {
         image_ava= view.findViewById(R.id.avatar);
         name_acc=view.findViewById(R.id.fullname);
         email_acc=view.findViewById(R.id.acc_email);
-        edit_profile=view.findViewById(R.id.edit_profile);
+//        edit_profile=view.findViewById(R.id.edit_profile);
+        edit_profile=view.findViewById(R.id.image_profile);
         phone=view.findViewById(R.id.phone);
         mainActivity=(MainActivity) getActivity();
         deleteAcc= view.findViewById(R.id.deleteAcc);
+        my_list_read=view.findViewById(R.id.my_list_read);
 
+    }
+    private void openList(){
+        my_list_read.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(getActivity(), ListBook.class);
+                startActivity(intent);
+            }
+        });
     }
 
 

@@ -7,7 +7,7 @@
     <uses-permission android:name="android.permission.READ_MEDIA_IMAGES" />
     <uses-permission android:name="android.permission.READ_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
-
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
     <uses-feature
         android:name="android.hardware.camera"
         android:required="true" />
@@ -21,6 +21,12 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ReadingBooks_Final"
         tools:targetApi="31">
+        <activity
+            android:name=".pdfView"
+            android:exported="false" />
+        <activity
+            android:name=".list_chapter"
+            android:exported="false" />
         <activity
             android:name=".activity.Read_Books"
             android:exported="false"
