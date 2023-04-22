@@ -125,8 +125,8 @@ public class Account extends Fragment {
                         if (intent == null) {
                             return;
                         } else {
-                          Bundle bundle = getArguments();
-
+                         // Bundle bundle = getArguments();
+                            Bundle bundle = intent.getExtras();
                           if (bundle!= null){
                               User user= (User) bundle.get("objectUser");
                               name_acc.setText(user.getFullname());
@@ -162,7 +162,7 @@ public class Account extends Fragment {
 
 
         AnhXa();
-      edit_pro5();
+        edit_pro5();
         showUser();
         Update();
         deleteAccount();
@@ -240,16 +240,18 @@ public class Account extends Fragment {
                     String userId = user.getUid();
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference ref=database.getReference("Users").child(userId);
-                    ref.addValueEventListener(new ValueEventListener() {
+
+                    final ValueEventListener valueEventListener = new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
                             User user_cur = snapshot.getValue(User.class);
                             if (user_cur!=null){
-                                Intent intent=new Intent(view.getContext(), profile.class);
+                                Intent intent=new Intent(getActivity(), profile.class);
                                 Bundle bundle2= new Bundle();
                                 bundle2.putSerializable("objectUser", user_cur);
                                 intent.putExtras(bundle2);
                                 launcherActivityInfo.launch(intent);
+                                ref.removeEventListener(this);
                             }
                         }
 
@@ -257,8 +259,8 @@ public class Account extends Fragment {
                         public void onCancelled(@NonNull DatabaseError error) {
 
                         }
-                    });
-
+                    };
+                    ref.addValueEventListener(valueEventListener);
                 }
 
 
@@ -301,6 +303,7 @@ public class Account extends Fragment {
             @Override
             public void onCancelled(@NonNull DatabaseError error) {
                 Toast.makeText(getContext(), "Error", Toast.LENGTH_SHORT).show();
+
             }
         });
 
