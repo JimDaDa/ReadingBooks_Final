@@ -29,19 +29,6 @@
         tools:layout_editor_absoluteX="1dp" />
 
 
-    <ImageButton
-        android:id="@+id/edit_profile"
-        android:layout_width="44dp"
-        android:layout_height="39dp"
-        android:src="@drawable/pencil"
-        app:layout_constraintBottom_toTopOf="@+id/view2"
-        app:layout_constraintEnd_toEndOf="@+id/view1"
-        app:layout_constraintHorizontal_bias="0.0"
-        app:layout_constraintStart_toEndOf="@+id/avatar"
-        app:layout_constraintTop_toTopOf="@+id/view1"
-        app:layout_constraintVertical_bias="0.889"
-        tools:ignore="MissingConstraints" />
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar"
         android:layout_width="144dp"
