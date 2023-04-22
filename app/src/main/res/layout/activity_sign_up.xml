@@ -5,16 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background"
     tools:context=".activity.sign_up"
     android:padding="1dp">
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:background="@color/background"
-        android:padding="16dp"
-        >
+        android:background="@drawable/gradient_background"
+        android:padding="16dp">
 
         <View
             android:id="@+id/view3"
@@ -22,7 +20,7 @@
             android:layout_height="180dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <View
             android:id="@+id/view4"
@@ -30,7 +28,7 @@
             android:layout_height="350dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@id/view3" />
+            app:layout_constraintTop_toBottomOf="@id/view3"/>
 
         <View
             android:id="@+id/view5"
@@ -61,18 +59,18 @@
 
         <EditText
             android:id="@+id/name"
-            android:layout_width="300dp"
-            android:layout_height="49dp"
+            android:layout_width="320dp"
+            android:layout_height="54dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="24dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/boder"
+            android:background="@drawable/edit_boder"
             android:drawableLeft="@drawable/user"
             android:drawablePadding="16dp"
             android:ems="10"
+            android:fontFamily="@font/josefin"
             android:hint="Full Name"
             android:inputType="text"
-            android:fontFamily="@font/ac"
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="@+id/view4"
             app:layout_constraintHorizontal_bias="0.574"
@@ -81,16 +79,16 @@
 
         <EditText
             android:id="@+id/email"
-            android:layout_width="300dp"
-            android:layout_height="49dp"
+            android:layout_width="320dp"
+            android:layout_height="54dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/boder"
+            android:background="@drawable/edit_boder"
             android:drawableLeft="@drawable/email"
-            android:fontFamily="@font/ac"
             android:drawablePadding="16dp"
             android:ems="10"
+            android:fontFamily="@font/josefin"
             android:hint="Email"
             android:inputType="text"
             android:padding="16dp"
@@ -101,18 +99,18 @@
 
         <EditText
             android:id="@+id/phone"
-            android:layout_width="300dp"
-            android:layout_height="51dp"
+            android:layout_width="320dp"
+            android:layout_height="54dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/boder"
+            android:background="@drawable/edit_boder"
             android:drawableLeft="@drawable/phone"
             android:drawablePadding="16dp"
             android:ems="10"
+            android:fontFamily="@font/josefin"
             android:hint="Phone"
             android:inputType="text"
-            android:fontFamily="@font/ac"
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="@+id/view4"
             app:layout_constraintHorizontal_bias="0.574"
@@ -121,18 +119,18 @@
 
         <EditText
             android:id="@+id/pass"
-            android:layout_width="300dp"
-            android:layout_height="51dp"
+            android:layout_width="320dp"
+            android:layout_height="54dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/boder"
+            android:background="@drawable/edit_boder"
             android:drawableLeft="@drawable/lock"
             android:drawablePadding="16dp"
             android:ems="10"
+            android:fontFamily="@font/josefin"
             android:hint="Password"
             android:inputType="textPassword"
-            android:fontFamily="@font/ac"
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="@+id/view4"
             app:layout_constraintHorizontal_bias="0.574"
@@ -141,47 +139,51 @@
 
         <EditText
             android:id="@+id/confirm_pass"
-            android:layout_width="300dp"
-            android:layout_height="50dp"
+            android:layout_width="320dp"
+            android:layout_height="54dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
-            android:background="@drawable/boder"
+            android:background="@drawable/edit_boder"
             android:drawableLeft="@drawable/lock"
             android:drawablePadding="16dp"
             android:ems="10"
+            android:fontFamily="@font/josefin"
             android:hint="Confirm Password"
             android:inputType="textPassword"
-            android:fontFamily="@font/ac"
             android:padding="16dp"
+            app:layout_constraintBottom_toTopOf="@+id/view5"
             app:layout_constraintEnd_toEndOf="@+id/view4"
             app:layout_constraintHorizontal_bias="0.595"
             app:layout_constraintStart_toStartOf="@+id/view4"
-            app:layout_constraintTop_toBottomOf="@+id/pass"
-            app:layout_constraintBottom_toTopOf="@+id/view5"/>
+            app:layout_constraintTop_toBottomOf="@+id/pass" />
 
         <Button
             android:id="@+id/btnSignUp"
-            android:layout_width="298dp"
-            android:layout_height="68dp"
+            android:layout_width="320dp"
+            android:layout_height="65dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="16dp"
             android:layout_marginEnd="32dp"
+            android:autoSizeMaxTextSize="18sp"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
             android:background="@drawable/round_button"
+            android:fontFamily="@font/home"
             android:padding="16dp"
             android:text="SIGN UP"
-            android:fontFamily="@font/ac"
-            android:textColor="@color/white"
-            android:textSize="24sp"
+            android:textColor="#000000"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/view5"
+            app:layout_constraintHorizontal_bias="0.571"
             app:layout_constraintStart_toStartOf="@+id/view5"
             app:layout_constraintTop_toTopOf="@+id/view5" />
 
         <TextView
             android:id="@+id/textView2"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="150dp"
+            android:layout_height="20dp"
             android:layout_marginStart="112dp"
             android:layout_marginTop="20dp"
             android:fontFamily="@font/ac"
@@ -193,16 +195,15 @@
 
         <TextView
             android:id="@+id/layout_login"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
+            android:layout_width="40dp"
+            android:layout_height="20dp"
             android:layout_marginStart="10dp"
             android:layout_marginTop="20dp"
             android:layout_marginEnd="136dp"
-            android:fontFamily="@font/ac"
+            android:fontFamily="@font/home"
             android:gravity="top"
             android:text="Login"
-
-            android:textColor="@color/boder"
+            android:textColor="#000000"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/view6"
             app:layout_constraintEnd_toEndOf="@+id/view6"
@@ -210,7 +211,5 @@
             app:layout_constraintStart_toEndOf="@+id/textView2"
             app:layout_constraintTop_toTopOf="@+id/view6"
             app:layout_constraintVertical_bias="0.0" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
 </ScrollView>

@@ -5,17 +5,14 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="match_parent"
-    android:background="@color/background"
+    android:background="@drawable/gradient_background"
     tools:context=".activity.forget_pass"
     android:padding="1dp">
-
-
 
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="wrap_content"
         android:layout_height="match_parent"
-        android:background="@color/background"
-        >
+        android:background="@drawable/gradient_background">
 
         <View
             android:id="@+id/view"
@@ -23,7 +20,7 @@
             android:layout_height="323dp"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent" />
+            app:layout_constraintTop_toTopOf="parent"/>
 
         <ImageView
             android:id="@+id/imageView"
@@ -41,15 +38,15 @@
             android:id="@+id/view1"
             android:layout_width="409dp"
             android:layout_height="401dp"
-            android:layout_marginTop="4dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginEnd="16dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.0"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/view" />
 
         <EditText
             android:id="@+id/type_email"
-            android:layout_width="316dp"
+            android:layout_width="320dp"
             android:layout_height="54dp"
             android:layout_marginStart="32dp"
             android:layout_marginTop="136dp"
@@ -58,7 +55,12 @@
             android:drawableLeft="@drawable/email"
             android:drawablePadding="16dp"
             android:ems="10"
+            android:fontFamily="@font/josefin"
             android:hint="Email"
+            android:autoSizeMaxTextSize="16sp"
+            android:autoSizeMinTextSize="10sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
             android:padding="16dp"
             app:layout_constraintEnd_toEndOf="@+id/view1"
             app:layout_constraintHorizontal_bias="0.724"
@@ -67,16 +69,20 @@
 
         <Button
             android:id="@+id/btnReset"
-            android:layout_width="316dp"
-            android:layout_height="69dp"
+            android:layout_width="320dp"
+            android:layout_height="65dp"
             android:layout_marginStart="32dp"
-            android:layout_marginTop="16dp"
+            android:layout_marginTop="14dp"
             android:layout_marginEnd="32dp"
+            android:autoSizeMaxTextSize="18sp"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
             android:background="@drawable/round_button"
+            android:fontFamily="@font/home"
             android:padding="16dp"
             android:text="RESET PASSWORD"
-            android:textColor="@color/white"
-            android:textSize="18sp"
+            android:textColor="#000000"
             android:textStyle="bold"
             app:layout_constraintBottom_toBottomOf="@+id/view1"
             app:layout_constraintEnd_toEndOf="@+id/view1"
@@ -89,10 +95,17 @@
             android:id="@+id/textView3"
             android:layout_width="343dp"
             android:layout_height="52dp"
+            android:layout_marginStart="16dp"
+            android:layout_marginTop="12dp"
+            android:layout_marginEnd="16dp"
+            android:autoSizeMaxTextSize="28sp"
+            android:autoSizeMinTextSize="16sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
+            android:fontFamily="@font/home"
             android:gravity="center_horizontal"
             android:text="Forgot your password?"
-            android:textColor="@color/nau"
-            android:textSize="28sp"
+            android:textColor="#000000"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="parent"
             app:layout_constraintStart_toStartOf="parent"
@@ -104,10 +117,13 @@
             android:layout_height="48dp"
             android:gravity="center_horizontal"
             android:text="Enter your email address to retrieve your password"
-            android:textSize="18sp"
+            android:fontFamily="@font/ac"
+            android:autoSizeMaxTextSize="18sp"
+            android:autoSizeMinTextSize="12sp"
+            android:autoSizeStepGranularity="1sp"
+            android:autoSizeTextType="uniform"
             app:layout_constraintEnd_toEndOf="@+id/view1"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintTop_toBottomOf="@+id/textView3" />
-
     </androidx.constraintlayout.widget.ConstraintLayout>
 </ScrollView>

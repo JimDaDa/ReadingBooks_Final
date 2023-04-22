@@ -71,8 +71,7 @@
 
     <style name="Theme.Login" parent="Theme.MaterialComponents.DayNight.NoActionBar">
         <!-- Primary brand color. -->
-        <item name="colorPrimary">@color/hong</item>
-        <item name="colorPrimaryVariant">@color/background</item>
+        <item name="colorPrimary">#FFD8B3</item>
         <item name="colorOnPrimary">@color/white</item>
         <!-- Secondary brand color. -->
         <item name="colorSecondary">@color/teal_200</item>
