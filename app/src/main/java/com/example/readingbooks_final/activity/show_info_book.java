@@ -16,7 +16,6 @@ import android.content.DialogInterface;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.text.Html;
 import android.text.method.ScrollingMovementMethod;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -26,8 +25,6 @@ import android.widget.Toast;
 import com.bumptech.glide.Glide;
 import com.example.readingbooks_final.R;
 import com.example.readingbooks_final.database.Books_data;
-import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -49,6 +46,8 @@ public class show_info_book extends AppCompatActivity {
     public static final String ATTACH_FILE = "ATTACH_FILE";
     private Uri fileUrl;
     private boolean isPublish;
+
+    private MenuItem publish, unPublish;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -76,7 +75,7 @@ public class show_info_book extends AppCompatActivity {
         progressDialog.setMessage("Please Wait..");
         progressDialog.setCancelable(false);
 
-
+        addPublishChangeListener();
     }
     private void RecieveData(){
     Bundle bundle = getIntent().getExtras();
@@ -95,19 +94,18 @@ public class show_info_book extends AppCompatActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_show_info_book, menu);
+        publish = menu.findItem(R.id.publishBooks);
+        setVisible();
+        return true;
+    }
 
-        MenuItem publish = menu.findItem(R.id.publishBooks);
-        MenuItem unPublish= menu.findItem(R.id.unPublishBooks);
-        checkPublish();
-        if (isPublish){
-            publish.setVisible(false);
-            unPublish.setVisible(true);
+    void setVisible(){
+        if (!isPublish){
+            publish.setIcon(R.drawable.plus);
 
         }else {
-            publish.setVisible(true);
-            unPublish.setVisible(false);
+           publish.setIcon(R.drawable.cancel);
         }
-        return true;
     }
 
     @Override
@@ -127,24 +125,19 @@ public class show_info_book extends AppCompatActivity {
             deleteBooks();
         }
         if (item.getItemId()== R.id.publishBooks){
-           // checkPublish();
-            publishBooks();
+
+            if(!isPublish){
+                publishBooks();
+            }else {
+                unPublishBooks();
+            }
+
 //            if (!isPublish){
 //                publishBooks();
 //                publish.setVisible(true);
 //                unPublish.setVisible(false);
 //            }
 
-
-            return true;
-        }else if (item.getItemId()==R.id.unPublishBooks){
-            //checkPublish();
-            unPublishBooks();
-//            if (isPublish){
-//                unPublishBooks();
-//                publish.setVisible(false);
-//                unPublish.setVisible(true);
-//            }
 
             return true;
         }
@@ -262,8 +255,6 @@ public class show_info_book extends AppCompatActivity {
                         progressDialog.dismiss();
                         Toast.makeText(show_info_book.this, "Update Successfull", Toast.LENGTH_SHORT).show();
                         databaseReference.removeEventListener(this);
-
-                        invalidateOptionsMenu();
                     }
 
                     @Override
@@ -310,7 +301,7 @@ public class show_info_book extends AppCompatActivity {
                         databaseReference.child("publishStatus").setValue(publishStatus);
                         progressDialog.dismiss();
                         Toast.makeText(show_info_book.this, "Unpublish Successfull", Toast.LENGTH_SHORT).show();
-                        invalidateOptionsMenu();
+                        databaseReference.removeEventListener(this);
                     }
 
                     @Override
@@ -333,7 +324,7 @@ public class show_info_book extends AppCompatActivity {
         confirmDialog.show();
     }
 
-    private void checkPublish(){
+    private void addPublishChangeListener(){
         Bundle bundle = getIntent().getExtras();
         Books_data books_data= (Books_data) bundle.get("objectBooks");
         String id_books= books_data.getId();
@@ -342,18 +333,8 @@ public class show_info_book extends AppCompatActivity {
         databaseReference.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-
-//                for (DataSnapshot bookSnapshot: snapshot.getChildren()){
-//                    Books_data books_data =bookSnapshot.getValue(Books_data.class);
-//
-//                    String publishStatus = books_data.getPublishStatus();
-//                    if (publishStatus.contains("private")){
-//                        isPublish= false;
-//
-//                    }else if (publishStatus.contains("public")){
-//                        isPublish=true;
-//                    }
-//                }
+                final Books_data BookDataUpdate = snapshot.getValue(Books_data.class);
+                books_data.setPublishStatus(BookDataUpdate.getPublishStatus());
                 String publishStatus = books_data.getPublishStatus();
                 if (publishStatus.contains("private")){
                     isPublish= false;
@@ -413,7 +394,6 @@ public class show_info_book extends AppCompatActivity {
 
                        // Glide.with(show_info_book.this).load(photo).into(cover_details);
 
-
                     }
                 }
             });
@@ -435,6 +415,7 @@ public class show_info_book extends AppCompatActivity {
                     @Override
                     public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
                         Intent intent = new Intent(show_info_book.this, ListBook.class);
+                        intent.putExtra("removeId",books_data.getId());
                         Toast.makeText(show_info_book.this, "Delete Success", Toast.LENGTH_SHORT).show();
                         setResult(RESULT_OK,intent);
                         finish();

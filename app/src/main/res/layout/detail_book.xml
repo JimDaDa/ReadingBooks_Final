@@ -144,7 +144,7 @@
                             app:srcCompat="@drawable/list" />
 
                         <TextView
-                            android:id="@+id/tv_chapter"
+                            android:id="@+id/tv_status"
                             android:layout_width="wrap_content"
                             android:layout_height="match_parent"
                             android:layout_weight="1"
@@ -168,6 +168,8 @@
                         android:layout_height="wrap_content"
                         android:background="@drawable/boder_profile"
                         android:text="Read"
+                        android:textColor="@color/nau"
+                        android:backgroundTint="@color/blue"
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />

@@ -138,6 +138,12 @@ public class ListBook extends AppCompatActivity {
                             return;
                         }
 
+                       for(int i=0 ; i <books.size(); i++){
+                           if (books.get(i).getId().equals(intent.getStringExtra("removeId")) ){
+                               books.remove(i);
+                               break;
+                           }
+                       }
                        booksAdapter.notifyDataSetChanged();
 
                         }
