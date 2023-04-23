@@ -12,7 +12,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.example.readingbooks_final.R;
-import com.example.readingbooks_final.activity.PdfViewActivity;
+import com.example.readingbooks_final.activity.Read_Books;
 import com.example.readingbooks_final.database.Set_Chapter;
 
 import java.util.ArrayList;
@@ -43,7 +43,7 @@ public class Set_Chapter_Adapter  extends RecyclerView.Adapter<Set_Chapter_Adapt
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(context, PdfViewActivity.class);
+                Intent intent = new Intent(context, Read_Books.class);
                 intent.putExtra("position",position);
                 context.startActivity(intent);
             }

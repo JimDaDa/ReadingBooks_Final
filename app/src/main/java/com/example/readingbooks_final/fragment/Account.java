@@ -306,7 +306,7 @@ public class Account extends Fragment {
                     name_acc.setText(fullname);
                     email_acc.setText(email);
                     phone.setText(phone_user);
-                    Glide.with(Account.this).load(avatar).error(R.drawable.user_ava).into(image_ava);
+                    Glide.with(getActivity()).load(avatar).error(R.drawable.user_ava).into(image_ava);
 
 
                 }
