@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:id="@+id/trendingFrame">
+    android:id="@+id/loveFrame">
 
     <ImageView
         android:id="@+id/cover4"
@@ -20,7 +20,7 @@
 
 
     <ImageView
-        android:id="@+id/book_item1"
+        android:id="@+id/book_item4"
         android:layout_width="130dp"
         android:layout_height="180dp"
         android:layout_marginStart="20dp"
