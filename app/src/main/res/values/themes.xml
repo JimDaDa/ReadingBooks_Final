@@ -88,4 +88,9 @@
 
     </style>
 
+    <style name="MyRatingBar" parent="Widget.AppCompat.RatingBar">
+        <item name="colorControlNormal">#FFF082</item>
+        <item name="colorControlActivated">#FFD3E9</item>
+    </style>
+
 </resources>

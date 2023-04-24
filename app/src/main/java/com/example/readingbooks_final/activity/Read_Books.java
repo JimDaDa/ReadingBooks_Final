@@ -1,12 +1,19 @@
 package com.example.readingbooks_final.activity;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
+import android.content.Intent;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -49,6 +56,7 @@ public class Read_Books extends AppCompatActivity {
         setContentView(R.layout.activity_read_books);
         ActionBar actionBar=getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+
         initView();
         recieveData();
     }
@@ -122,8 +130,36 @@ public class Read_Books extends AppCompatActivity {
         }
     }
     private void voteBooks(){
+        //show rating
+        rate_book rate = new rate_book(Read_Books.this);
+        rate.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
+        rate.setCancelable(false);
+        rate.show();
+
 
     }
+
+    final ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+//
+                    if(result.getResultCode() == Activity.RESULT_OK) {
+
+                        Intent intent = result.getData();
+                        if (intent==null){
+                            return;
+                        }
+
+
+                    }
+
+
+
+                }
+
+            });
 
 private void reportBooks(){
     AlertDialog.Builder builder = new AlertDialog.Builder(Read_Books.this);

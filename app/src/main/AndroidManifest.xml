@@ -21,12 +21,11 @@
         android:supportsRtl="true"
         android:theme="@style/Theme.ReadingBooks_Final"
         tools:targetApi="31">
-        <activity
-            android:name=".pdfView"
-            android:exported="false" />
+
         <activity
             android:name=".list_chapter"
             android:exported="false" />
+
         <activity
             android:name=".activity.Read_Books"
             android:exported="false"
