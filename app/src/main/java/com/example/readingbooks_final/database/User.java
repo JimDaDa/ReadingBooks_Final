@@ -28,6 +28,18 @@ public class User implements Serializable {
         this.avatar=avatar;
     }
 
+    public User(String id, String id_like, String id_vote, String id_book, String fullname, String email, String password, String phone, String avatar) {
+        this.id = id;
+        this.id_like = id_like;
+        this.id_vote = id_vote;
+        this.id_book = id_book;
+        this.fullname = fullname;
+        this.email = email;
+        this.password = password;
+        this.phone = phone;
+        this.avatar = avatar;
+    }
+
     public User(String id, String fullname, String user_email, String user_ava) {
         this.id = id;
         this.fullname = fullname;
@@ -48,6 +60,7 @@ public class User implements Serializable {
         this.id_like =id_like;
         this.id_book = books_id;
     }
+
 
     public String getId_book() {
         return id_book;
@@ -129,6 +142,15 @@ public class User implements Serializable {
         result.put("password",password);
         result.put("phone",phone);
         result.put("avatar_base64", avatar);
+
+
+        return result ;
+    }
+
+    public Map<String, Object> BookLike(){
+        HashMap<String,Object> result=new HashMap();
+        result.put("id_like",id_like);
+        result.put("id_book",id_book);
 
 
         return result ;

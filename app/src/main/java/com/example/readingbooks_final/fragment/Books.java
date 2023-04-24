@@ -1,8 +1,14 @@
 package com.example.readingbooks_final.fragment;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
+import android.content.Intent;
 import android.os.Bundle;
 
+import androidx.activity.result.ActivityResult;
+import androidx.activity.result.ActivityResultCallback;
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
@@ -15,6 +21,8 @@ import android.view.animation.AnimationUtils;
 import android.view.animation.LayoutAnimationController;
 
 import com.example.readingbooks_final.R;
+import com.example.readingbooks_final.activity.DetailBooks;
+import com.example.readingbooks_final.activity.show_info_book;
 import com.example.readingbooks_final.adapter.Library_Adapter;
 import com.example.readingbooks_final.call_interface.OnClickLibraryBookListener;
 import com.example.readingbooks_final.database.Books_data;
@@ -29,6 +37,7 @@ import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 
 public class Books extends Fragment {
@@ -76,27 +85,37 @@ public class Books extends Fragment {
 
     private void addBooks(){
         FirebaseAuth auth = FirebaseAuth.getInstance();
-        FirebaseDatabase database=FirebaseDatabase.getInstance();
-        DatabaseReference databaseReference=database.getReference("Books");
-        Query query_bookLike = database.getReference("Users").orderByChild("Fav_Books");
+       FirebaseDatabase database=FirebaseDatabase.getInstance();
+//        Intent intent = requireActivity().getIntent();
+//        Bundle bundle = intent.getExtras();
+////        Bundle bundle = getArguments();
+//        Books_data books_data= (Books_data) bundle.get("objectBooks");
+//        String books_id = books_data.getId();
 
-        query_bookLike.addListenerForSingleValueEvent(new ValueEventListener() {
+     //   DatabaseReference databaseReference=database.getReference("Books");
+        DatabaseReference userRef = database.getReference("Users").child(auth.getCurrentUser().getUid()).child("Fav_Books");
+
+        // lấy id books từ bảng Books
+        userRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot snapshot1: snapshot.getChildren()){
-                    User book_user = snapshot1.getValue(User.class);
-                   String book_like_user = book_user.getId_book();
-                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+                    User user = dataSnapshot.getValue(User.class);
+                    String id_like = user.getId_like();
+                    String id_book_user = user.getId_book();
+                    DatabaseReference bookRef = database.getReference("Books");
+                    bookRef.addListenerForSingleValueEvent(new ValueEventListener() {
                         @Override
                         public void onDataChange(@NonNull DataSnapshot snapshot) {
-                            for(DataSnapshot snapshot2 : snapshot.getChildren()){
-                                Books_data books_data = snapshot2.getValue(Books_data.class);
-                               String id_book_table = books_data.getId();
-                               if (id_book_table.equals(book_like_user)){
-                                   books.add(books_data);
-                               }
+                            for (DataSnapshot bookSnap: snapshot.getChildren()){
+                                Books_data books_data1 = bookSnap.getValue(Books_data.class);
+                                String id_books = books_data1.getId();
+                                if (id_books.equals(id_book_user)){
+                                    books.add(books_data1);
+                                }
                             }
                             booksAdapter.notifyDataSetChanged();
+
                         }
 
                         @Override
@@ -104,8 +123,6 @@ public class Books extends Fragment {
 
                         }
                     });
-
-
                 }
             }
 
@@ -115,35 +132,11 @@ public class Books extends Fragment {
             }
         });
 
-//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot booksnap: snapshot.getChildren()){
-//                    Books_data books_data =booksnap.getValue(Books_data.class);
-//                    String id_books= books_data.getId();
-//                    String id_user_inTable= books_data.getId_user();
-//                    String  id_user=auth.getCurrentUser().getUid();
-//                   // DatabaseReference refUser = database.getReference("Users").child(id_user).child("Fav_Books");
-//
-//
-//
-//
-//
-//                    if (id_user_inTable.equals(id_user)){
-//
-//                        books.add(books_data);
-//                    }
-//                }
-//                booksAdapter.notifyDataSetChanged();
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
+
+
 
             }
+
 
     private void setAnimation(int animation){
         LayoutAnimationController layoutAnimationController= AnimationUtils.loadLayoutAnimation(getActivity(), animation);
@@ -152,6 +145,47 @@ public class Books extends Fragment {
     }
 
     private void openShowInfor(Books_data books_data){
-
+        Intent intent=new Intent(getActivity(), DetailBooks.class);
+        Bundle bundle = new Bundle();
+        bundle.putSerializable("objectBooks", books_data);
+        intent.putExtras(bundle);
+        // startActivity(intent);
+        startActivityForResult.launch(intent);
     }
+
+    final ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+//
+                    if(result.getResultCode() == Activity.RESULT_OK) {
+
+                        Intent intent = result.getData();
+                        if (intent==null){
+                            return;
+                        }
+
+                        for(int i=0 ; i <books.size(); i++){
+                            if (books.get(i).getId().equals(intent.getStringExtra("removelike")) ){
+                                books.remove(i);
+                                break;
+                            }
+                        }
+                        booksAdapter.notifyDataSetChanged();
+
+                    }
+
+
+
+
+
+
+
+
+                }
+
+            });
+
+
 }

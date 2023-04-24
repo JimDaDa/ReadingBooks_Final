@@ -190,7 +190,7 @@
                     android:layout_height="wrap_content"
                     android:background="@drawable/boder_profile"
                     android:backgroundTint="@color/blue"
-                    android:text="Like"
+                    android:text="LIKE"
                     android:textColor="@color/nau" />
 
 4
