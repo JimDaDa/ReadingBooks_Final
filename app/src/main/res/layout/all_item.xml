@@ -13,7 +13,7 @@
         android:layout_marginStart="10dp"
         android:layout_marginEnd="10dp"
         android:layout_marginBottom="10dp"
-        android:background="@drawable/container"
+        android:background="#3AFFFFFF"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent" />
@@ -47,7 +47,7 @@
         android:fontFamily="@font/tiltneon"
         android:gravity="center"
         android:text="Harry Potter và Hòn Đá Tử Thần"
-        android:textColor="@color/nau"
+        android:textColor="#000000"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/cover4"
         app:layout_constraintEnd_toEndOf="@+id/cover4"
