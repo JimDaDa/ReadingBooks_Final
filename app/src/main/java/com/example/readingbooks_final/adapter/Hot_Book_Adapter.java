@@ -73,9 +73,9 @@ public class Hot_Book_Adapter extends RecyclerView.Adapter<Hot_Book_Adapter.View
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
-            book_hot = itemView.findViewById(R.id.book_item1);
+            book_hot = itemView.findViewById(R.id.book_hotitem);
             hotFrame= itemView.findViewById(R.id.hotFrame);
-            book_title=itemView.findViewById(R.id.book_title);
+            book_title=itemView.findViewById(R.id.book_title_hot);
 
         }
     }

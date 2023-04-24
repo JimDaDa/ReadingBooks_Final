@@ -20,21 +20,21 @@
 
 
     <ImageView
-        android:id="@+id/book_item1"
+        android:id="@+id/book_hotitem"
         android:layout_width="130dp"
         android:layout_height="180dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
         android:layout_marginTop="20dp"
         android:layout_marginBottom="20dp"
-        app:layout_constraintBottom_toTopOf="@+id/book_title"
+        app:layout_constraintBottom_toTopOf="@+id/book_title_hot"
         app:layout_constraintEnd_toEndOf="@+id/cover4"
         app:layout_constraintStart_toStartOf="@+id/cover4"
         app:layout_constraintTop_toTopOf="@+id/cover4"
         app:srcCompat="@drawable/book1" />
 
     <TextView
-        android:id="@+id/book_title"
+        android:id="@+id/book_title_hot"
         android:layout_width="130dp"
         android:layout_height="50dp"
         android:layout_marginStart="20dp"

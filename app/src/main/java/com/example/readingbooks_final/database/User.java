@@ -8,7 +8,7 @@ import java.util.Map;
 
 public class User implements Serializable {
     private String id, id_like,id_vote, id_book;
-    private String fullname,email,password, phone, avatar;
+    private String fullname,email,password, phone, avatar, likedStatus;
 
 
     
@@ -56,11 +56,19 @@ public class User implements Serializable {
 
     }
 
-    public User(String id_like, String books_id) {
+    public User(String id_like, String books_id, String likedStatus) {
         this.id_like =id_like;
         this.id_book = books_id;
+        this.likedStatus = likedStatus;
     }
 
+    public String getLikedStatus() {
+        return likedStatus;
+    }
+
+    public void setLikedStatus(String likedStatus) {
+        this.likedStatus = likedStatus;
+    }
 
     public String getId_book() {
         return id_book;
@@ -151,7 +159,7 @@ public class User implements Serializable {
         HashMap<String,Object> result=new HashMap();
         result.put("id_like",id_like);
         result.put("id_book",id_book);
-
+        result.put("likedStatus",likedStatus);
 
         return result ;
     }

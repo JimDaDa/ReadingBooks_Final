@@ -72,7 +72,7 @@ public class Trending_Book_Adapter extends RecyclerView.Adapter<Trending_Book_Ad
             super(itemView);
             book_item1View = itemView.findViewById(R.id.book_item1);
             trendingFrame= itemView.findViewById(R.id.trendingFrame);
-            book_title=itemView.findViewById(R.id.book_title);
+            book_title=itemView.findViewById(R.id.book_title_trend);
 
         }
     }

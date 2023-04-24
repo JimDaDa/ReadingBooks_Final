@@ -70,7 +70,7 @@ public class Love_Book_Adapter extends RecyclerView.Adapter<Love_Book_Adapter.Vi
             super(itemView);
             book_hot = itemView.findViewById(R.id.book_item4);
             hotFrame= itemView.findViewById(R.id.loveFrame);
-            book_title=itemView.findViewById(R.id.book_title);
+            book_title=itemView.findViewById(R.id.book_title_love);
 
         }
     }
