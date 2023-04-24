@@ -173,6 +173,7 @@
                         app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
+
                 </androidx.constraintlayout.widget.ConstraintLayout>
 
                 <TextView
@@ -183,7 +184,16 @@
                     android:textSize="20sp"
                     android:layout_margin="16dp"/>
 
+                <Button
+                    android:id="@+id/fav_book"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:background="@drawable/boder_profile"
+                    android:backgroundTint="@color/blue"
+                    android:text="Like"
+                    android:textColor="@color/nau" />
 
+4
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

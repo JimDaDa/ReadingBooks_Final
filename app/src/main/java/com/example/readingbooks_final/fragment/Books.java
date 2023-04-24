@@ -18,11 +18,13 @@ import com.example.readingbooks_final.R;
 import com.example.readingbooks_final.adapter.Library_Adapter;
 import com.example.readingbooks_final.call_interface.OnClickLibraryBookListener;
 import com.example.readingbooks_final.database.Books_data;
+import com.example.readingbooks_final.database.User;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.ArrayList;
@@ -76,24 +78,35 @@ public class Books extends Fragment {
         FirebaseAuth auth = FirebaseAuth.getInstance();
         FirebaseDatabase database=FirebaseDatabase.getInstance();
         DatabaseReference databaseReference=database.getReference("Books");
+        Query query_bookLike = database.getReference("Users").orderByChild("Fav_Books");
 
-        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+        query_bookLike.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
-                for (DataSnapshot booksnap: snapshot.getChildren()){
-                    Books_data books_data =booksnap.getValue(Books_data.class);
-                    String id_books= books_data.getId();
-                    String id_user_inTable= books_data.getId_user();
-                    String  id_user=auth.getCurrentUser().getUid();
-                    DatabaseReference databaseReference = database.getReference("Books").child(id_books);
+                for (DataSnapshot snapshot1: snapshot.getChildren()){
+                    User book_user = snapshot1.getValue(User.class);
+                   String book_like_user = book_user.getId_book();
+                    databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                        @Override
+                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                            for(DataSnapshot snapshot2 : snapshot.getChildren()){
+                                Books_data books_data = snapshot2.getValue(Books_data.class);
+                               String id_book_table = books_data.getId();
+                               if (id_book_table.equals(book_like_user)){
+                                   books.add(books_data);
+                               }
+                            }
+                            booksAdapter.notifyDataSetChanged();
+                        }
+
+                        @Override
+                        public void onCancelled(@NonNull DatabaseError error) {
+
+                        }
+                    });
 
 
-                    if (id_user_inTable.equals(id_user)){
-
-                        books.add(books_data);
-                    }
                 }
-                booksAdapter.notifyDataSetChanged();
             }
 
             @Override
@@ -101,6 +114,34 @@ public class Books extends Fragment {
 
             }
         });
+
+//        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot booksnap: snapshot.getChildren()){
+//                    Books_data books_data =booksnap.getValue(Books_data.class);
+//                    String id_books= books_data.getId();
+//                    String id_user_inTable= books_data.getId_user();
+//                    String  id_user=auth.getCurrentUser().getUid();
+//                   // DatabaseReference refUser = database.getReference("Users").child(id_user).child("Fav_Books");
+//
+//
+//
+//
+//
+//                    if (id_user_inTable.equals(id_user)){
+//
+//                        books.add(books_data);
+//                    }
+//                }
+//                booksAdapter.notifyDataSetChanged();
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
 
             }
 

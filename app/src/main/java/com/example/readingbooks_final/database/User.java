@@ -7,13 +7,13 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class User implements Serializable {
-    private String id;
-    private String fullname;
-    private String email;
-    private String password;
-    private String phone;
+    private String id, id_like,id_vote, id_book;
+    private String fullname,email,password, phone, avatar;
+
+
     
-    private String avatar;
+
+
 
 
 
@@ -44,8 +44,34 @@ public class User implements Serializable {
 
     }
 
-//    public User(String id, String fullname, String user_email, Uri user_ava) {
-//    }
+    public User(String id_like, String books_id) {
+        this.id_like =id_like;
+        this.id_book = books_id;
+    }
+
+    public String getId_book() {
+        return id_book;
+    }
+
+    public void setId_book(String id_book) {
+        this.id_book = id_book;
+    }
+
+    public String getId_like() {
+        return id_like;
+    }
+
+    public void setId_like(String id_like) {
+        this.id_like = id_like;
+    }
+
+    public String getId_vote() {
+        return id_vote;
+    }
+
+    public void setId_vote(String id_vote) {
+        this.id_vote = id_vote;
+    }
 
     public String getAvatar() {
         return avatar;

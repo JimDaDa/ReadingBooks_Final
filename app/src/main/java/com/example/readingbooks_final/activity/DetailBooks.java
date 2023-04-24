@@ -18,10 +18,13 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.readingbooks_final.R;
 import com.example.readingbooks_final.database.Books_data;
+import com.example.readingbooks_final.database.User;
+import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
@@ -32,7 +35,7 @@ public class DetailBooks extends AppCompatActivity {
 
     private ImageView cover_detail;
     private TextView title_details, author_details, description_details, tv_view_details, tv_status, vote_tv;
-    private Button read_books;
+    private Button read_books, fav_book;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,6 +46,7 @@ public class DetailBooks extends AppCompatActivity {
         initView();
         recieveData();
         clickButtonRead();
+        clickButtonToSaveLibrary();
     }
 
     @Override
@@ -61,6 +65,7 @@ public class DetailBooks extends AppCompatActivity {
         tv_view_details= findViewById(R.id.tv_view_details);
         tv_status= findViewById(R.id.tv_status);
         vote_tv= findViewById(R.id.vote_tv);
+        fav_book= findViewById(R.id.fav_book);
 
     }
     private void recieveData(){
@@ -140,5 +145,41 @@ public class DetailBooks extends AppCompatActivity {
                     }
 
             });
+
+    private void clickButtonToSaveLibrary(){
+        fav_book.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                String id_user = auth.getUid();
+                FirebaseDatabase database=FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference=database.getReference("Users").child(id_user).child("Fav_Books");
+
+                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        for (DataSnapshot bookSnapShot : snapshot.getChildren()){
+                            User user = bookSnapShot.getValue(User.class);
+                            Bundle bundle = getIntent().getExtras();
+                            Books_data books_data= (Books_data) bundle.get("objectBooks");
+                            String books_id = books_data.getId();
+                            String id_like = databaseReference.push().getKey();
+                            User user_like = new User(id_like,books_id);
+                            databaseReference.child(id_like).setValue(user_like);
+                            Toast.makeText(DetailBooks.this, "Save Successfull", Toast.LENGTH_SHORT).show();
+
+                        }
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                });
+
+
+            }
+        });
+    }
 
 }
