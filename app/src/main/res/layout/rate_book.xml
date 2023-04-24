@@ -74,6 +74,7 @@
                 android:rating="3"/>
 <!--                android:theme="@style/MyRatingBar" />-->
 
+
             <LinearLayout
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"

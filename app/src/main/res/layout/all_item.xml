@@ -36,18 +36,20 @@
     <TextView
         android:id="@+id/book_title"
         android:layout_width="130dp"
-        android:layout_height="50dp"
+        android:layout_height="60dp"
         android:layout_marginStart="20dp"
         android:layout_marginEnd="20dp"
-        android:layout_marginTop="50dp"
-        android:layout_marginBottom="10dp"
+        android:layout_marginBottom="4dp"
+        android:autoSizeMaxTextSize="14sp"
+        android:autoSizeMinTextSize="12sp"
+        android:autoSizeStepGranularity="1sp"
+        android:autoSizeTextType="uniform"
+        android:fontFamily="@font/tiltneon"
         android:gravity="center"
         android:text="Harry Potter và Hòn Đá Tử Thần"
-        android:fontFamily="@font/tiltneon"
-        android:textStyle="bold"
-        android:textSize="14sp"
         android:textColor="@color/nau"
-        app:layout_constraintStart_toStartOf="@+id/cover4"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="@+id/cover4"
         app:layout_constraintEnd_toEndOf="@+id/cover4"
-        app:layout_constraintBottom_toBottomOf="@+id/cover4"/>
+        app:layout_constraintStart_toStartOf="@+id/cover4" />
 </androidx.constraintlayout.widget.ConstraintLayout>
