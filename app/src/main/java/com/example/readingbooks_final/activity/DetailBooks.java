@@ -56,7 +56,7 @@ public class DetailBooks extends AppCompatActivity {
         recieveData();
         clickButtonRead();
         clickButtonToSaveLibrary();
-        total_rating();
+      // total_rating();
     }
 
 
@@ -395,7 +395,36 @@ private void RemoveBooks(){
     databaseReference.addListenerForSingleValueEvent(valueEventListener);
 }
 
-    private void total_rating(){
+//    private void total_rating(){
+//
+//    }
+
+
+    final ActivityResultLauncher<Intent> startBooksFragment = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+//
+                    if(result.getResultCode() == Activity.RESULT_OK) {
+
+                        Intent intent = result.getData();
+                        if (intent==null){
+                            return;
+                        }
+
+
+
+
+
+
+                    }
+                }
+            });
+
+    @Override
+    protected void onResume() {
+        super.onResume();
         FirebaseAuth auth = FirebaseAuth.getInstance();
         String id_user = auth.getUid();
         FirebaseDatabase database=FirebaseDatabase.getInstance();
@@ -436,28 +465,4 @@ private void RemoveBooks(){
             }
         });
     }
-
-
-    final ActivityResultLauncher<Intent> startBooksFragment = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-//
-                    if(result.getResultCode() == Activity.RESULT_OK) {
-
-                        Intent intent = result.getData();
-                        if (intent==null){
-                            return;
-                        }
-
-
-
-
-
-
-                    }
-                }
-            });
-
 }
