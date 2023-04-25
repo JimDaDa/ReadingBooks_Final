@@ -56,6 +56,7 @@ public class DetailBooks extends AppCompatActivity {
         recieveData();
         clickButtonRead();
         clickButtonToSaveLibrary();
+        total_rating();
     }
 
 
@@ -393,6 +394,48 @@ private void RemoveBooks(){
     };
     databaseReference.addListenerForSingleValueEvent(valueEventListener);
 }
+
+    private void total_rating(){
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        String id_user = auth.getUid();
+        FirebaseDatabase database=FirebaseDatabase.getInstance();
+        //Nhận dữ liệu
+        Bundle bundle = getIntent().getExtras();
+        Books_data books_data= (Books_data) bundle.get("objectBooks");
+        //Lấy id quyển sách đó
+        String id_books= books_data.getId();
+        DatabaseReference databaseReference=database.getReference().child("Books").child(id_books).child("total_rating");
+        Query ratingRef = database.getReference().child("Books").child(id_books).child("rating");
+        ratingRef.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                float totalScore = 0;
+                int count=0;
+                for (DataSnapshot snapshot1 : snapshot.getChildren()){
+                    Books_data books_data1 = snapshot1.getValue(Books_data.class);
+                    Float score = books_data1.getScore();
+                    if (score!= null){
+                        totalScore+=score;
+                        count++;
+
+                    }
+                }
+                if (count>0){
+                    float average = (float) totalScore / count ;
+                    databaseReference.setValue(average);
+                    float getVote = books_data.getTotal_rating();
+                    String getVoteString = String.valueOf(getVote);
+                    vote_tv.setText(getVoteString + " /5.0");
+                    setResult(Activity.RESULT_OK);
+                }
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+    }
 
 
     final ActivityResultLauncher<Intent> startBooksFragment = registerForActivityResult(
