@@ -7,20 +7,31 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
+import android.view.animation.Animation;
+import android.view.animation.ScaleAnimation;
+import android.widget.ImageView;
+import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -46,10 +57,14 @@ import java.util.Date;
 
 
 public class Read_Books extends AppCompatActivity {
-
+    private float userRate;
     private PDFView pdfView;
     private String[] reason = new String[] {"Reason A", "Reason B", "Reason C"};
     private ProgressDialog progressDialog;
+    private AppCompatButton rateNow, rateLater;
+
+    private RatingBar ratingBar;
+    private ImageView rateImg ;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -130,11 +145,7 @@ public class Read_Books extends AppCompatActivity {
         }
     }
     private void voteBooks(){
-        //show rating
-        rate_book rate = new rate_book(Read_Books.this);
-        rate.getWindow().setBackgroundDrawable(new ColorDrawable(getResources().getColor(android.R.color.transparent)));
-        rate.setCancelable(false);
-        rate.show();
+        openDialog(Gravity.CENTER);
 
 
     }
@@ -237,6 +248,99 @@ private void reportBooks(){
         androidx.appcompat.app.AlertDialog alertDialog = builder.create();
         alertDialog.show();
     }
+
+    private void openDialog(int gravity){
+        final Dialog rate = new Dialog(Read_Books.this);
+        // final  rate_book rate = new rate_book(Read_Books.this);
+        rate.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        rate.setContentView(R.layout.rate_book);
+        Window window = rate.getWindow();
+
+        if (window == null){
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams winAtr = window.getAttributes();
+        winAtr.gravity = gravity;
+        window.setAttributes(winAtr);
+        if (Gravity.BOTTOM == gravity){
+            rate.setCancelable(true);
+        }else {
+            rate.setCancelable(false);
+        }
+
+        rateNow = rate.findViewById(R.id.rateNow);
+        rateLater = rate.findViewById(R.id.rateLater);
+        ratingBar = rate.findViewById(R.id.ratingBar);
+        rateImg = rate.findViewById(R.id.rateImg);
+        rate.show();
+        rateNow.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                addRating();
+            }
+        });
+
+        rateLater.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+
+                rate.dismiss();
+
+            }
+        });
+
+
+        ratingBar.setOnRatingBarChangeListener(new RatingBar.OnRatingBarChangeListener() {
+            @Override
+            public void onRatingChanged(RatingBar ratingBar, float rating, boolean fromUser) {
+
+                if(rating <= 1)
+                {
+                    rateImg.setImageResource(R.drawable.rate1);
+                }
+                else if(rating <= 2)
+                {
+                    rateImg.setImageResource(R.drawable.rate2);
+                }
+                else if(rating <= 3)
+                {
+                    rateImg.setImageResource(R.drawable.rate3);
+                }
+                else if(rating <= 4)
+                {
+                    rateImg.setImageResource(R.drawable.rate4);
+                }
+                else if(rating <= 5)
+                {
+                    rateImg.setImageResource(R.drawable.rate5);
+                }
+
+                animateImg(rateImg);
+                userRate = rating;
+            }
+        });
+
+
+    }
+
+    private void addRating(){
+
+
+    }
+
+
+    private void animateImg(ImageView rateImg)
+    {
+        ScaleAnimation scaleAnimation = new ScaleAnimation(0, 1f, 0, 1f, Animation.RELATIVE_TO_SELF,
+                0.5f, Animation.RELATIVE_TO_SELF,0.5f);
+        scaleAnimation.setFillAfter(true);
+        scaleAnimation.setDuration(200);
+        rateImg.startAnimation(scaleAnimation);
+
+    }
+
 
 
     }
