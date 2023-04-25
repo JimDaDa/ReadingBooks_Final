@@ -6,11 +6,11 @@ import java.util.Map;
 
 public class Books_data implements Serializable {
 
-    private String id, id_user, id_chapter, id_report;
+    private String id, id_user, id_chapter, id_report, id_rating;
     private String title, authors,category, description, imgUrl, status, publishStatus, publishDate, fileUrl, reason_rp, reason_num;
     private Long timestamp;
 
-    private float rating;
+    private float total_rating, score;
 
     private long view ;
 
@@ -19,7 +19,7 @@ public class Books_data implements Serializable {
     public Books_data(){}
 
 
-    public Books_data(String id, String id_user, String id_chapter, String id_report, String title, String authors, String category, String description, String imgUrl, String status, String publishStatus, String publishDate, String fileUrl, String reason_rp, String reason_num, Long timestamp, float rating, long view) {
+    public Books_data(String id, String id_user, String id_chapter, String id_report, String title, String authors, String category, String description, String imgUrl, String status, String publishStatus, String publishDate, String fileUrl, String reason_rp, String reason_num, Long timestamp, float total_rating, long view) {
         this.id = id;
         this.id_user = id_user;
         this.id_chapter = id_chapter;
@@ -36,7 +36,7 @@ public class Books_data implements Serializable {
         this.reason_rp = reason_rp;
         this.reason_num = reason_num;
         this.timestamp = timestamp;
-        this.rating = rating;
+        this.total_rating = total_rating;
         this.view = view;
     }
 
@@ -45,7 +45,12 @@ public class Books_data implements Serializable {
         this.publishStatus = publishStatus;
     }
 
+    public Books_data(String id_rating,String id_user, float score) {
+        this.id_rating = id_rating;
+        this.id_user = id_user;
 
+        this.score = score;
+    }
 
     public Books_data(String id_rp, String id_user, String report, String reason1) {
         this.id_report = id_rp;
@@ -54,6 +59,7 @@ public class Books_data implements Serializable {
         this.reason_num=report;
 
     }
+
 
 
     public String getId_chapter() {
@@ -140,6 +146,23 @@ public class Books_data implements Serializable {
 //
 //
 //    }
+
+
+    public String getId_rating() {
+        return id_rating;
+    }
+
+    public void setId_rating(String id_rating) {
+        this.id_rating = id_rating;
+    }
+
+    public float getScore() {
+        return score;
+    }
+
+    public void setScore(float score) {
+        this.score = score;
+    }
 
     public Books_data(String title, String imgUrl) {
         this.title = title;
@@ -240,12 +263,12 @@ public class Books_data implements Serializable {
         this.timestamp = timestamp;
     }
 
-    public float getRating() {
-        return rating;
+    public float getTotal_rating() {
+        return total_rating;
     }
 
-    public void setRating(float rating) {
-        this.rating = rating;
+    public void setTotal_rating(float total_rating) {
+        this.total_rating = total_rating;
     }
 
 
@@ -261,6 +284,13 @@ public class Books_data implements Serializable {
         res.put("reason_num",  reason_num);
         return res;
     }
+    public Map<String, Object> RatingMap(){
+        HashMap<String,Object> res = new HashMap<>();
+        res.put("id_rating",  id_rating);
+        res.put("id_user",id_user);
+        res.put("score",  score);
+        return res;
+    }
 
     public Map<String, Object> toMap(){
         HashMap<String,Object> result=new HashMap();
@@ -272,7 +302,7 @@ public class Books_data implements Serializable {
         result.put("authors",authors);
         result.put("category",category);
         result.put("imgUrl",imgUrl);
-        result.put("rating", rating);
+        result.put("total_rating", total_rating);
         result.put("timestamp", timestamp);
         result.put("status", status);
         result.put("publishStatus", publishStatus);

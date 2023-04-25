@@ -327,7 +327,58 @@ private void reportBooks(){
 
     private void addRating(){
 
+        //Nhận dữ liệu
+        Bundle bundle = getIntent().getExtras();
+        Books_data books_data= (Books_data) bundle.get("objectBooks");
+        //Lấy id quyển sách đó
+        String id_books= books_data.getId();
+        FirebaseDatabase database=FirebaseDatabase.getInstance();
+        FirebaseAuth auth = FirebaseAuth.getInstance();
+        DatabaseReference databaseReference=database.getReference().child("Books").child(id_books).child("rating");
+        progressDialog.show();
+        databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                boolean userExist =false;
+                for (DataSnapshot snapshot1: snapshot.getChildren()){
+                    Books_data books_data1= snapshot1.getValue(Books_data.class);
+                    String id_rating = books_data1.getId_rating();
+                    String  id_user=auth.getCurrentUser().getUid();
+                    //Nếu tồn tại id_user
+                    if (books_data1.getId_user().equals(id_user)){
+                        userExist= true;
+                        databaseReference.child(id_rating).child("score").setValue(userRate);
+                        progressDialog.dismiss();
+                        Toast.makeText(Read_Books.this, "Rating Successfull", Toast.LENGTH_SHORT).show();
 
+                        break;
+                    }
+
+                }
+
+                if (!userExist){
+                    //Nếu user chưa rating thì rating
+                    // Books_data books_data1= snapshot.getValue(Books_data.class);
+                    String id_rating = databaseReference.push().getKey();
+                    String  id_user=auth.getCurrentUser().getUid();
+                    Books_data books = new Books_data(id_rating,id_user,userRate);
+
+                    databaseReference.child(id_rating).setValue(books.RatingMap());
+
+                    progressDialog.dismiss();
+                    Toast.makeText(Read_Books.this, "Rating Successfull", Toast.LENGTH_SHORT).show();
+
+                    databaseReference.removeEventListener(this);
+                }
+
+
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
     }
 
 

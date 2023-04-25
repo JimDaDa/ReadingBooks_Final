@@ -89,9 +89,14 @@ public class DetailBooks extends AppCompatActivity {
             String getViewString = String.valueOf(Long.valueOf(getView));
             tv_view_details.setText(getViewString + " View");
             tv_status.setText(books_data.getStatus());
-            float getVote = books_data.getRating();
+            float getVote = books_data.getTotal_rating();
             String getVoteString = String.valueOf(getVote);
-            vote_tv.setText(getVoteString + " /5.0");
+            if (getVoteString == null){
+                vote_tv.setText("0.0/5.0");
+            }else {
+                vote_tv.setText(getVoteString + " /5.0");
+            }
+
 //            category_book.setText(books_data.getCategory());
 //            status_book.setText(books_data.getStatus());
             description_details.setText(books_data.getDescription());
@@ -411,4 +416,5 @@ private void RemoveBooks(){
                     }
                 }
             });
+
 }
