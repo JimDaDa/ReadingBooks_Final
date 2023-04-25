@@ -45,6 +45,8 @@ public class DetailBooks extends AppCompatActivity {
     private boolean isLiked ;
     private float avg = 0f;
 
+    private long mView ;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -55,7 +57,7 @@ public class DetailBooks extends AppCompatActivity {
         //setVisible();
         addLikeChangeListener();
         recieveData();
-        clickButtonRead();
+      //  clickButtonRead();
         clickButtonToSaveLibrary();
       // total_rating();
     }
@@ -126,7 +128,11 @@ public class DetailBooks extends AppCompatActivity {
                    public void onDataChange(@NonNull DataSnapshot snapshot) {
                        long curr_view =snapshot.getValue(Long.class);
                        //Tăng giá trị lên 1 và up lên database
-                       ref.setValue(curr_view+1);
+                       curr_view++;
+                       ref.setValue(curr_view);
+                       mView=curr_view;
+                       String getViewString = String.valueOf(Long.valueOf(mView));
+                       tv_view_details.setText(getViewString + " View");
 
                    }
 
@@ -141,7 +147,6 @@ public class DetailBooks extends AppCompatActivity {
                  startActivityForResult.launch(intent);
             }
         });
-
 
     }
     final ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
@@ -443,6 +448,7 @@ private void RemoveBooks(){
                 int count=0;
                 for (DataSnapshot snapshot1 : snapshot.getChildren()){
                     Books_data books_data1 = snapshot1.getValue(Books_data.class);
+
                     Float score = books_data1.getScore();
                     if (score!= null){
                         totalScore+=score;
@@ -461,6 +467,7 @@ private void RemoveBooks(){
               //  String getVoteString = String.valueOf(getVote);
                 vote_tv.setText(getVoteString);
                 //setResult(Activity.RESULT_OK);
+
             }
 
             @Override
@@ -468,5 +475,29 @@ private void RemoveBooks(){
 
             }
         });
+
+        clickButtonRead();
+
+
+//        database.getReference().child("Books").child(id_books).child("view").addValueEventListener(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                for (DataSnapshot dataSnapshot: snapshot.getChildren()){
+//                    Books_data view_data = dataSnapshot.getValue(Books_data.class);
+//                    String view = String.valueOf(view_data.getView());
+//
+//                    Log.d("", "view: "+view);
+//                    System.out.println(view);
+//                }
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+
     }
+
+
 }
