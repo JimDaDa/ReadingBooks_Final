@@ -43,6 +43,7 @@ public class DetailBooks extends AppCompatActivity {
     private TextView title_details, author_details, description_details, tv_view_details, tv_status, vote_tv;
     private Button read_books, fav_book;
     private boolean isLiked ;
+    private float avg = 0f;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -452,11 +453,14 @@ private void RemoveBooks(){
                 if (count>0){
                     float average = (float) totalScore / count ;
                     databaseReference.setValue(average);
-                    float getVote = books_data.getTotal_rating();
-                    String getVoteString = String.valueOf(getVote);
-                    vote_tv.setText(getVoteString + " /5.0");
-                    setResult(Activity.RESULT_OK);
+                    avg=average;
+
                 }
+              //  float getVote = books_data.getTotal_rating();
+                String getVoteString = String.format("%.1f / 5.0", avg);
+              //  String getVoteString = String.valueOf(getVote);
+                vote_tv.setText(getVoteString);
+                //setResult(Activity.RESULT_OK);
             }
 
             @Override
