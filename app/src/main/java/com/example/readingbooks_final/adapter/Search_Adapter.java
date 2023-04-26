@@ -54,6 +54,15 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHold
         if (books_data!= null){
             holder.title.setText(books_data.getTitle());
             holder.author.setText(books_data.getAuthors());
+            float getVote = books_data.getTotal_rating();
+            String getVoteString = String.valueOf(getVote);
+            if (getVoteString == null){
+                holder.rate.setText("0.0/5.0");
+            }else {
+                holder.rate.setText(getVoteString+ " /5.0");
+            }
+
+            holder.status.setText(books_data.getStatus());
             Glide.with(holder.imgBook.getContext()).load(books_data.getImgUrl()).transform(new CenterCrop(),new RoundedCorners(16)).into(holder.imgBook);
             holder.frame_book.setOnClickListener(new View.OnClickListener() {
                 @Override
@@ -105,7 +114,7 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHold
 
     public static class ViewHolder extends RecyclerView.ViewHolder{
         ImageView imgBook, imgFav;
-        TextView title, author, chap, rate;
+        TextView title, author, status, rate;
         RatingBar ratingBar;
         ConstraintLayout frame_book;
 
@@ -114,7 +123,7 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHold
             imgBook = itemView.findViewById(R.id.my_list_item);
             title = itemView.findViewById(R.id.mylist_item_title);
             author = itemView.findViewById(R.id.mylist_item_author);
-            chap = itemView.findViewById(R.id.mylist_item_chappter);
+            status = itemView.findViewById(R.id.mylist_item_status);
             rate = itemView.findViewById(R.id.mylist_item_score);
             frame_book= itemView.findViewById(R.id.frame_book);
 
