@@ -59,7 +59,7 @@ public class Home extends Fragment {
     //Khai báo các biến
     private Bundle savedInstanceState;
     private RecyclerView bookRecyclerView, hotRecyclerView, loveRecycler, allRecycler;
-    private SearchView search_view;
+
 
 
 
@@ -131,11 +131,11 @@ public class Home extends Fragment {
         hotRecyclerView= view.findViewById(R.id.hotRecycler);
         loveRecycler= view.findViewById(R.id.loveRecycler);
         allRecycler=view.findViewById(R.id.allRecycler);
-        search_view= view.findViewById(R.id.search_view);
+
         //Gọi hàm
         //AnhXa();
         setAnimation(R.anim.layout_slide);
-        Search();
+
         Home_Books();
         Hot_Books();
         Love_Books();
@@ -144,34 +144,8 @@ public class Home extends Fragment {
     }
     //Hàm ánh xạ view
 
-    private void Search(){
-
-        search_view.setQueryHint("Type here to search..");
-        search_view.setMaxWidth(Integer.MAX_VALUE);
 
 
-        search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
-            @Override
-            public boolean onQueryTextSubmit(String query) {
-                processSearch(query);
-                return false;
-            }
-
-            @Override
-            public boolean onQueryTextChange(String newText) {
-                processSearch(newText);
-                return false;
-            }
-        });
-    }
-    private void  processSearch(String search){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-       DatabaseReference ref= database.getReference("Books");
-        Query query = ref.orderByChild("publishStatus").equalTo("public");
-        FirebaseRecyclerOptions<Books_data> options = new FirebaseRecyclerOptions.Builder<Books_data>().setQuery(query.startAt(search).endAt(search+"\uf8ff"), Books_data.class).build();
-        //hot_book_adapter = new Hot_Book_Adapter(options);
-
-    }
 
     private void  Home_Books(){
         FirebaseAuth auth = FirebaseAuth.getInstance();
@@ -280,9 +254,7 @@ public class Home extends Fragment {
                     DatabaseReference databaseReference = database.getReference("Books").child(id_books);
 
 
-                    System.out.println();
-                    if (books_data.getCategory().contains("Detective") && books_data.getPublishStatus().contains("public")){
-
+                    if(books_data.getTotal_rating() >=4.0){
                         love_list.add(books_data);
                     }
                 }
@@ -358,6 +330,8 @@ public class Home extends Fragment {
         LayoutAnimationController layoutAnimationController= AnimationUtils.loadLayoutAnimation(getActivity(), animation);
         bookRecyclerView.setLayoutAnimation(layoutAnimationController);
         hotRecyclerView.setLayoutAnimation(layoutAnimationController);
+        loveRecycler.setLayoutAnimation(layoutAnimationController);
+        allRecycler.setLayoutAnimation(layoutAnimationController);
         setAdapterBookHead();
         setAdapterHotHead();
         setAdapterLoveBook();

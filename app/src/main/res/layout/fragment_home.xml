@@ -18,32 +18,12 @@
             android:layout_width="match_parent"
             android:layout_height="300dp"
             android:layout_marginStart="16dp"
-            android:layout_marginTop="20dp"
             android:layout_marginEnd="16dp"
-            app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toBottomOf="@+id/search_view" />
-
-        <androidx.appcompat.widget.SearchView
-            android:id="@+id/search_view"
-            android:layout_width="354dp"
-            android:layout_height="51dp"
-            android:layout_marginStart="16dp"
-            android:layout_marginEnd="16dp"
-            android:background="@drawable/edit_search"
-            android:drawableStart="@drawable/search"
-            android:drawablePadding="10dp"
-            android:hint="@string/action_search"
-            android:paddingStart="20dp"
             android:layout_marginTop="30dp"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintHorizontal_bias="0.478"
             app:layout_constraintStart_toStartOf="parent"
-            app:layout_constraintTop_toTopOf="parent"
-            app:layout_constraintBottom_toTopOf="@+id/view"
-            app:layout_constraintVertical_bias="0.28"
-            android:layout_marginBottom="20dp">
-        </androidx.appcompat.widget.SearchView>
+            app:layout_constraintTop_toTopOf="parent" />
+
 
         <TextView
             android:id="@+id/category_1"
