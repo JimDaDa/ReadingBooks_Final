@@ -44,6 +44,7 @@ import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
+import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
 
 import java.util.Objects;
@@ -131,26 +132,26 @@ public class login extends AppCompatActivity {
         });
 
     }
+
     //Hàm kiểm tra thông tin đăng nhập
     private void Login(){
 
         String user_email = email.getText().toString().trim();
         String user_password = password.getText().toString().trim();
         FirebaseAuth auth=FirebaseAuth.getInstance();
-        progressDialog.show();
+       // String id_user = auth.getCurrentUser().getUid();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+       // DatabaseReference reference = database.getReference().child("Users").child(id_user);
+
+
+
         if(user_email.isEmpty() || user_password.isEmpty())
         {
             Toast.makeText(getApplicationContext(), "Các thông tin không được bỏ trống", Toast.LENGTH_SHORT).show();
         }
-        if (user_email.contains("admin@gmail.com") && user_password.contains("123456789")){
-            progressDialog.dismiss();
-            Intent intent=new Intent(login.this, DashboardAdmin.class);
-            startActivity(intent);
-            Toast.makeText(login.this, "Login admin success", Toast.LENGTH_SHORT).show();
-            finishAffinity();
-        }
         else
         {
+            progressDialog.show();
             auth.signInWithEmailAndPassword(user_email,user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
@@ -161,11 +162,16 @@ public class login extends AppCompatActivity {
                             @Override
                             public void onDataChange(DataSnapshot dataSnapshot) {
                                 // Get Post object and use the values to update the UI
-                                User current_user = dataSnapshot.getValue(User.class);
-                                Intent intent=new Intent(login.this, MainActivity.class);
-                                startActivity(intent);
-                                Toast.makeText(login.this, "Login success", Toast.LENGTH_SHORT).show();
-                                finishAffinity();
+                                    User current_user = dataSnapshot.getValue(User.class);
+
+                                    Intent intent = new Intent(login.this, MainActivity.class);
+                                    startActivity(intent);
+                                    Toast.makeText(login.this, "Login success", Toast.LENGTH_SHORT).show();
+                                    finishAffinity();
+
+
+
+
 
                             }
                             //

@@ -148,7 +148,7 @@ public class show_info_book extends AppCompatActivity {
     private void addFile(){
         Intent intent= new Intent();
        // intent.setType("application/pdf");
-        intent.setType("*/*");
+        intent.setType("application/pdf");
       //  String [] mimetypes = {"application/pdf", "application/epub+zip"};
         intent.setAction(Intent.ACTION_GET_CONTENT);
        // intent.putExtra(Intent.EXTRA_MIME_TYPES,mimetypes);
@@ -334,15 +334,18 @@ public class show_info_book extends AppCompatActivity {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 final Books_data BookDataUpdate = snapshot.getValue(Books_data.class);
-                books_data.setPublishStatus(BookDataUpdate.getPublishStatus());
-                String publishStatus = books_data.getPublishStatus();
-                if (publishStatus.contains("private")){
-                    isPublish= false;
+                if (BookDataUpdate!= null){
+                    books_data.setPublishStatus(BookDataUpdate.getPublishStatus());
+                    String publishStatus = books_data.getPublishStatus();
+                    if (publishStatus.contains("private")){
+                        isPublish= false;
 
-                }else if (publishStatus.contains("public")){
-                    isPublish=true;
+                    }else if (publishStatus.contains("public")){
+                        isPublish=true;
+                    }
+                    invalidateOptionsMenu();
                 }
-                invalidateOptionsMenu();
+
             }
 
             @Override

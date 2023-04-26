@@ -55,13 +55,14 @@ import java.util.Objects;
 
 public class Account extends Fragment {
     private View view;
-    private ImageView image_ava,edit_profile, my_list_read;
+    private ImageView image_ava,edit_profile, my_list_read, btn_logout_account;
 
    // private ImageButton edit_profile;
     private TextView name_acc, email_acc,phone;
 
     private TextView deleteAcc;
     private ProgressDialog progressDialog;
+
 
 
     public static final String NAME_REPLY = "name";
@@ -168,6 +169,7 @@ public class Account extends Fragment {
         showUser();
         Update();
         deleteAccount();
+        Logout();
         return view;
     }
 
@@ -181,6 +183,7 @@ public class Account extends Fragment {
         mainActivity=(MainActivity) getActivity();
         deleteAcc= view.findViewById(R.id.deleteAcc);
         my_list_read=view.findViewById(R.id.my_list_read);
+        btn_logout_account=view.findViewById(R.id.btn_logout_account);
 
     }
     private void openList(){
@@ -189,6 +192,14 @@ public class Account extends Fragment {
             public void onClick(View view) {
                 Intent intent = new Intent(getActivity(), ListBook.class);
                 startActivity(intent);
+            }
+        });
+    }
+    public void Logout(){
+        btn_logout_account.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                mainActivity.LogOut();
             }
         });
     }

@@ -1,0 +1,183 @@
+@startuml
+
+/' diagram meta data start
+config=StructureConfiguration;
+{
+  "projectClassification": {
+    "searchMode": "OpenProject", // OpenProject, AllProjects
+    "includedProjects": "",
+    "pathEndKeywords": "*.impl",
+    "isClientPath": "",
+    "isClientName": "",
+    "isTestPath": "",
+    "isTestName": "",
+    "isMappingPath": "",
+    "isMappingName": "",
+    "isDataAccessPath": "",
+    "isDataAccessName": "",
+    "isDataStructurePath": "",
+    "isDataStructureName": "",
+    "isInterfaceStructuresPath": "",
+    "isInterfaceStructuresName": "",
+    "isEntryPointPath": "",
+    "isEntryPointName": "",
+    "treatFinalFieldsAsMandatory": false
+  },
+  "graphRestriction": {
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "removeByInheritance": "", // inheritance/annotation based filtering is done in a second step
+    "removeByAnnotation": "",
+    "removeByClassPackage": "", // cleanup the graph after inheritance/annotation based filtering is done
+    "removeByClassName": "",
+    "cutMappings": false,
+    "cutEnum": true,
+    "cutTests": true,
+    "cutClient": true,
+    "cutDataAccess": false,
+    "cutInterfaceStructures": false,
+    "cutDataStructures": false,
+    "cutGetterAndSetter": true,
+    "cutConstructors": true
+  },
+  "graphTraversal": {
+    "forwardDepth": 3,
+    "backwardDepth": 3,
+    "classPackageExcludeFilter": "",
+    "classPackageIncludeFilter": "",
+    "classNameExcludeFilter": "",
+    "classNameIncludeFilter": "",
+    "methodNameExcludeFilter": "",
+    "methodNameIncludeFilter": "",
+    "hideMappings": false,
+    "hideDataStructures": false,
+    "hidePrivateMethods": true,
+    "hideInterfaceCalls": true, // indirection: implementation -> interface (is hidden) -> implementation
+    "onlyShowApplicationEntryPoints": false, // root node is included
+    "useMethodCallsForStructureDiagram": "ForwardOnly" // ForwardOnly, BothDirections, No
+  },
+  "details": {
+    "aggregation": "GroupByClass", // ByClass, GroupByClass, None
+    "showClassGenericTypes": true,
+    "showMethods": true,
+    "showMethodParameterNames": true,
+    "showMethodParameterTypes": true,
+    "showMethodReturnType": true,
+    "showPackageLevels": 2,
+    "showDetailedClassStructure": true
+  },
+  "rootClass": "com.example.readingbooks_final.adapter.Search_Adapter",
+  "extensionCallbackMethod": "" // qualified.class.name#methodName - signature: public static String method(String)
+}
+diagram meta data end '/
+
+
+
+digraph g {
+    rankdir="TB"
+    splines=polyline
+    
+
+'nodes 
+subgraph cluster_1322970774 { 
+   	label=example
+	labeljust=l
+	fillcolor="#ececec"
+	style=filled
+   
+   subgraph cluster_2043782297 { 
+   	label=readingbooks_final
+	labeljust=l
+	fillcolor="#d8d8d8"
+	style=filled
+   
+   Books_data1285763395[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Books_data</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   authors: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   category: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   description: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   fileUrl: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id_chapter: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id_rating: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id_report: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   id_user: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   imgUrl: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   publishDate: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   publishStatus: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   reason_num: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   reason_rp: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   score: float [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   status: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   timestamp: Long [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   title: String [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   total_rating: float [1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   view: long [1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ RatingMap(): Map&lt;String, Object&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ ReportMap(): Map&lt;String, Object&gt;</TD></TR>
+<TR><TD ALIGN="LEFT" >+ toMap(): Map&lt;String, Object&gt;</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Search2140996120[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Search</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   allRecycler: RecyclerView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   all_book_adapter: Search_Adapter [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   all_books: List&lt;Books_data&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   search_view: SearchView [0..1]</TD></TR>
+<TR><TD ALIGN="LEFT" >#   startActivityForResult: ActivityResultLauncher&lt;Intent&gt; [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >- All_Books()</TD></TR>
+<TR><TD ALIGN="LEFT" >- Search_Books()</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onCreate(savedInstanceState: Bundle)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onCreateView(inflater: LayoutInflater, container: ViewGroup, savedInstanceState: Bundle): View</TD></TR>
+<TR><TD ALIGN="LEFT" >- openInforBook(books_data: Books_data)</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+
+Search_Adapter357264007[
+	label=<<TABLE BORDER="1" CELLBORDER="0" CELLPADDING="4" CELLSPACING="0">
+<TR><TD ALIGN="LEFT" >(C)Search_Adapter</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >-   dataList: List&lt;Books_data&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   dataListOld: List&lt;Books_data&gt; [0..*]</TD></TR>
+<TR><TD ALIGN="LEFT" >-   onClickAllBookListener: OnClickAllBookListener [0..1]</TD></TR>
+<HR/>
+<TR><TD ALIGN="LEFT" >+ onBindViewHolder(holder: ViewHolder, position: int)</TD></TR>
+<TR><TD ALIGN="LEFT" >+ onCreateViewHolder(parent: ViewGroup, viewType: int): ViewHolder</TD></TR>
+</TABLE>>
+	style=filled
+	margin=0
+	shape=plaintext
+	fillcolor="#FFFFFF"
+];
+} 
+} 
+
+'edges    
+Search2140996120 -> Search_Adapter357264007[label="all_book_adapter
+[0..1]"];
+Search_Adapter357264007 -> Books_data1285763395[label="dataList
+[0..*]"];
+Search_Adapter357264007 -> Books_data1285763395[label="dataListOld
+[0..*]"];
+    
+}
+@enduml
