@@ -5,7 +5,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="#FAF5EB"
+    android:background="@drawable/gradient_background"
     android:padding="1dp">
 
     <View
@@ -28,7 +28,6 @@
         app:layout_constraintBottom_toBottomOf="parent"
         tools:layout_editor_absoluteX="1dp" />
 
-
     <de.hdodenhof.circleimageview.CircleImageView
         android:id="@+id/avatar"
         android:layout_width="144dp"
@@ -43,8 +42,6 @@
         tools:layout_conversion_absoluteHeight="104dp"
         tools:layout_conversion_absoluteWidth="100dp" />
 
-
-
     <androidx.constraintlayout.widget.ConstraintLayout
         android:layout_width="366dp"
         android:layout_height="451dp"
@@ -55,6 +52,7 @@
         app:layout_constraintStart_toStartOf="@+id/view2"
         app:layout_constraintTop_toTopOf="@+id/view2"
         app:layout_constraintVertical_bias="0.278">
+
         <View
             android:id="@+id/view3"
             android:layout_width="366dp"
@@ -62,8 +60,7 @@
             app:layout_constraintTop_toTopOf="parent"
             app:layout_constraintStart_toStartOf="parent"
             app:layout_constraintEnd_toEndOf="parent"
-            app:layout_constraintBottom_toBottomOf="parent"
-        />
+            app:layout_constraintBottom_toBottomOf="parent" />
 
         <View
             android:id="@+id/view4"
@@ -179,7 +176,6 @@
                 app:layout_constraintTop_toTopOf="parent"
                 app:layout_constraintVertical_bias="0.533"
                 app:srcCompat="@drawable/pic1" />
-
         </androidx.constraintlayout.widget.ConstraintLayout>
 
         <TextView
@@ -279,10 +275,5 @@
             app:layout_constraintStart_toStartOf="@+id/view7"
             app:layout_constraintTop_toBottomOf="@+id/view8" />
 
-
     </androidx.constraintlayout.widget.ConstraintLayout>
-
-
-
-
 </androidx.constraintlayout.widget.ConstraintLayout>

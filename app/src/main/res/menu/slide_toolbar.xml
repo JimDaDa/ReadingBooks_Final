@@ -9,10 +9,7 @@
             android:title="@string/action_home"
             android:icon="@drawable/home"
             />
-        <!--        <item-->
-        <!--            android:id="@+id/action_search"-->
-        <!--            android:title="@string/action_search"-->
-        <!--            android:icon="@drawable/search" />-->
+
         <item
             android:id="@+id/action_books"
             android:title="@string/action_books"
@@ -24,10 +21,9 @@
             android:icon="@drawable/edit_square"
             />
         <item
-            android:id="@+id/action_category"
-            android:title="@string/action_category"
-            android:icon="@drawable/category"
-            />
+            android:id="@+id/action_search"
+            android:title="@string/action_search"
+            android:icon="@drawable/search" />
 
 
     </group>

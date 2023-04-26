@@ -15,14 +15,8 @@ import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
 import android.content.Intent;
-import android.graphics.Bitmap;
-import android.graphics.BitmapFactory;
-import android.net.Uri;
-import android.os.Build;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -32,14 +26,9 @@ import com.example.readingbooks_final.activity.login;
 import com.example.readingbooks_final.database.User;
 import com.example.readingbooks_final.fragment.Account;
 import com.example.readingbooks_final.fragment.Books;
-import com.example.readingbooks_final.fragment.Category;
+import com.example.readingbooks_final.fragment.Search;
 import com.example.readingbooks_final.fragment.Home;
 import com.example.readingbooks_final.fragment.Write;
-import com.google.android.gms.auth.api.identity.BeginSignInRequest;
-import com.google.android.gms.auth.api.signin.GoogleSignIn;
-import com.google.android.gms.auth.api.signin.GoogleSignInAccount;
-import com.google.android.gms.auth.api.signin.GoogleSignInClient;
-import com.google.android.gms.auth.api.signin.GoogleSignInOptions;
 import com.google.android.material.navigation.NavigationView;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -48,7 +37,6 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
 
-import java.util.Base64;
 import java.util.Objects;
 
 import nl.joery.animatedbottombar.AnimatedBottomBar;
@@ -66,7 +54,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int Books_Frag=2;
     private static final int Write_Frag=3;
 
-    private static final int Category_Frag=4;
+    private static final int Search_Frag =4;
     private static final int Profile_Frag=5;
 
 
@@ -155,10 +143,10 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                         Open_Write();
                         nav_top.getMenu().findItem(R.id.action_write).setChecked(true);
                         break;
-                    case (R.id.action_category):
+                    case (R.id.action_search):
 
-                        Open_Category();
-                        nav_top.getMenu().findItem(R.id.action_category).setChecked(true);
+                        Open_Search();
+                        nav_top.getMenu().findItem(R.id.action_search).setChecked(true);
 
 
                         break;
@@ -205,12 +193,12 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         }
     }
 
-    public void Open_Category(){
+    public void Open_Search(){
         //Nếu màn hình hiện tại không phải màn hình Notifications
-        if(current!=Category_Frag){
+        if(current!= Search_Frag){
             //Mở Fragment Notifications lên
             displayView(3);
-            current=Category_Frag;
+            current= Search_Frag;
         }
     }
 
@@ -312,9 +300,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 navigationView.selectTabById(R.id.action_write,true);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
-            case (R.id.action_category):
-                Open_Category();
-                navigationView.selectTabById(R.id.action_category,true);
+            case (R.id.action_search):
+                Open_Search();
+                navigationView.selectTabById(R.id.action_search,true);
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
             case (R.id.action_account):
@@ -362,7 +350,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 replaceFragment(new Write(), position);
                 break;
             case 3:
-                replaceFragment(new Category(), position);
+                replaceFragment(new Search(), position);
                 break;
             case 4:
                 replaceFragment(account, position);

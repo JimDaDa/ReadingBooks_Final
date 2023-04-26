@@ -22,7 +22,6 @@ import android.view.animation.LayoutAnimationController;
 
 import com.example.readingbooks_final.R;
 import com.example.readingbooks_final.activity.DetailBooks;
-import com.example.readingbooks_final.adapter.All_Book_Adapter;
 import com.example.readingbooks_final.adapter.Search_Adapter;
 import com.example.readingbooks_final.call_interface.OnClickAllBookListener;
 import com.example.readingbooks_final.database.Books_data;
@@ -39,7 +38,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class Category extends Fragment {
+public class Search extends Fragment {
 
 
     private SearchView search_view;
@@ -58,7 +57,7 @@ public class Category extends Fragment {
 
     });
 
-    public Category() {
+    public Search() {
         // Required empty public constructor
     }
 
@@ -74,7 +73,7 @@ public class Category extends Fragment {
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         // Inflate the layout for this fragment
-        View view = inflater.inflate(R.layout.fragment_notifications, container, false);
+        View view = inflater.inflate(R.layout.fragment_search, container, false);
         search_view= view.findViewById(R.id.search_view);
         allRecycler=view.findViewById(R.id.allRecyclersearch);
 
