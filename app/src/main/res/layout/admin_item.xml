@@ -5,7 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="175dp"
     android:layout_marginTop="15dp"
-    android:id="@+id/library_frame">
+    android:id="@+id/admin_frame">
 
 
     <ImageView
@@ -21,8 +21,8 @@
 
     <ImageView
         android:id="@+id/my_list_item"
-        android:layout_width="100dp"
-        android:layout_height="150dp"
+        android:layout_width="60dp"
+        android:layout_height="60dp"
         android:layout_marginStart="24dp"
         android:layout_marginTop="8dp"
         android:layout_marginBottom="8dp"
@@ -30,7 +30,7 @@
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/book1" />
+        app:srcCompat="@drawable/admin" />
 
     <TextView
         android:id="@+id/mylist_item_title"
@@ -45,7 +45,7 @@
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/josefin"
         android:paddingLeft="5dp"
-        android:text="Harry Potter và Hòn đá Phù Thủy"
+        android:text="Total: "
         android:textColor="@color/nau"
         android:textSize="16sp"
         android:textStyle="bold"
@@ -66,7 +66,7 @@
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/ac"
         android:paddingLeft="5dp"
-        android:text="J.K Rowling"
+        android:text="Lý do"
         android:textColor="@color/nau"
         app:layout_constraintEnd_toEndOf="@+id/cover4"
         app:layout_constraintStart_toEndOf="@+id/my_list_item"
@@ -74,21 +74,20 @@
 
     <TextView
         android:id="@+id/mylist_item_score"
-        android:layout_width="108dp"
-        android:layout_height="25dp"
+        android:layout_width="62dp"
+        android:layout_height="24dp"
         android:layout_marginStart="16dp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="16dp"
-        android:drawableLeft="@drawable/rate"
-        android:drawablePadding="8dp"
-        android:fontFamily="@font/ac"
-        android:gravity="center_vertical"
-        android:text="@string/score"
-        android:textColor="@color/nau"
         android:autoSizeMaxTextSize="14sp"
         android:autoSizeMinTextSize="10sp"
         android:autoSizeStepGranularity="1sp"
         android:autoSizeTextType="uniform"
+        android:drawablePadding="8dp"
+        android:fontFamily="@font/ac"
+        android:gravity="center_vertical"
+        android:text="id_book"
+        android:textColor="@color/nau"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toEndOf="@+id/my_list_item"
         app:layout_constraintTop_toBottomOf="@+id/mylist_item_author"
@@ -96,21 +95,32 @@
 
     <TextView
         android:id="@+id/mylist_item_chappter"
-        android:layout_width="134dp"
-        android:layout_height="25dp"
-        android:layout_marginStart="6dp"
+        android:layout_width="105dp"
+        android:layout_height="29dp"
+        android:layout_marginStart="28dp"
         android:layout_marginTop="6dp"
         android:layout_marginBottom="16dp"
-        android:fontFamily="@font/ac"
-        android:gravity="center_vertical"
-        android:text="7 chương"
         android:autoSizeMaxTextSize="14sp"
         android:autoSizeMinTextSize="10sp"
         android:autoSizeStepGranularity="1sp"
         android:autoSizeTextType="uniform"
+        android:fontFamily="@font/ac"
+        android:gravity="center_vertical"
+        android:text="id_user"
         android:textColor="@color/nau"
         app:layout_constraintBottom_toBottomOf="@+id/cover4"
         app:layout_constraintStart_toEndOf="@+id/mylist_item_score"
-        app:layout_constraintTop_toBottomOf="@+id/mylist_item_author" />
+        app:layout_constraintTop_toBottomOf="@+id/mylist_item_author"
+        app:layout_constraintVertical_bias="1.0" />
+
+    <Button
+        android:id="@+id/button2"
+        android:layout_width="50dp"
+        android:layout_height="50dp"
+        android:text="+"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="@+id/cover4"
+        app:layout_constraintHorizontal_bias="0.118"
+        app:layout_constraintStart_toEndOf="@+id/mylist_item_chappter" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

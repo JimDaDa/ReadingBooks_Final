@@ -25,6 +25,7 @@ import android.widget.Toast;
 
 import com.example.readingbooks_final.MainActivity;
 import com.example.readingbooks_final.R;
+import com.example.readingbooks_final.admin.DashboardAdmin;
 import com.example.readingbooks_final.database.User;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -140,6 +141,13 @@ public class login extends AppCompatActivity {
         if(user_email.isEmpty() || user_password.isEmpty())
         {
             Toast.makeText(getApplicationContext(), "Các thông tin không được bỏ trống", Toast.LENGTH_SHORT).show();
+        }
+        if (user_email.contains("admin@gmail.com") && user_password.contains("123456789")){
+            progressDialog.dismiss();
+            Intent intent=new Intent(login.this, DashboardAdmin.class);
+            startActivity(intent);
+            Toast.makeText(login.this, "Login admin success", Toast.LENGTH_SHORT).show();
+            finishAffinity();
         }
         else
         {

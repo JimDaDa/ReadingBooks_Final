@@ -1,13 +1,9 @@
 package com.example.readingbooks_final.adapter;
 
-import android.content.Context;
-import android.content.Intent;
-import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
-import android.widget.RatingBar;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -18,8 +14,6 @@ import com.bumptech.glide.Glide;
 import com.bumptech.glide.load.resource.bitmap.CenterCrop;
 import com.bumptech.glide.load.resource.bitmap.RoundedCorners;
 import com.example.readingbooks_final.R;
-import com.example.readingbooks_final.activity.ListBook;
-import com.example.readingbooks_final.activity.show_info_book;
 import com.example.readingbooks_final.call_interface.OnClickItemBookListener;
 import com.example.readingbooks_final.database.Books_data;
 
@@ -83,7 +77,7 @@ public class List_Book_Adapter extends RecyclerView.Adapter<List_Book_Adapter.Vi
 
         ImageView imgBook, imgFav;
         TextView title, author, chap, rate;
-        RatingBar ratingBar;
+
         ConstraintLayout frame_book;
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
