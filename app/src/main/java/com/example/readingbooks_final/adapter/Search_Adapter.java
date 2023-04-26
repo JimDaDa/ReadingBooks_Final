@@ -3,6 +3,8 @@ package com.example.readingbooks_final.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Filter;
+import android.widget.Filterable;
 import android.widget.ImageView;
 import android.widget.RatingBar;
 import android.widget.TextView;
@@ -21,14 +23,23 @@ import com.example.readingbooks_final.database.Books_data;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHolder>{
+public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHolder> implements Filterable {
     private List<Books_data> dataList= new ArrayList<>();
+    private final List<Books_data> dataListOld;
+
+
     private OnClickAllBookListener onClickAllBookListener;
 
     public Search_Adapter(List<Books_data> dataList, OnClickAllBookListener onClickAllBookListener) {
         this.dataList = dataList;
+        this.dataListOld = dataList;
         this.onClickAllBookListener = onClickAllBookListener;
     }
+
+//    public Search_Adapter(List<Books_data> dataList, OnClickAllBookListener onClickAllBookListener) {
+//        this.dataList = dataList;
+//        this.onClickAllBookListener = onClickAllBookListener;
+//    }
 
     @NonNull
     @Override
@@ -57,6 +68,39 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHold
     @Override
     public int getItemCount() {
         return dataList.size();
+    }
+
+    @Override
+    public Filter getFilter() {
+        return new Filter() {
+            @Override
+            protected FilterResults performFiltering(CharSequence constraint) {
+                String searchKey = constraint.toString();
+                if (searchKey.isEmpty()){
+                    dataList= dataListOld;
+                }
+                else {
+                    List<Books_data> list = new ArrayList<>();
+                    for (Books_data books_data1: dataListOld){
+                        if (books_data1.getTitle().toLowerCase().contains(searchKey.toLowerCase()))
+                            list.add(books_data1);
+                    }
+                    dataList = list;
+                }
+                FilterResults filterResults = new FilterResults();
+                filterResults.values = dataList;
+                return filterResults;
+            }
+
+            @Override
+            protected void publishResults(CharSequence constraint, FilterResults results) {
+
+                    dataList= (List<Books_data>) results.values;
+                    notifyDataSetChanged();
+
+
+            }
+        };
     }
 
     public static class ViewHolder extends RecyclerView.ViewHolder{

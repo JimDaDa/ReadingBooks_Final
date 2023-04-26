@@ -1,5 +1,6 @@
 package com.example.readingbooks_final.fragment;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
@@ -14,6 +15,7 @@ import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -47,6 +49,8 @@ public class Search extends Fragment {
 
     private List<Books_data> all_books= new ArrayList<>();
 
+   // private List<Books_data> dataListOld = new ArrayList<>();
+
 
 
     private Search_Adapter all_book_adapter = new Search_Adapter(all_books, new OnClickAllBookListener() {
@@ -78,14 +82,15 @@ public class Search extends Fragment {
         allRecycler=view.findViewById(R.id.allRecyclersearch);
 
         setAnimation(R.anim.layout_slide);
-        Search();
+        Search_Books();
         All_Books();
         return view;
 
 
     }
 
-    private void Search(){
+
+    private void Search_Books(){
 
         search_view.setQueryHint("Type here to search..");
         search_view.setMaxWidth(Integer.MAX_VALUE);
@@ -94,26 +99,43 @@ public class Search extends Fragment {
         search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {
             @Override
             public boolean onQueryTextSubmit(String query) {
-                processSearch(query);
+                all_book_adapter.getFilter().filter(query);
                 return false;
             }
 
             @Override
             public boolean onQueryTextChange(String newText) {
-                processSearch(newText);
+
+                all_book_adapter.getFilter().filter(newText);
                 return false;
             }
         });
     }
 
-    private void  processSearch(String search){
-        FirebaseDatabase database = FirebaseDatabase.getInstance();
-        DatabaseReference ref= database.getReference("Books");
-        Query query = ref.orderByChild("publishStatus").equalTo("public");
-        FirebaseRecyclerOptions<Books_data> options = new FirebaseRecyclerOptions.Builder<Books_data>().setQuery(query.startAt(search).endAt(search+"\uf8ff"), Books_data.class).build();
-        //hot_book_adapter = new Hot_Book_Adapter(options);
-
-    }
+//    private void  processSearch(String search){
+//        FirebaseDatabase database = FirebaseDatabase.getInstance();
+//        DatabaseReference ref= database.getReference("Books");
+//        Query query = ref.orderByChild("publishStatus").equalTo("public");
+//        Query searchQ = query.startAt(search).endAt(search+"\uf8ff");
+//
+//
+//        searchQ.addListenerForSingleValueEvent(new ValueEventListener() {
+//            @Override
+//            public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                FirebaseRecyclerOptions<Books_data> options = new FirebaseRecyclerOptions.Builder<Books_data>()
+//                        .setQuery(searchQ, Books_data.class)
+//                        .build();
+//                Log.d("", "search "+options);
+//            }
+//
+//            @Override
+//            public void onCancelled(@NonNull DatabaseError error) {
+//
+//            }
+//        });
+//
+//
+//    }
     private void setAdapterBooks(){
         allRecycler.setLayoutManager(new LinearLayoutManager(getContext(), LinearLayoutManager.VERTICAL,false));
         allRecycler.setHasFixedSize(true);
