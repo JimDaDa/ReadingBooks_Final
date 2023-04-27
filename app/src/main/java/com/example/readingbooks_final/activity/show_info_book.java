@@ -30,6 +30,8 @@ import com.example.readingbooks_final.custom.CustomDialogProgress;
 import com.example.readingbooks_final.database.Books_data;
 import com.example.readingbooks_final.database.User;
 import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -473,19 +475,19 @@ public class show_info_book extends AppCompatActivity {
                 String id_books= books_data.getId();
                 FirebaseDatabase database=FirebaseDatabase.getInstance();
                 DatabaseReference databaseReference=database.getReference().child("Books").child(id_books);
-                databaseReference.removeValue(new DatabaseReference.CompletionListener() {
+                databaseReference.setValue(null).addOnCompleteListener(new OnCompleteListener<Void>() {
                     @Override
-                    public void onComplete(@Nullable DatabaseError error, @NonNull DatabaseReference ref) {
+                    public void onComplete(@NonNull Task<Void> task) {
                         progressDialog.dismiss();
                         Intent intent = new Intent(show_info_book.this, ListBook.class);
                         intent.putExtra("removeId",books_data.getId());
                         Toast.makeText(show_info_book.this, "Delete Success", Toast.LENGTH_SHORT).show();
                         setResult(RESULT_OK,intent);
                         finish();
-                        //startActivity(intent);
 
                     }
                 });
+
 
             }
         });
