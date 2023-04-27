@@ -9,6 +9,7 @@ import static com.example.readingbooks_final.activity.Write_tab2.TITLE;
 
 import android.app.Activity;
 import android.content.Intent;
+import android.graphics.Color;
 import android.os.Bundle;
 
 import androidx.activity.result.ActivityResult;
@@ -18,8 +19,11 @@ import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.fragment.app.Fragment;
 
 import android.view.LayoutInflater;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 
 import com.example.readingbooks_final.MainActivity;
@@ -36,8 +40,9 @@ public class Write extends Fragment {
     private MainActivity mainActivity;
     private static final int Write_Frag=1;
 
-    private static final int List_Frag=2;
+
     private int current =Write_Frag;
+
 
 
 
@@ -70,12 +75,16 @@ public class Write extends Fragment {
         create_story= view.findViewById(R.id.create_story);
         edit_story=view.findViewById(R.id.edit_story);
 
+
     }
 
     private void createStory(){
         create_story.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.btn_click_anim));
+
+
                 Intent intent = new Intent(view.getContext(), Write_tab2.class);
                // startActivity(intent);
                 startActivityForResult.launch(intent);
@@ -90,6 +99,7 @@ public class Write extends Fragment {
         edit_story.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.btn_click_anim));
                     //Hiển thị trang chứa truyện vừa tạo
                     openListBook();
             }

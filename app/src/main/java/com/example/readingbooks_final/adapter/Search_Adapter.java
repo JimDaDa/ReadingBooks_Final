@@ -3,6 +3,7 @@ package com.example.readingbooks_final.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Filter;
 import android.widget.Filterable;
 import android.widget.ImageView;
@@ -67,6 +68,7 @@ public class Search_Adapter extends RecyclerView.Adapter<Search_Adapter.ViewHold
             holder.frame_book.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    v.startAnimation(AnimationUtils.loadAnimation(v.getContext(), R.anim.btn_click_anim));
                     onClickAllBookListener.OnClickAllBookListener(books_data);
                 }
             });

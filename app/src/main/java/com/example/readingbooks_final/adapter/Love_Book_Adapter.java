@@ -3,6 +3,7 @@ package com.example.readingbooks_final.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -48,6 +49,7 @@ public class Love_Book_Adapter extends RecyclerView.Adapter<Love_Book_Adapter.Vi
             holder.hotFrame.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    v.startAnimation(AnimationUtils.loadAnimation(v.getContext(), R.anim.btn_click_anim));
                     onClickLoveBookListener.OnClickLoveBookListener(books_data);
                 }
             });

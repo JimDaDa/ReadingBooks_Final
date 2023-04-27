@@ -2,6 +2,7 @@ package com.example.readingbooks_final.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 
@@ -54,6 +55,7 @@ public class Hot_Book_Adapter extends RecyclerView.Adapter<Hot_Book_Adapter.View
             holder.hotFrame.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    v.startAnimation(AnimationUtils.loadAnimation(v.getContext(), R.anim.btn_click_anim));
                    onClickHotBookListener.onClickHotBook(books_data);
                 }
             });

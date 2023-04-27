@@ -23,6 +23,7 @@ import android.os.Bundle;
 import android.provider.MediaStore;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -32,6 +33,7 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.readingbooks_final.R;
+import com.example.readingbooks_final.custom.CustomDialogProgress;
 import com.example.readingbooks_final.database.Books_data;
 import com.example.readingbooks_final.database.User;
 import com.example.readingbooks_final.fragment.Account;
@@ -65,6 +67,8 @@ public class profile extends AppCompatActivity {
 
     private ImageButton edit_ava;
 
+    private CustomDialogProgress dialogProgress;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -94,6 +98,7 @@ public class profile extends AppCompatActivity {
         fullname=findViewById(R.id.fullname_pro5);
         email_acc=findViewById(R.id.acc_email_profile);
         email.setEnabled(false);
+        dialogProgress = new CustomDialogProgress(profile.this);
 
 
     }
@@ -128,6 +133,7 @@ public void clickSave(){
     btnSave.setOnClickListener(new View.OnClickListener() {
         @Override
         public void onClick(View v) {
+            v.startAnimation(AnimationUtils.loadAnimation(profile.this, R.anim.btn_click_anim));
             Bundle bundle = getIntent().getExtras();
             if (bundle!= null){
                 User user= (User) bundle.get("objectUser");
@@ -137,6 +143,7 @@ public void clickSave(){
                 DatabaseReference databaseReference=database.getReference().child("Users").child(id_user);
                 String content_name= name.getText().toString().trim();
                 String content_phone= phone.getText().toString().trim();
+                dialogProgress.show();
                 databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -145,6 +152,7 @@ public void clickSave(){
                             //Update profile
                             databaseReference.child("fullname").setValue(content_name);
                             databaseReference.child("phone").setValue(content_phone);
+                            dialogProgress.dismiss();
                             Toast.makeText(profile.this, "Update Success", Toast.LENGTH_SHORT).show();
                             //String name_up= String.valueOf(databaseReference.child("fullname").setValue(content_name));
                           //  String phone_up= String.valueOf(databaseReference.child("phone").setValue(content_phone));
@@ -184,7 +192,7 @@ public void clickSave(){
             @Override
             public void onClick(View v) {
 
-
+                v.startAnimation(AnimationUtils.loadAnimation(profile.this, R.anim.btn_click_anim));
                 Intent intent= new Intent(Intent.ACTION_PICK, MediaStore.Images.Media.EXTERNAL_CONTENT_URI);
                launcherActivityAva.launch(intent);
                // startActivityForResult(intent,300);
@@ -229,12 +237,14 @@ public void clickSave(){
         StorageReference storageReference = FirebaseStorage.getInstance().getReference().child("avatar").child(filename);
 
         //Upload ảnh lên firebase storage
+        dialogProgress.show();
         storageReference.putFile(photo).addOnSuccessListener(new OnSuccessListener<UploadTask.TaskSnapshot>() {
             @Override
             public void onSuccess(UploadTask.TaskSnapshot taskSnapshot) {
                 storageReference.getDownloadUrl().addOnSuccessListener(new OnSuccessListener<Uri>() {
                     @Override
                     public void onSuccess(Uri uri) {
+                        dialogProgress.dismiss();
                         String cover = uri.toString();
                         FirebaseDatabase database=FirebaseDatabase.getInstance();
                         DatabaseReference databaseReference=database.getReference("Users").child(id_user);

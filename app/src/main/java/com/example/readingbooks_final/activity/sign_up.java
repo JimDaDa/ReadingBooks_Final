@@ -7,12 +7,15 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.readingbooks_final.MainActivity;
 import com.example.readingbooks_final.R;
+import com.example.readingbooks_final.custom.CustomDialogProgress;
 import com.example.readingbooks_final.database.User;
 import com.google.android.gms.tasks.OnCompleteListener;
 import com.google.android.gms.tasks.Task;
@@ -31,6 +34,7 @@ public class sign_up extends AppCompatActivity {
     private TextView layout_login;
     private ProgressDialog progressDialog;
     private DatabaseReference mDatabase;
+    private CustomDialogProgress dialogProgress;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -50,11 +54,13 @@ public class sign_up extends AppCompatActivity {
         layout_login=findViewById(R.id.layout_login);
         progressDialog=new ProgressDialog(this);
         mDatabase = FirebaseDatabase.getInstance().getReference();
+        dialogProgress = new CustomDialogProgress(sign_up.this);
     }
     private void click_Login(){
         layout_login.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(sign_up.this, R.anim.btn_click_anim));
                 Intent intent =new Intent(sign_up.this,login.class);
                 startActivity(intent);
             }
@@ -65,6 +71,7 @@ public class sign_up extends AppCompatActivity {
         btnSignUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(AnimationUtils.loadAnimation(sign_up.this, R.anim.btn_click_anim));
                 dangKyTaiKhoan();
             }
 
@@ -93,13 +100,15 @@ public class sign_up extends AppCompatActivity {
             Toast.makeText(getApplicationContext(), "Nhập lại mật khẩu không trùng khớp", Toast.LENGTH_SHORT).show();
         }
         else {
-            progressDialog.show();
+         //   progressDialog.show();
+            dialogProgress.show();
             FirebaseAuth auth = FirebaseAuth.getInstance();
 
             auth.createUserWithEmailAndPassword(user_email, password).addOnCompleteListener(this, new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    progressDialog.dismiss();
+                  //  progressDialog.dismiss();
+                    dialogProgress.dismiss();
                     if (task.isSuccessful()) {
                         // Đăng ký thành công, ứng dụng sẽ gửi email xác thực, sau đó chuyển về trang đăng nhập
                         sendEmailVertification();

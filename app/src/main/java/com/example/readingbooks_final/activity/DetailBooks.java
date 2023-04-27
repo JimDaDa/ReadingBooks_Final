@@ -20,6 +20,7 @@ import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -114,6 +115,8 @@ public class DetailBooks extends AppCompatActivity {
         read_books.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                v.startAnimation(AnimationUtils.loadAnimation(DetailBooks.this, R.anim.btn_click_anim));
                 Bundle bundle = getIntent().getExtras();
                 Books_data books_data= (Books_data) bundle.get("objectBooks");
                 String books_id = books_data.getId();
@@ -186,6 +189,8 @@ public class DetailBooks extends AppCompatActivity {
         fav_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+
+                v.startAnimation(AnimationUtils.loadAnimation(DetailBooks.this, R.anim.btn_click_anim));
 
                 if(!isLiked){
                     AlertDialog.Builder builder = new AlertDialog.Builder(DetailBooks.this);

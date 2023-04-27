@@ -110,9 +110,8 @@
                     android:elevation="1dp"
                     android:ems="10"
                     android:hint="@string/choose_category"
-                    android:inputType="textPersonName"
                     android:paddingLeft="10dp"
-                    android:textSize="12sp" />
+                    android:textSize="16sp" />
             </com.google.android.material.textfield.TextInputLayout>
 
             <com.google.android.material.textfield.TextInputLayout
@@ -137,9 +136,8 @@
                     android:elevation="1dp"
                     android:ems="10"
                     android:hint="Choose Status"
-                    android:inputType="textPersonName"
                     android:paddingLeft="10dp"
-                    android:textSize="12sp"
+                    android:textSize="16sp"
                     app:layout_constraintBottom_toTopOf="@+id/tv_status_book"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintHorizontal_bias="0.473"

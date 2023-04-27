@@ -23,6 +23,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
 import android.widget.TextView;
@@ -190,6 +191,7 @@ public class Account extends Fragment {
         my_list_read.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.btn_click_anim));
                 Intent intent = new Intent(getActivity(), ListBook.class);
                 startActivity(intent);
             }
@@ -199,6 +201,7 @@ public class Account extends Fragment {
         btn_logout_account.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.btn_click_anim));
                 mainActivity.LogOut();
             }
         });
@@ -259,6 +262,7 @@ public class Account extends Fragment {
         edit_profile.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.btn_click_anim));
                 FirebaseAuth  user= FirebaseAuth.getInstance();
                 if (user!=null){
                     String userId = user.getUid();
@@ -349,6 +353,7 @@ public class Account extends Fragment {
         deleteAcc.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.btn_click_anim));
                 showConfirmDialog();
 
 

@@ -3,6 +3,7 @@ package com.example.readingbooks_final.adapter;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -59,6 +60,7 @@ public class Library_Adapter extends RecyclerView.Adapter<Library_Adapter.ViewHo
             holder.library_frame.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
+                    v.startAnimation(AnimationUtils.loadAnimation(v.getContext(), R.anim.btn_click_anim));
                     onClickLibraryBook.onClickLibraryBook(books_data);
                 }
             });

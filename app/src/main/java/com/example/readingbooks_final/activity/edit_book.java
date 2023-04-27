@@ -23,12 +23,14 @@ import android.provider.MediaStore;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.EditText;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.readingbooks_final.R;
+import com.example.readingbooks_final.custom.CustomDialogProgress;
 import com.example.readingbooks_final.database.Books_data;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -52,7 +54,7 @@ public class edit_book extends AppCompatActivity {
     private String[] category = new String[] {"Science Fiction", "Romantic", "Non-Fiction", "Horror", "Detective", "Thriller", "History", "Story", "Action"};
     private String[] status = new String[] {"Completed", "Incomplete"};
     private RoundedImageView cover_edit;
-    private ProgressDialog progressDialog;
+    private CustomDialogProgress progressDialog;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -76,9 +78,8 @@ public class edit_book extends AppCompatActivity {
         status_book=findViewById(R.id.edit_status_book);
         description_book=findViewById(R.id.edit_description_book);
         cover_edit=findViewById(R.id.cover_edit);
-        progressDialog= new ProgressDialog(this);
-        progressDialog.setMessage("Please Wait..");
-        progressDialog.setCancelable(false);
+        progressDialog= new CustomDialogProgress(this);
+
     }
 
     @Override
@@ -93,6 +94,8 @@ public class edit_book extends AppCompatActivity {
             onBackPressed();
         }
         if(item.getItemId()== R.id.update_book){
+            View v = findViewById(R.id.update_book);
+            v.startAnimation(AnimationUtils.loadAnimation(edit_book.this, R.anim.btn_click_anim));
             saveEdit();
         }
         return super.onOptionsItemSelected(item);
@@ -117,6 +120,7 @@ public class edit_book extends AppCompatActivity {
         category_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(edit_book.this, R.anim.btn_click_anim));
                 AlertDialog.Builder builder = new AlertDialog.Builder(edit_book.this);
                 builder.setTitle("Select category");
                 builder.setSingleChoiceItems(category, 2, new DialogInterface.OnClickListener() {
@@ -137,6 +141,7 @@ public class edit_book extends AppCompatActivity {
         status_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(edit_book.this, R.anim.btn_click_anim));
                 AlertDialog.Builder builder = new AlertDialog.Builder(edit_book.this);
                 builder.setTitle("Select status");
                 builder.setSingleChoiceItems(status, 2, new DialogInterface.OnClickListener() {
@@ -166,6 +171,7 @@ public class edit_book extends AppCompatActivity {
             String content_category= category_book.getText().toString().trim();
             String content_status= status_book.getText().toString().trim();
             String content_description= description_book.getText().toString().trim();
+
            databaseReference.addValueEventListener(new ValueEventListener() {
                @Override
                public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -211,6 +217,7 @@ public class edit_book extends AppCompatActivity {
         cover_edit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(edit_book.this, R.anim.btn_click_anim));
                 String content_title = title_book.getText().toString().trim();
                 String content_author = author_book.getText().toString().trim();
                 String content_category = category_book.getText().toString().trim();

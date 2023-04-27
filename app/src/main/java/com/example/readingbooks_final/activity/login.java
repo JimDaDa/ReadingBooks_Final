@@ -17,6 +17,7 @@ import android.net.Uri;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
@@ -26,6 +27,7 @@ import android.widget.Toast;
 import com.example.readingbooks_final.MainActivity;
 import com.example.readingbooks_final.R;
 import com.example.readingbooks_final.admin.DashboardAdmin;
+import com.example.readingbooks_final.custom.CustomDialogProgress;
 import com.example.readingbooks_final.database.User;
 import com.google.android.gms.auth.api.identity.BeginSignInRequest;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -59,6 +61,7 @@ public class login extends AppCompatActivity {
 
     private TextView forgot;
     private ProgressDialog progressDialog;
+    private CustomDialogProgress dialogProgress ;
     private FirebaseAuth mAuth;
 
     @Override
@@ -95,6 +98,7 @@ public class login extends AppCompatActivity {
         forgot=findViewById(R.id.forgot_pass);
         progressDialog=new ProgressDialog(this);
         mAuth = FirebaseAuth.getInstance();
+        dialogProgress = new CustomDialogProgress(login.this);
 
     }
 
@@ -105,6 +109,7 @@ public class login extends AppCompatActivity {
         forgot.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(login.this, R.anim.btn_click_anim));
                 Intent intent =new Intent(login.this, forget_pass.class);
                 startActivity(intent);
             }
@@ -115,6 +120,7 @@ public class login extends AppCompatActivity {
         layout_signUp.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                view.startAnimation(AnimationUtils.loadAnimation(login.this, R.anim.btn_click_anim));
                 Intent intent =new Intent(login.this,sign_up.class);
                 startActivity(intent);
             }
@@ -127,6 +133,7 @@ public class login extends AppCompatActivity {
         btnLogin.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(login.this, R.anim.btn_click_anim));
                 Login();
             }
         });
@@ -151,11 +158,13 @@ public class login extends AppCompatActivity {
         }
         else
         {
-            progressDialog.show();
+//            progressDialog.show();
+            dialogProgress.show();
             auth.signInWithEmailAndPassword(user_email,user_password).addOnCompleteListener(new OnCompleteListener<AuthResult>() {
                 @Override
                 public void onComplete(@NonNull Task<AuthResult> task) {
-                    progressDialog.dismiss();
+                  //  progressDialog.dismiss();
+                    dialogProgress.dismiss();
                     if(task.isSuccessful())
                     {
                         ValueEventListener postListener = new ValueEventListener() {

@@ -2,6 +2,7 @@ package com.example.readingbooks_final.adapter;
 
 import android.view.LayoutInflater;
 import android.view.ViewGroup;
+import android.view.animation.AnimationUtils;
 import android.widget.ImageView;
 
 import androidx.annotation.NonNull;
@@ -52,6 +53,7 @@ public class Trending_Book_Adapter extends RecyclerView.Adapter<Trending_Book_Ad
          holder.trendingFrame.setOnClickListener(new View.OnClickListener() {
              @Override
              public void onClick(View v) {
+                 v.startAnimation(AnimationUtils.loadAnimation(v.getContext(), R.anim.btn_click_anim));
                  onClickHomeBookListener.onClickTrendingBook(books_data);
              }
          });

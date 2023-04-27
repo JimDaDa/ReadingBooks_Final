@@ -20,6 +20,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.provider.SyncStateContract;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
@@ -29,6 +30,7 @@ import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
 import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
 import android.widget.RatingBar;
@@ -37,8 +39,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.readingbooks_final.R;
+import com.example.readingbooks_final.custom.CustomDialogProgress;
 import com.example.readingbooks_final.database.Books_data;
+import com.example.readingbooks_final.database.Constants;
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -46,6 +53,8 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
 import com.google.protobuf.StringValue;
 
 import java.io.BufferedInputStream;
@@ -61,11 +70,12 @@ public class Read_Books extends AppCompatActivity {
     private float userRate;
     private PDFView pdfView;
     private String[] reason = new String[] {"Reason A", "Reason B", "Reason C"};
-    private ProgressDialog progressDialog;
+    private CustomDialogProgress progressDialog;
     private AppCompatButton rateNow, rateLater;
 
     private RatingBar ratingBar;
     private ImageView rateImg ;
+    private String bookId;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -84,9 +94,13 @@ public class Read_Books extends AppCompatActivity {
             onBackPressed();
         }
         if (item.getItemId()==R.id.vote_read){
+            View v = findViewById(R.id.vote_read);
+            v.startAnimation(AnimationUtils.loadAnimation(Read_Books.this, R.anim.btn_click_anim));
             voteBooks();
         }
         if (item.getItemId()==R.id.report_read){
+            View v = findViewById(R.id.report_read);
+            v.startAnimation(AnimationUtils.loadAnimation(Read_Books.this, R.anim.btn_click_anim));
             reportBooks();
         }
         return super.onOptionsItemSelected(item);
@@ -94,9 +108,8 @@ public class Read_Books extends AppCompatActivity {
 
     private void initView(){
         pdfView = findViewById(R.id.pdfView);
-        progressDialog= new ProgressDialog(this);
-        progressDialog.setMessage("Please Wait..");
-        progressDialog.setCancelable(false);
+        progressDialog= new CustomDialogProgress(this);
+
 
 
     }
@@ -104,15 +117,47 @@ public class Read_Books extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle!= null){
             Books_data books_data= (Books_data) bundle.get("objectBooks");
-            String urlFile = books_data.getFileUrl();
-            Log.d("", "link ne "+urlFile);
-          //  System.out.println(urlFile);
-            //pdfView.fromAsset(urlFile).load();
-//pdfView.fromUri(Uri.parse(urlFile));
-            new RetrivePDFfromUrl().execute(urlFile);
+            bookId= books_data.getId();
+//            String urlFile = books_data.getFileUrl();
+            loadPdf();
+          //  new RetrivePDFfromUrl().execute(urlFile);
 
         }
     }
+    private void loadPdf(){
+    DatabaseReference reference =FirebaseDatabase.getInstance().getReference("Books").child(bookId);
+    reference.addListenerForSingleValueEvent(new ValueEventListener() {
+        @Override
+        public void onDataChange(@NonNull DataSnapshot snapshot) {
+
+
+                    String urlFile = ""+snapshot.child("fileUrl").getValue();
+                    StorageReference reference1 = FirebaseStorage.getInstance().getReferenceFromUrl(urlFile);
+                    progressDialog.show();
+                    reference1.getBytes(Constants.MAX_BYTE_PDF).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                        @Override
+                        public void onSuccess(byte[] bytes) {
+                            progressDialog.dismiss();
+                            pdfView.fromBytes(bytes).swipeHorizontal(false).load();
+
+                        }
+                    }).addOnFailureListener(new OnFailureListener() {
+                        @Override
+                        public void onFailure(@NonNull Exception e) {
+                            Toast.makeText(Read_Books.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                        }
+                    });
+
+        }
+
+        @Override
+        public void onCancelled(@NonNull DatabaseError error) {
+
+        }
+    });
+    }
+
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -121,31 +166,6 @@ public class Read_Books extends AppCompatActivity {
     }
 
 
-    class  RetrivePDFfromUrl extends AsyncTask<String, Void, InputStream>{
-
-        @Override
-        protected InputStream doInBackground(String... strings) {
-            InputStream inputStream= null;
-            try {
-                URL url = new URL(strings[0]);
-                HttpURLConnection urlConnection= (HttpURLConnection) url.openConnection();
-                if(urlConnection.getResponseCode()==200) {
-                    inputStream = new BufferedInputStream(urlConnection.getInputStream());
-                }
-
-            }
-            catch (IOException e) {
-                e.printStackTrace();
-                return null;
-            }
-            return inputStream;
-        }
-
-        @Override
-        protected void onPostExecute(InputStream inputStream) {
-            pdfView.fromStream(inputStream).load();
-        }
-    }
     private void voteBooks(){
         openDialog(Gravity.CENTER);
 
@@ -253,7 +273,6 @@ private void reportBooks(){
 
     private void openDialog(int gravity){
         final Dialog rate = new Dialog(Read_Books.this);
-        // final  rate_book rate = new rate_book(Read_Books.this);
         rate.requestWindowFeature(Window.FEATURE_NO_TITLE);
         rate.setContentView(R.layout.rate_book);
         Window window = rate.getWindow();
@@ -266,7 +285,7 @@ private void reportBooks(){
         WindowManager.LayoutParams winAtr = window.getAttributes();
         winAtr.gravity = gravity;
         window.setAttributes(winAtr);
-        if (Gravity.BOTTOM == gravity){
+        if (Gravity.CENTER == gravity){
             rate.setCancelable(true);
         }else {
             rate.setCancelable(false);
@@ -280,6 +299,8 @@ private void reportBooks(){
         rateNow.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
+                view.startAnimation(AnimationUtils.loadAnimation(Read_Books.this, R.anim.btn_click_anim));
                 addRating();
             }
         });
@@ -287,7 +308,7 @@ private void reportBooks(){
         rateLater.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-
+                view.startAnimation(AnimationUtils.loadAnimation(Read_Books.this, R.anim.btn_click_anim));
                 rate.dismiss();
 
             }

@@ -14,15 +14,21 @@ import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentTransaction;
 
+import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.MenuItem;
+import android.view.Window;
 import android.widget.ImageView;
+import android.widget.ProgressBar;
 import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.readingbooks_final.activity.Read_Books;
 import com.example.readingbooks_final.activity.login;
+import com.example.readingbooks_final.custom.CustomDialogProgress;
 import com.example.readingbooks_final.database.User;
 import com.example.readingbooks_final.fragment.Account;
 import com.example.readingbooks_final.fragment.Books;
@@ -56,6 +62,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
     private static final int Search_Frag =4;
     private static final int Profile_Frag=5;
+    private  CustomDialogProgress  dialogProgress;
+
+
 
 
     private final Account account = new Account();
@@ -79,6 +88,8 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         eventHandlingNavigationBottom();
         recieveData();
 
+
+
     }
     //Ánh xạ các đối tượng
     private void AnhXaDoiTuong(){
@@ -89,7 +100,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         image_ava=nav_top.getHeaderView(0).findViewById(R.id.img_ava);
         name_acc=nav_top.getHeaderView(0).findViewById(R.id.name_acc);
         email_acc=nav_top.getHeaderView(0).findViewById(R.id.email_acc);
-
+      dialogProgress = new CustomDialogProgress(MainActivity.this);
     }
     //Tạo icon toggle trên toolbar
     private void createIconToggleOnToolbar(){
@@ -116,6 +127,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+
 
 
 
@@ -215,10 +227,13 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     public void LogOut(){
+        dialogProgress.show();
         FirebaseAuth.getInstance().signOut();
         Intent intent =new Intent(MainActivity.this, login.class);
         startActivity(intent);
-        finishAffinity();
+        finish();
+        dialogProgress.dismiss();
+
     }
 
     // Tạo hàm hiển thị user
@@ -312,7 +327,9 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
                 break;
 
             case (R.id.action_logout):
+            //    dialogProgress.show();
                 LogOut();
+             //   dialogProgress.dismiss();
                 drawerLayout.closeDrawer(GravityCompat.START);
                 break;
         }
