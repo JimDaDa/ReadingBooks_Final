@@ -209,7 +209,7 @@ public class Write_tab2 extends AppCompatActivity {
                 String content_category = category_book.getText().toString().trim();
                 String content_status = status_book.getText().toString().trim();
                 String content_description = description_book.getText().toString().trim();
-                if (content_title.isEmpty() && content_author.isEmpty() && content_category.isEmpty() && content_status.isEmpty() && content_description.isEmpty()){
+                if (content_title.isEmpty() || content_author.isEmpty() || content_category.isEmpty() || content_status.isEmpty() || content_description.isEmpty()){
                     Toast.makeText(Write_tab2.this, "Please do not leave blank ", Toast.LENGTH_SHORT).show();
 
                 }
