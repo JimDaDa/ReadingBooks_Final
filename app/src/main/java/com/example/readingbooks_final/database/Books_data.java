@@ -312,4 +312,14 @@ public class Books_data implements Serializable {
         result.put("reason_num",  reason_num);
         return result ;
     }
+
+    public HashMap<String, Object> updateBookInfo() {
+        HashMap result=new HashMap();
+        result.put("title",title);
+        result.put("authors",authors);
+        result.put("category",category);
+        result.put("status", status);
+        result.put("description", description);
+        return  result;
+    }
 }

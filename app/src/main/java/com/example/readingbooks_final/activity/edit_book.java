@@ -171,25 +171,34 @@ public class edit_book extends AppCompatActivity {
             String content_category= category_book.getText().toString().trim();
             String content_status= status_book.getText().toString().trim();
             String content_description= description_book.getText().toString().trim();
-
+            books_edit.setTitle(content_title);
+            books_edit.setAuthors(content_author);
+            books_edit.setCategory(content_category);
+            books_edit.setStatus(content_status);
+            books_edit.setDescription(content_description);
+            databaseReference.updateChildren(books_edit.updateBookInfo());
            databaseReference.addValueEventListener(new ValueEventListener() {
                @Override
                public void onDataChange(@NonNull DataSnapshot snapshot) {
                    Books_data books_data= snapshot.getValue(Books_data.class);
                    if (books_data != null){
-                       String title_update = String.valueOf(databaseReference.child("title").setValue(content_title));
-                       String authors_update = String.valueOf(databaseReference.child("authors").setValue(content_author));
-                       String category_update = String.valueOf(databaseReference.child("category").setValue(content_category));
-                       String description_update = String.valueOf(databaseReference.child("description").setValue(content_description));
-                       String status_update = String.valueOf(databaseReference.child("status").setValue(content_status));
-
+//                       String title_update = String.valueOf(databaseReference.child("title").setValue(content_title));
+//                       String authors_update = String.valueOf(databaseReference.child("authors").setValue(content_author));
+//                       String category_update = String.valueOf(databaseReference.child("category").setValue(content_category));
+//                       String description_update = String.valueOf(databaseReference.child("description").setValue(content_description));
+//                       String status_update = String.valueOf(databaseReference.child("status").setValue(content_status));
+//                       books_data.setTitle(title_update);
+//                       books_data.setAuthors(authors_update);
+//                       books_data.setCategory(category_update);
+//                       books_data.setDescription(description_update);
+//                       books_data.setStatus(status_update);
                        Intent intent_reply=new Intent();
                        Bundle bundle2 = new Bundle();
                        bundle2.putSerializable("objectBooks", books_data);
                        intent_reply.putExtras(bundle2);
+                       databaseReference.removeEventListener(this);
                        setResult(Activity.RESULT_OK, intent_reply);
                        finish();
-
                    }
                }
 

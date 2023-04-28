@@ -73,7 +73,7 @@ public class List_Book_Adapter extends RecyclerView.Adapter<List_Book_Adapter.Vi
                 @Override
                 public void onClick(View v) {
                     v.startAnimation(AnimationUtils.loadAnimation(v.getContext(), R.anim.btn_click_anim));
-                    onClickItemBookListener.onClickItemBook(books_data);
+                    onClickItemBookListener.onClickItemBook(books_data, position);
                 }
             });
         }

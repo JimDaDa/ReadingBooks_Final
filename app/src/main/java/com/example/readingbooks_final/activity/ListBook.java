@@ -37,10 +37,12 @@ public class ListBook extends AppCompatActivity {
     private RecyclerView story_list;
 
     private List<Books_data> books= new ArrayList<>();
+    private int positionItemEditing = -1;
     private  List_Book_Adapter booksAdapter= new List_Book_Adapter(books, new OnClickItemBookListener() {
         @Override
-        public void onClickItemBook(Books_data books_data) {
+        public void onClickItemBook(Books_data books_data, int position) {
             openShowInfor(books_data);
+            positionItemEditing = position;
         }
     });
     @Override
@@ -131,31 +133,37 @@ public class ListBook extends AppCompatActivity {
                 @Override
                 public void onActivityResult(ActivityResult result) {
 //
-                    if(result.getResultCode() == Activity.RESULT_OK) {
+                        if(result.getResultCode() == Activity.RESULT_OK) {
 
-                        Intent intent = result.getData();
-                        if (intent==null){
-                            return;
-                        }
+                            Intent intent = result.getData();
+                            if (intent==null){
+                                return;
+                            }
 
-                       for(int i=0 ; i <books.size(); i++){
-                           if (books.get(i).getId().equals(intent.getStringExtra("removeId")) ){
-                               books.remove(i);
-                               break;
+                           for(int i=0 ; i <books.size(); i++){
+                               if (books.get(i).getId().equals(intent.getStringExtra("removeId")) ){
+                                   books.remove(i);
+                                   break;
+                               }
                            }
-                       }
-                       booksAdapter.notifyDataSetChanged();
-
+                           booksAdapter.notifyDataSetChanged();
                         }
 
 
-
-
-
-
-
+                        if(result.getResultCode() == 200) { // update lại content book hien tai
+                            Intent intent = result.getData();
+                            assert intent != null;
+                            final Books_data bookAfterEdited = (Books_data) intent.getSerializableExtra("objectBooks");
+                            if(positionItemEditing != -1) {
+                                books.set(positionItemEditing, bookAfterEdited);
+                                positionItemEditing = -1;
+                            }
+                            booksAdapter.notifyDataSetChanged();
+                        }
 
                     }
+
+
 
             });
 

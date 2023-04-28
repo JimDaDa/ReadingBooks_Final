@@ -57,6 +57,8 @@ public class show_info_book extends AppCompatActivity {
 
     private MenuItem publish, unPublish;
 
+    Books_data books_data;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
@@ -67,7 +69,18 @@ public class show_info_book extends AppCompatActivity {
         actionBar.setDisplayHomeAsUpEnabled(true);
         initView();
         RecieveData();
+        addPublishChangeListener();
 //        checkPublish();
+    }
+
+    @Override
+    public void onBackPressed() {
+        Intent intent_reply=new Intent();
+        Bundle bundle2 = new Bundle();
+        bundle2.putSerializable("objectBooks", books_data);
+        intent_reply.putExtras(bundle2);
+        setResult(200, intent_reply);
+        super.onBackPressed();
     }
 
     @Override
@@ -84,20 +97,22 @@ public class show_info_book extends AppCompatActivity {
         description_book=findViewById(R.id.tv_description_book);
         cover_details=findViewById(R.id.cover_details);
         progressDialog= new CustomDialogProgress(show_info_book.this);
-        addPublishChangeListener();
     }
     private void RecieveData(){
-    Bundle bundle = getIntent().getExtras();
-    if (bundle!= null){
-        Books_data books_data= (Books_data) bundle.get("objectBooks");
-        title_book.setText(books_data.getTitle());
-        author_book.setText(books_data.getAuthors());
-        category_book.setText(books_data.getCategory());
-        status_book.setText(books_data.getStatus());
-        description_book.setText(books_data.getDescription());
-        description_book.setMovementMethod(new ScrollingMovementMethod());
-        Glide.with(show_info_book.this).load(books_data.getImgUrl()).into(cover_details);
-     }
+        Bundle bundle = getIntent().getExtras();
+         if (bundle!= null){
+            books_data= (Books_data) bundle.get("objectBooks");
+            title_book.setText(books_data.getTitle());
+            author_book.setText(books_data.getAuthors());
+            category_book.setText(books_data.getCategory());
+            status_book.setText(books_data.getStatus());
+            description_book.setText(books_data.getDescription());
+            description_book.setMovementMethod(new ScrollingMovementMethod());
+            Glide.with(show_info_book.this).load(books_data.getImgUrl()).into(cover_details);
+         } else {
+             finish();
+         }
+
     }
 
     @Override
@@ -188,31 +203,23 @@ public class show_info_book extends AppCompatActivity {
             storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
                 String file = uri.toString();
                 FirebaseAuth auth = FirebaseAuth.getInstance();
+                String id_books= books_data.getId();
+                FirebaseDatabase database=FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference=database.getReference("Books").child(id_books);
+                databaseReference.addValueEventListener(new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
 
-                Bundle bundle = getIntent().getExtras();
-                if (bundle!= null){
-                    Books_data books_edit= (Books_data) bundle.get("objectBooks");
-                    String id_books= books_edit.getId();
-                    FirebaseDatabase database=FirebaseDatabase.getInstance();
-                    DatabaseReference databaseReference=database.getReference("Books").child(id_books);
-                    databaseReference.addValueEventListener(new ValueEventListener() {
-                        @Override
-                        public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        databaseReference.child("fileUrl").setValue(file);
+                        progressDialog.dismiss();
+                        Toast.makeText(show_info_book.this, "Upload file Successfull", Toast.LENGTH_SHORT).show();
+                    }
 
-                            databaseReference.child("fileUrl").setValue(file);
-                            progressDialog.dismiss();
-                            Toast.makeText(show_info_book.this, "Upload file Successfull", Toast.LENGTH_SHORT).show();
-                        }
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
 
-                        @Override
-                        public void onCancelled(@NonNull DatabaseError error) {
-
-                        }
-                    });
-
-
-                }
-
+                    }
+                });
 
 
 
@@ -253,8 +260,6 @@ public class show_info_book extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Bundle bundle = getIntent().getExtras();
-                Books_data books_data= (Books_data) bundle.get("objectBooks");
                 String id_books= books_data.getId();
                 FirebaseDatabase database=FirebaseDatabase.getInstance();
                 DatabaseReference databaseReference=database.getReference().child("Books").child(id_books);
@@ -306,8 +311,6 @@ public class show_info_book extends AppCompatActivity {
         builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
             @Override
             public void onClick(DialogInterface dialog, int which) {
-                Bundle bundle = getIntent().getExtras();
-                Books_data books_data= (Books_data) bundle.get("objectBooks");
                 String id_books= books_data.getId();
                 FirebaseDatabase database=FirebaseDatabase.getInstance();
                 DatabaseReference databaseReference=database.getReference().child("Books").child(id_books);
@@ -351,8 +354,6 @@ public class show_info_book extends AppCompatActivity {
     }
 
     private void addPublishChangeListener(){
-        Bundle bundle = getIntent().getExtras();
-        Books_data books_data= (Books_data) bundle.get("objectBooks");
         String id_books= books_data.getId();
         FirebaseDatabase database=FirebaseDatabase.getInstance();
         DatabaseReference databaseReference=database.getReference().child("Books").child(id_books);
@@ -382,46 +383,30 @@ public class show_info_book extends AppCompatActivity {
 
     }
     private void openEdit(){
+        String id_books= books_data.getId();
+        FirebaseDatabase database = FirebaseDatabase.getInstance();
+        DatabaseReference reference =database.getReference("Books").child(id_books);
+        final ValueEventListener valueEventListener = new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                User user_cur = snapshot.getValue(User.class);
+                if (user_cur!=null){
+                    Intent intent=new Intent(show_info_book.this, edit_book.class);
+                    Bundle bundle2 = new Bundle();
+                    bundle2.putSerializable("objectBooks", books_data);
+                    intent.putExtras(bundle2);
 
-        Bundle bundle = getIntent().getExtras();
-        if (bundle!= null){
-            Books_data books_data= (Books_data) bundle.get("objectBooks");
-            String id_books= books_data.getId();
-            FirebaseDatabase database = FirebaseDatabase.getInstance();
-            DatabaseReference reference =database.getReference("Books").child(id_books);
-            final ValueEventListener valueEventListener = new ValueEventListener() {
-                @Override
-                public void onDataChange(@NonNull DataSnapshot snapshot) {
-                    User user_cur = snapshot.getValue(User.class);
-                    if (user_cur!=null){
-                        Intent intent=new Intent(show_info_book.this, edit_book.class);
-                        Bundle bundle2 = new Bundle();
-                        bundle2.putSerializable("objectBooks", books_data);
-                        intent.putExtras(bundle2);
-
-                        startActivityForResult.launch(intent);
-                        reference.removeEventListener(this);
-                    }
+                    startActivityForResult.launch(intent);
+                    reference.removeEventListener(this);
                 }
+            }
 
-                @Override
-                public void onCancelled(@NonNull DatabaseError error) {
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
 
-                }
-            };
-            reference.addValueEventListener(valueEventListener);
-
-        }
-
-
-
-
-
-
-
-
-
-
+            }
+        };
+        reference.addValueEventListener(valueEventListener);
     }
     final ActivityResultLauncher<Intent> startActivityForResult = registerForActivityResult(
             new ActivityResultContracts.StartActivityForResult(),
@@ -437,9 +422,15 @@ public class show_info_book extends AppCompatActivity {
                         }
                         else {
                             // Uri photo = intent.getData();
-                            Bundle bundle_reply = getIntent().getExtras();
+                            Bundle bundle_reply = result.getData().getExtras();
                             if (bundle_reply!= null){
-                                Books_data books_data= (Books_data) bundle_reply.getSerializable("objectBooks");
+                                Books_data bookAfterEdited= (Books_data) bundle_reply.getSerializable("objectBooks");
+                                books_data.setTitle(bookAfterEdited.getTitle());
+                                books_data.setDescription(bookAfterEdited.getDescription());
+                                books_data.setStatus(bookAfterEdited.getStatus());
+                                books_data.setAuthors(bookAfterEdited.getAuthors());
+                                books_data.setCategory(bookAfterEdited.getCategory());
+                                books_data.setImgUrl(bookAfterEdited.getImgUrl());
                                 title_book.setText(books_data.getTitle());
                                 author_book.setText(books_data.getAuthors());
                                 category_book.setText(books_data.getCategory());
@@ -466,8 +457,6 @@ public class show_info_book extends AppCompatActivity {
             @Override
             public void onClick(DialogInterface dialog, int which) {
                 progressDialog.show();
-                Bundle bundle = getIntent().getExtras();
-                Books_data books_data= (Books_data) bundle.get("objectBooks");
                 String id_books= books_data.getId();
                 FirebaseDatabase database=FirebaseDatabase.getInstance();
                 DatabaseReference databaseReference=database.getReference().child("Books").child(id_books);
