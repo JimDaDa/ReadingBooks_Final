@@ -131,7 +131,7 @@
             android:autoSizeStepGranularity="1sp"
             android:autoSizeTextType="uniform"
             android:fontFamily="@font/home"
-            android:text="Forgot Password?"
+            android:text="Forgot Password"
             android:textColor="#000000"
             android:textStyle="bold"
             app:layout_constraintEnd_toEndOf="@+id/view2"

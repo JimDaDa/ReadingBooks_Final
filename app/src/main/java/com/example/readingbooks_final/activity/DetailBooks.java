@@ -15,6 +15,7 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
@@ -54,6 +55,8 @@ public class DetailBooks extends AppCompatActivity {
         setContentView(R.layout.detail_book);
         ActionBar actionBar=getSupportActionBar();
         actionBar.setDisplayHomeAsUpEnabled(true);
+//        actionBar.setDisplayShowTitleEnabled(false);
+//        actionBar.setIcon(R.drawable.logo);
         initView();
         //setVisible();
         addLikeChangeListener();
@@ -178,10 +181,15 @@ public class DetailBooks extends AppCompatActivity {
     //Click để thêm vào thư viện
 
     void setVisible(){
+        Drawable like = getResources().getDrawable(R.drawable.like);
+        Drawable unlike = getResources().getDrawable(R.drawable.unlike);
         if (!isLiked){
-            fav_book.setText("LIKE");
+            //fav_book.setText("LIKE");
+            fav_book.setCompoundDrawablesWithIntrinsicBounds(unlike,null,null,null);
+
         }else {
-            fav_book.setText("UNLIKE");
+            //fav_book.setText("UNLIKE");
+            fav_book.setCompoundDrawablesWithIntrinsicBounds(like,null,null,null);
 
         }
     }

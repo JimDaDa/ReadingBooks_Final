@@ -18,14 +18,14 @@
             android:layout_height="match_parent"
             android:layout_above="@+id/navbar"
             android:layout_marginTop="50dp"
-            android:background="@color/background" />
+            android:background="#3FFFFFFF" />
 
         <nl.joery.animatedbottombar.AnimatedBottomBar
             android:id="@+id/navbar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_alignParentBottom="true"
-            android:background="@color/background"
+            android:background="#3FFFFFFF"
             app:abb_indicatorAppearance="round"
             app:abb_indicatorColor="@color/bar"
             app:abb_indicatorHeight="4dp"
@@ -61,7 +61,7 @@
                     android:id="@+id/toolbar"
                     android:layout_width="match_parent"
                     android:layout_height="?android:attr/actionBarSize"
-                    android:background="@color/background"
+                    android:background="@color/blue"
                     app:layout_constraintEnd_toEndOf="parent"
                     app:layout_constraintStart_toStartOf="parent"
                     app:layout_constraintTop_toTopOf="parent"
@@ -71,7 +71,7 @@
 
                 <ImageView
                     android:layout_width="74dp"
-                    android:layout_height="46dp"
+                    android:layout_height="60dp"
                     android:layout_alignParentStart="true"
                     android:layout_marginStart="48dp"
                     android:src="@drawable/logo"

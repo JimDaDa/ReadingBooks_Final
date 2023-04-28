@@ -16,6 +16,7 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
 
 import android.util.Log;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -92,8 +93,9 @@ public class Search extends Fragment {
 
     private void Search_Books(){
 
-        search_view.setQueryHint("Type here to search..");
+        search_view.setQueryHint("Type here to search");
         search_view.setMaxWidth(Integer.MAX_VALUE);
+
 
 
         search_view.setOnQueryTextListener(new SearchView.OnQueryTextListener() {

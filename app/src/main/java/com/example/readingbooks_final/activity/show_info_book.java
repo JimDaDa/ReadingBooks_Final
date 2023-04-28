@@ -60,8 +60,6 @@ public class show_info_book extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
-
-
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_info_book);
         ActionBar actionBar=getSupportActionBar();
@@ -86,8 +84,6 @@ public class show_info_book extends AppCompatActivity {
         description_book=findViewById(R.id.tv_description_book);
         cover_details=findViewById(R.id.cover_details);
         progressDialog= new CustomDialogProgress(show_info_book.this);
-
-
         addPublishChangeListener();
     }
     private void RecieveData(){
@@ -114,7 +110,7 @@ public class show_info_book extends AppCompatActivity {
 
     void setVisible(){
         if (!isPublish){
-            publish.setIcon(R.drawable.plus);
+            publish.setIcon(R.drawable.check);
 
         }else {
            publish.setIcon(R.drawable.cancel);

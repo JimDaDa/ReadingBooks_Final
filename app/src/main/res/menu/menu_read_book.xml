@@ -3,7 +3,7 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:title="Vote"
         android:id="@+id/vote_read"
-        android:icon="@drawable/plus"
+        android:icon="@drawable/vote"
         app:showAsAction="always"/>
     <item android:title="Report"
         android:id="@+id/report_read"

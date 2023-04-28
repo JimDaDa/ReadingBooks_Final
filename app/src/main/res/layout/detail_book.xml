@@ -4,7 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:background="@color/background">
+    android:background="@drawable/gradient_background">
 
     <ScrollView
         android:layout_width="match_parent"
@@ -27,55 +27,66 @@
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
                 android:background="@drawable/boder_detail"
+                android:gravity="center_horizontal"
                 android:orientation="vertical">
 
                 <TextView
                     android:id="@+id/title_details"
-                    android:layout_width="match_parent"
-                    android:layout_height="wrap_content"
+                    android:layout_width="380dp"
+                    android:layout_height="75dp"
+                    android:layout_marginTop="16dp"
+                    android:fontFamily="@font/josefin"
+                    android:gravity="center_vertical"
                     android:text="Title"
-                    android:textSize="24sp"
-                    android:textStyle="bold"
-                    android:textColor="@color/black"
                     android:textAlignment="center"
-                    android:layout_marginTop="16dp"/>
+                    android:textColor="#000000"
+                    android:textSize="26sp"
+                    android:textStyle="bold" />
 
-                <androidx.constraintlayout.widget.ConstraintLayout
+                <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
-                    android:layout_margin="16dp">
+                    android:layout_margin="4dp"
+                    android:orientation="horizontal">
 
-                    <ImageView
-                        android:id="@+id/imageView8"
-                        android:layout_width="20dp"
-                        android:layout_height="20dp"
-                        app:layout_constraintEnd_toStartOf="@+id/author_details"
-                        app:layout_constraintHorizontal_bias="0.377"
-                        app:layout_constraintStart_toStartOf="@+id/author_details"
-                        app:layout_constraintTop_toTopOf="parent"
-                        app:srcCompat="@drawable/user" />
+                    <LinearLayout
+                        android:layout_width="0dp"
+                        android:layout_height="match_parent"
+                        android:layout_weight="0.333"
+                        android:gravity="center"
+                        android:orientation="vertical">
 
-                    <TextView
-                        android:id="@+id/author_details"
-                        android:layout_width="308dp"
-                        android:layout_height="22dp"
+                        <ImageView
+                            android:id="@+id/img1"
+                            android:layout_width="25dp"
+                            android:layout_height="25dp"
+                            android:layout_marginLeft="5dp"
+                            android:layout_marginRight="5dp"
+                            app:srcCompat="@drawable/admin" />
 
-                        android:text="TextView"
-                        android:textAlignment="center"
-                        android:textColor="@color/black"
-                        android:textSize="18sp"
-                        app:layout_constraintBottom_toBottomOf="parent"
-                        app:layout_constraintEnd_toEndOf="parent"
-                        app:layout_constraintStart_toEndOf="@+id/imageView8" />
-                </androidx.constraintlayout.widget.ConstraintLayout>
+                        <TextView
+                            android:id="@+id/author_details"
+                            android:layout_width="347dp"
+                            android:layout_height="match_parent"
+                            android:layout_marginTop="10dp"
+                            android:layout_weight="1"
+                            android:gravity="center_horizontal"
+                            android:fontFamily="@font/ac"
+                            android:textColor="#000000"
+                            android:text="thaocucu"
+                            android:textSize="18sp"
+                            android:textStyle="bold" />
+                    </LinearLayout>
+                </LinearLayout>
 
                 <LinearLayout
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="8dp"
-                    android:layout_marginTop="16dp"
+                    android:layout_marginTop="18dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
+                    android:gravity="center_horizontal"
                     android:orientation="horizontal">
 
                     <LinearLayout
@@ -86,9 +97,9 @@
 
                         <ImageView
                             android:id="@+id/view_details"
-                            android:layout_width="20dp"
+                            android:layout_width="18dp"
                             android:layout_height="wrap_content"
-                            android:layout_marginLeft="5dp"
+                            android:layout_marginLeft="20dp"
                             android:layout_marginRight="5dp"
                             app:srcCompat="@drawable/view" />
 
@@ -99,21 +110,24 @@
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:text="12.5K View"
+                            android:fontFamily="@font/comfortaa"
+                            android:textColor="#000000"
                             android:textAlignment="viewStart"
                             android:textSize="15sp"
                             android:textStyle="bold" />
                     </LinearLayout>
 
                     <LinearLayout
-                        android:layout_width="0dp"
+                        android:layout_width="4dp"
                         android:layout_height="match_parent"
                         android:layout_weight="0.333"
                         android:orientation="horizontal">
 
                         <ImageView
                             android:id="@+id/vote_details"
-                            android:layout_width="20dp"
+                            android:layout_width="18dp"
                             android:layout_height="wrap_content"
+                            android:layout_marginLeft="5dp"
                             android:layout_marginRight="5dp"
                             app:srcCompat="@drawable/star" />
 
@@ -125,6 +139,8 @@
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:text="12.5K Vote"
+                            android:fontFamily="@font/comfortaa"
+                            android:textColor="#000000"
                             android:textAlignment="viewStart"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -138,10 +154,10 @@
 
                         <ImageView
                             android:id="@+id/chapter_details"
-                            android:layout_width="20dp"
+                            android:layout_width="18dp"
                             android:layout_height="wrap_content"
                             android:layout_marginRight="5dp"
-                            app:srcCompat="@drawable/list" />
+                            app:srcCompat="@drawable/category" />
 
                         <TextView
                             android:id="@+id/tv_status"
@@ -150,6 +166,8 @@
                             android:layout_weight="1"
                             android:gravity="center_vertical"
                             android:text="12.5K Chapter"
+                            android:fontFamily="@font/comfortaa"
+                            android:textColor="#000000"
                             android:textAlignment="viewStart"
                             android:textSize="15sp"
                             android:textStyle="bold" />
@@ -157,21 +175,42 @@
                 </LinearLayout>
 
                 <androidx.constraintlayout.widget.ConstraintLayout
-                    android:layout_width="150dp"
-                    android:layout_height="wrap_content"
-                    android:layout_gravity="center_horizontal"
+                    android:layout_width="350dp"
+                    android:layout_height="60dp"
+                    android:layout_gravity="center_horizontal|center_vertical"
                     android:layout_margin="16dp">
 
                     <Button
                         android:id="@+id/read_books"
                         android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="Read"
+                        android:layout_height="50dp"
+                        android:layout_marginStart="100dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginBottom="6dp"
                         android:background="@drawable/boder_profile"
-                        android:textColor="@color/nau"
                         android:backgroundTint="@color/blue"
-                        app:layout_constraintEnd_toEndOf="parent"
+                        android:gravity="center"
+                        android:text="Read"
+                        android:fontFamily="@font/home"
+                        android:textColor="#000000"
+                        app:layout_constraintBottom_toBottomOf="parent"
                         app:layout_constraintStart_toStartOf="parent"
+                        app:layout_constraintTop_toTopOf="parent" />
+
+                    <Button
+                        android:id="@+id/fav_book"
+                        android:layout_width="50dp"
+                        android:layout_height="50dp"
+                        android:layout_marginTop="6dp"
+                        android:layout_marginEnd="100dp"
+                        android:layout_marginBottom="6dp"
+                        android:background="@drawable/boder_like"
+                        android:backgroundTint="@color/blue"
+                        android:drawableLeft="@drawable/unlike"
+                        android:padding="14dp"
+                        android:textColor="@color/nau"
+                        app:layout_constraintBottom_toBottomOf="parent"
+                        app:layout_constraintEnd_toEndOf="parent"
                         app:layout_constraintTop_toTopOf="parent" />
 
                 </androidx.constraintlayout.widget.ConstraintLayout>
@@ -180,20 +219,12 @@
                     android:id="@+id/description_details"
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
+                    android:layout_margin="16dp"
                     android:text="Description"
-                    android:textSize="20sp"
-                    android:layout_margin="16dp"/>
+                    android:fontFamily="@font/mulish"
+                    android:textColor="#000000"
+                    android:textSize="20sp" />
 
-                <Button
-                    android:id="@+id/fav_book"
-                    android:layout_width="wrap_content"
-                    android:layout_height="wrap_content"
-                    android:background="@drawable/boder_profile"
-                    android:backgroundTint="@color/blue"
-                    android:text="LIKE"
-                    android:textColor="@color/nau" />
-
-4
             </LinearLayout>
         </LinearLayout>
     </ScrollView>

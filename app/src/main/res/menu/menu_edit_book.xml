@@ -3,8 +3,6 @@
     xmlns:app="http://schemas.android.com/apk/res-auto">
     <item android:title="@string/update_book"
         android:id="@+id/update_book"
-        android:icon="@drawable/disk"
+        android:icon="@drawable/save"
         app:showAsAction="always"/>
-
-
 </menu>

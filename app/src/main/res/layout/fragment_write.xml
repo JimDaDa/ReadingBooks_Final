@@ -31,23 +31,25 @@
     <View
         android:id="@+id/view1"
         android:layout_width="409dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="4dp"
+        android:layout_height="55dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginTop="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view" />
 
     <TextView
         android:id="@+id/textView3"
         android:layout_width="343dp"
-        android:layout_height="52dp"
+        android:layout_height="55dp"
         android:layout_marginStart="32dp"
         android:layout_marginEnd="32dp"
-        android:gravity="center_horizontal"
+        android:fontFamily="@font/home"
+        android:gravity="center|center_vertical"
         android:text="Create A New Story"
-        android:textColor="@color/nau"
-        android:textSize="28sp"
+        android:textColor="#000000"
+        android:textSize="30sp"
         android:textStyle="bold"
         app:layout_constraintEnd_toEndOf="@+id/view1"
         app:layout_constraintStart_toStartOf="@+id/view1"
@@ -56,10 +58,10 @@
     <View
         android:id="@+id/view2"
         android:layout_width="409dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="4dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintHorizontal_bias="0.0"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view1" />
 
@@ -74,22 +76,26 @@
         android:ems="16"
         android:padding="16dp"
         android:text="Edit Another Story"
+        android:fontFamily="@font/lexend"
+        android:textColor="#000000"
         android:textAlignment="textStart"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/view2"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/view2"
         app:layout_constraintTop_toTopOf="@+id/view2" />
 
     <View
         android:id="@+id/view3"
         android:layout_width="409dp"
-        android:layout_height="70dp"
-        android:layout_marginTop="4dp"
+        android:layout_height="60dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginEnd="16dp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/view2"
-        app:layout_constraintVertical_bias="0.204" />
+        app:layout_constraintVertical_bias="0.0" />
 
     <TextView
         android:id="@+id/create_story"
@@ -101,10 +107,13 @@
         android:drawablePadding="16dp"
         android:ems="10"
         android:padding="16dp"
-        android:text="Create a new story"
+        android:text="Create New Story"
+        android:fontFamily="@font/lexend"
+        android:textColor="#000000"
         android:textAlignment="textStart"
-        android:textSize="18sp"
+        android:textSize="20sp"
         app:layout_constraintEnd_toEndOf="@+id/view3"
+        app:layout_constraintHorizontal_bias="1.0"
         app:layout_constraintStart_toStartOf="@+id/view3"
         app:layout_constraintTop_toTopOf="@+id/view3" />
 </androidx.constraintlayout.widget.ConstraintLayout>

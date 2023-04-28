@@ -24,7 +24,7 @@
             android:background="@drawable/edit_search"
             android:drawableStart="@drawable/search"
             android:drawablePadding="10dp"
-            android:hint="@string/action_search"
+           style="@style/SearchViewStyle"
             android:paddingStart="20dp"
             app:layout_constraintBottom_toTopOf="@+id/view"
             app:layout_constraintEnd_toEndOf="parent"

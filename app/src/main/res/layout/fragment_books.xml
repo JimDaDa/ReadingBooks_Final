@@ -5,8 +5,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
-    android:background="@drawable/gradient_background"
-    >
+    android:background="@drawable/gradient_background">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/book_list"
