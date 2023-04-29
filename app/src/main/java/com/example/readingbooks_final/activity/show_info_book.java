@@ -8,18 +8,25 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -56,6 +63,7 @@ public class show_info_book extends AppCompatActivity {
     private boolean isPublish;
 
     private MenuItem publish, unPublish;
+    private AppCompatButton yes_delete, cancel_delete, yes_publish, cancel_publish, yes_unpublis, cancel_unpublish;
 
     Books_data books_data;
 
@@ -253,13 +261,37 @@ public class show_info_book extends AppCompatActivity {
             });
 
     private void publishBooks(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(show_info_book.this);
-        builder.setTitle("Confirm");
-        builder.setMessage("Are you sure to publish Books?");
+        showConfirmPublic(Gravity.CENTER);
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    }
+
+    private void showConfirmPublic(int gravity) {
+        final Dialog confirm_public = new Dialog(show_info_book.this);
+        confirm_public.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        confirm_public.setContentView(R.layout.custom_pulicbook);
+        Window window = confirm_public.getWindow();
+        if (window == null){
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams winAtr = window.getAttributes();
+        winAtr.gravity = gravity;
+        window.setAttributes(winAtr);
+        if (Gravity.CENTER == gravity){
+            confirm_public.setCancelable(true);
+        }else {
+            confirm_public.setCancelable(false);
+        }
+        yes_publish = confirm_public.findViewById(R.id.yes_public);
+        cancel_publish = confirm_public.findViewById(R.id.cancel_public);
+
+        confirm_public.show();
+        yes_publish.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(show_info_book.this, R.anim.btn_click_anim));
+
                 String id_books= books_data.getId();
                 FirebaseDatabase database=FirebaseDatabase.getInstance();
                 DatabaseReference databaseReference=database.getReference().child("Books").child(id_books);
@@ -291,26 +323,45 @@ public class show_info_book extends AppCompatActivity {
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        cancel_publish.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //Do nothing
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(show_info_book.this, R.anim.btn_click_anim));
+                confirm_public.dismiss();
             }
         });
-
-        AlertDialog confirmDialog = builder.create();
-        confirmDialog.show();
-
     }
 
     private void unPublishBooks(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(show_info_book.this);
-        builder.setTitle("Confirm");
-        builder.setMessage("Are you sure to Unpublish Books?");
+        showConfirmUnpublic(Gravity.CENTER);
+    }
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    private void showConfirmUnpublic(int gravity) {
+        final Dialog confirm_private = new Dialog(show_info_book.this);
+        confirm_private.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        confirm_private.setContentView(R.layout.custom_privatebook);
+        Window window = confirm_private.getWindow();
+        if (window == null){
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams winAtr = window.getAttributes();
+        winAtr.gravity = gravity;
+        window.setAttributes(winAtr);
+        if (Gravity.CENTER == gravity){
+            confirm_private.setCancelable(true);
+        }else {
+            confirm_private.setCancelable(false);
+        }
+        yes_unpublis = confirm_private.findViewById(R.id.yes_private);
+        cancel_unpublish = confirm_private.findViewById(R.id.cancel_private);
+
+        confirm_private.show();
+        yes_unpublis.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(show_info_book.this, R.anim.btn_click_anim));
                 String id_books= books_data.getId();
                 FirebaseDatabase database=FirebaseDatabase.getInstance();
                 DatabaseReference databaseReference=database.getReference().child("Books").child(id_books);
@@ -338,19 +389,16 @@ public class show_info_book extends AppCompatActivity {
 
                     }
                 });
-
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        cancel_unpublish.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //Do nothing
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(show_info_book.this, R.anim.btn_click_anim));
+                confirm_private.dismiss();
             }
         });
-
-        AlertDialog confirmDialog = builder.create();
-        confirmDialog.show();
     }
 
     private void addPublishChangeListener(){
@@ -449,13 +497,36 @@ public class show_info_book extends AppCompatActivity {
             });
 
     private void deleteBooks(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(show_info_book.this);
-        builder.setTitle("Confirm");
-        builder.setMessage("Are you sure to delete Books?");
+        openConfirm(Gravity.CENTER);
+    }
 
-        builder.setPositiveButton("OK", new DialogInterface.OnClickListener() {
+    private void openConfirm(int gravity) {
+        final Dialog confirm_delete = new Dialog(show_info_book.this);
+        confirm_delete.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        confirm_delete.setContentView(R.layout.custom_alertdialog_books);
+        Window window = confirm_delete.getWindow();
+        if (window == null){
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams winAtr = window.getAttributes();
+        winAtr.gravity = gravity;
+        window.setAttributes(winAtr);
+        if (Gravity.CENTER == gravity){
+            confirm_delete.setCancelable(true);
+        }else {
+            confirm_delete.setCancelable(false);
+        }
+        yes_delete = confirm_delete.findViewById(R.id.deleteBooks);
+        cancel_delete = confirm_delete.findViewById(R.id.cancel_delete);
+
+        confirm_delete.show();
+
+        yes_delete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(show_info_book.this, R.anim.btn_click_anim));
                 progressDialog.show();
                 String id_books= books_data.getId();
                 FirebaseDatabase database=FirebaseDatabase.getInstance();
@@ -465,29 +536,23 @@ public class show_info_book extends AppCompatActivity {
                     public void onComplete(@NonNull Task<Void> task) {
                         progressDialog.dismiss();
                         Intent intent = new Intent(show_info_book.this, ListBook.class);
-                        intent.putExtra("removeId",books_data.getId());
+                        intent.putExtra("removeId", books_data.getId());
                         Toast.makeText(show_info_book.this, "Delete Success", Toast.LENGTH_SHORT).show();
-                        setResult(RESULT_OK,intent);
+                        setResult(RESULT_OK, intent);
                         finish();
-
                     }
                 });
 
-
             }
         });
 
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        cancel_delete.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //Do nothing
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(show_info_book.this, R.anim.btn_click_anim));
+                confirm_delete.dismiss();
             }
         });
-
-        AlertDialog confirmDialog = builder.create();
-        confirmDialog.show();
-
-
 
     }
 

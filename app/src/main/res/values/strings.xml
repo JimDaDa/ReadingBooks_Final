@@ -34,5 +34,12 @@
     <string name="add_chapters">add chapter</string>
     <string name="edit_chapter">edit_chapter</string>
     <string name="delete_books">Delete Books</string>
+    <string name="do_you_want_to_remove_the_book_from_your_library">Do you want to remove the book from your library?</string>
+    <string name="are_you_sure_delete_your_account">Are you sure Delete Your Account ?</string>
+    <string name="are_you_sure_delete_your_books">Are you sure Delete Your Books ?</string>
+    <string name="would_you_like_to_save_the_story_to_your_library">Would you like to save the story to your library?</string>
+    <string name="are_you_sure_to_publish_books">Are you sure to publish Books?</string>
+    <string name="are_you_sure_to_unpublish_books">Are you sure to Unpublish Books?</string>
+    <string name="please_let_us_know_the_reason_for_your_report">Please let us know the reason for your report</string>
     <!--    <string name="default_web_client_id">512054367217-hc8pq3b5iifip6mj1es1lku2ieu131a4.apps.googleusercontent.com</string>-->
 </resources>

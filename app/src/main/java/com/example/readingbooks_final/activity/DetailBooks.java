@@ -10,17 +10,24 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
+import android.view.Gravity;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.Button;
 import android.widget.ImageView;
@@ -48,6 +55,7 @@ public class DetailBooks extends AppCompatActivity {
     private float avg = 0f;
 
     private long mView ;
+    private AppCompatButton  yes, cancel, yes_unlike, cancel_unlike;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -201,55 +209,93 @@ public class DetailBooks extends AppCompatActivity {
                 v.startAnimation(AnimationUtils.loadAnimation(DetailBooks.this, R.anim.btn_click_anim));
 
                 if(!isLiked){
-                    AlertDialog.Builder builder = new AlertDialog.Builder(DetailBooks.this);
-                    builder.setTitle("Confirm");
-                    builder.setMessage("Are you sure to Save Books to Library?");
+                    //Open Dialog
+                    openConfirm(Gravity.CENTER);
 
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-
-                            SaveBooksConfirm();
-
-
-                        }
-                    });
-
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //Do nothing
-                        }
-                    });
-
-                    AlertDialog confirmDialog = builder.create();
-                    confirmDialog.show();
                 }else {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(DetailBooks.this);
-                    builder.setTitle("Confirm");
-                    builder.setMessage("Are you sure to Remove Books to Library?");
 
-                    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
+                    //OpenDialog
+                    openConfirmUnlike(Gravity.CENTER);
 
-                            RemoveBooks();
-
-
-                        }
-                    });
-
-                    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialog, int which) {
-                            //Do nothing
-                        }
-                    });
-
-                    AlertDialog confirmDialog = builder.create();
-                    confirmDialog.show();
                 }
 
+            }
+        });
+
+    }
+
+    private void openConfirmUnlike(int gravity) {
+        final Dialog confirm_unlike = new Dialog(DetailBooks.this);
+        confirm_unlike.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        confirm_unlike.setContentView(R.layout.custom_unlikebook);
+        Window window = confirm_unlike.getWindow();
+        if (window == null){
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams winAtr = window.getAttributes();
+        winAtr.gravity = gravity;
+        window.setAttributes(winAtr);
+        if (Gravity.CENTER == gravity){
+            confirm_unlike.setCancelable(true);
+        }else {
+            confirm_unlike.setCancelable(false);
+        }
+        yes_unlike = confirm_unlike.findViewById(R.id.yes_unlike);
+        cancel_unlike = confirm_unlike.findViewById(R.id.cancel_unlike);
+
+        confirm_unlike.show();
+        yes_unlike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(DetailBooks.this, R.anim.btn_click_anim));
+                RemoveBooks();
+            }
+        });
+        cancel_unlike.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(DetailBooks.this, R.anim.btn_click_anim));
+                confirm_unlike.dismiss();
+            }
+        });
+    }
+
+    private void openConfirm(int gravity) {
+        final Dialog confirm = new Dialog(DetailBooks.this);
+        confirm.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        confirm.setContentView(R.layout.custom_likebook);
+        Window window = confirm.getWindow();
+        if (window == null){
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams winAtr = window.getAttributes();
+        winAtr.gravity = gravity;
+        window.setAttributes(winAtr);
+        if (Gravity.CENTER == gravity){
+            confirm.setCancelable(true);
+        }else {
+            confirm.setCancelable(false);
+        }
+        yes = confirm.findViewById(R.id.yes);
+        cancel = confirm.findViewById(R.id.cancel);
+
+        confirm.show();
+        yes.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(DetailBooks.this, R.anim.btn_click_anim));
+                SaveBooksConfirm();
+            }
+        });
+        cancel.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(DetailBooks.this, R.anim.btn_click_anim));
+                confirm.dismiss();
             }
         });
 

@@ -24,6 +24,7 @@ import android.provider.SyncStateContract;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
+import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -33,6 +34,8 @@ import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.view.animation.ScaleAnimation;
 import android.widget.ImageView;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.RatingBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -69,9 +72,15 @@ import java.util.Date;
 public class Read_Books extends AppCompatActivity {
     private float userRate;
     private PDFView pdfView;
-    private String[] reason = new String[] {"Reason A", "Reason B", "Reason C"};
+    private String[] reason = new String[] {"Sensitive content",
+                                            "Enmity and harassment",
+                                            "Violence",
+                                            "Spam",
+                                            "Disclosure of personal information",
+                                            "Self-harm",
+                                            "Copyright infringement"};
     private CustomDialogProgress progressDialog;
-    private AppCompatButton rateNow, rateLater;
+    private AppCompatButton rateNow, rateLater, yes, cancel;
 
     private RatingBar ratingBar;
     private ImageView rateImg ;
@@ -195,81 +204,154 @@ public class Read_Books extends AppCompatActivity {
             });
 
 private void reportBooks(){
-    AlertDialog.Builder builder = new AlertDialog.Builder(Read_Books.this);
-    builder.setTitle("Confirm");
-    builder.setMessage("Are you sure to Report Books?");
-
-    builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-
-            ChooseReason();
-
-
-        }
-    });
-
-    builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
-        @Override
-        public void onClick(DialogInterface dialog, int which) {
-            //Do nothing
-        }
-    });
-
-    AlertDialog confirmDialog = builder.create();
-    confirmDialog.show();
-
+    openConfirm(Gravity.CENTER);
 }
-    private void  ChooseReason() {
-        androidx.appcompat.app.AlertDialog.Builder builder = new androidx.appcompat.app.AlertDialog.Builder(Read_Books.this);
-        builder.setTitle("Select Reason");
-        builder.setSingleChoiceItems(reason, 2, new DialogInterface.OnClickListener() {
-            @Override
-            public void onClick(DialogInterface dialogInterface, int i) {
-                String reason1= reason[i];
 
-                Bundle bundle = getIntent().getExtras();
-                Books_data books_data= (Books_data) bundle.get("objectBooks");
-                String id_books= books_data.getId();
-                FirebaseDatabase database=FirebaseDatabase.getInstance();
-                FirebaseAuth auth = FirebaseAuth.getInstance();
-                //String uid = auth.getUid();
+private void openConfirm(int gravity){
+    final Dialog confirm = new Dialog(Read_Books.this);
+    confirm.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    confirm.setContentView(R.layout.custom_alertdialog);
+    Window window = confirm.getWindow();
+    if (window == null){
+        return;
+    }
+    window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+    window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    WindowManager.LayoutParams winAtr = window.getAttributes();
+    winAtr.gravity = gravity;
+    window.setAttributes(winAtr);
+    if (Gravity.CENTER == gravity){
+        confirm.setCancelable(true);
+    }else {
+        confirm.setCancelable(false);
+    }
+    yes = confirm.findViewById(R.id.yes);
+    cancel = confirm.findViewById(R.id.cancel);
 
-                DatabaseReference databaseReference=database.getReference().child("Books").child(id_books).child("report");
-                progressDialog.show();
-                databaseReference.addValueEventListener(new ValueEventListener() {
-                    @Override
-                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+    confirm.show();
+
+    yes.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            v.startAnimation(AnimationUtils.loadAnimation(Read_Books.this, R.anim.btn_click_anim));
+           // ChooseReason();
+            ChooseReason(Gravity.CENTER);
+            confirm.dismiss();
+        }
+    });
+    cancel.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            v.startAnimation(AnimationUtils.loadAnimation(Read_Books.this, R.anim.btn_click_anim));
+            confirm.dismiss();
+        }
+    });
+}
+
+private void ChooseReason(int gravity){
+    final Dialog chooseReason = new Dialog(Read_Books.this);
+    chooseReason.requestWindowFeature(Window.FEATURE_NO_TITLE);
+    chooseReason.setContentView(R.layout.custom_choose_reason);
+    Window window = chooseReason.getWindow();
+    if (window == null){
+        return;
+    }
+    window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+    window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+    WindowManager.LayoutParams winAtr = window.getAttributes();
+    winAtr.gravity = gravity;
+    window.setAttributes(winAtr);
+    if (Gravity.CENTER == gravity){
+        chooseReason.setCancelable(true);
+    }else {
+        chooseReason.setCancelable(false);
+    }
+    yes = chooseReason.findViewById(R.id.yes_report);
+    cancel = chooseReason.findViewById(R.id.cancel_report);
+
+//    String selectesReason = String.valueOf(selectedText);
+//    RadioButton sensitive= chooseReason.findViewById(R.id.sensitive);
+//    RadioButton emity= chooseReason.findViewById(R.id.emity);
+//    RadioButton violence= chooseReason.findViewById(R.id.violence);
+//    RadioButton spam= chooseReason.findViewById(R.id.spam);
+//    RadioButton disclosure= chooseReason.findViewById(R.id.disclosure);
+//    RadioButton selfharm= chooseReason.findViewById(R.id.selfharm);
+//    RadioButton copyright= chooseReason.findViewById(R.id.copyright);
 
 
-                        int i= 0;
-                        i=i+1;
-                        String report= String.valueOf(i);
-                        String id_rp = databaseReference.push().getKey();
-                        String  id_user=auth.getCurrentUser().getUid();
+    chooseReason.show();
 
-                        Books_data books = new Books_data(id_rp,id_user,report,reason1);
+    yes.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            v.startAnimation(AnimationUtils.loadAnimation(Read_Books.this, R.anim.btn_click_anim));
+            RadioGroup radioGroup = chooseReason.findViewById(R.id.radiogroup);
+            int selectedId= radioGroup.getCheckedRadioButtonId();
+            RadioButton radioButton = chooseReason.findViewById(selectedId);
+            CharSequence selectedText = radioButton.getText().toString().trim();
+            Bundle bundle = getIntent().getExtras();
+            Books_data books_data= (Books_data) bundle.get("objectBooks");
+            String id_books= books_data.getId();
+            FirebaseDatabase database=FirebaseDatabase.getInstance();
+            FirebaseAuth auth = FirebaseAuth.getInstance();
+            String uid = auth.getUid();
+
+            DatabaseReference databaseReference=database.getReference().child("Books").child(id_books).child("report");
+            progressDialog.show();
+            databaseReference.addValueEventListener(new ValueEventListener() {
+                @Override
+                public void onDataChange(@NonNull DataSnapshot snapshot) {
+                    boolean checkUser = false;
+                    for (DataSnapshot snapshot1: snapshot.getChildren()) {
+                        Books_data books_report = snapshot1.getValue(Books_data.class);
+                        String id_rp = books_report.getId_report();
+                                String id_user = auth.getCurrentUser().getUid();
+                        //Nếu tồn tại id_user
+                        if (books_report.getId_user().equals(id_user)) {
+                            checkUser = true;
+                            databaseReference.child(id_rp).child("reason").setValue(selectedText);
+                            progressDialog.dismiss();
+                            Toast.makeText(Read_Books.this, "Report Successfull", Toast.LENGTH_SHORT).show();
+                            chooseReason.dismiss();
+                            break;
+                        }
+                    }
+                        if (!checkUser){
+                            //Nếu người dùng chưa report lần nào thì rating
+                            int i = 0;
+                            i = i + 1;
+                            String report = String.valueOf(i);
+                            String id_rp = databaseReference.push().getKey();
+                            String id_user = auth.getCurrentUser().getUid();
+                        Books_data books = new Books_data(id_rp,id_user,selectedText,report);
 
                         databaseReference.child(id_rp).setValue(books.ReportMap());
 
                         progressDialog.dismiss();
                         Toast.makeText(Read_Books.this, "Report Successfull", Toast.LENGTH_SHORT).show();
-                        dialogInterface.dismiss();
+                        chooseReason.dismiss();
                         databaseReference.removeEventListener(this);
                     }
 
-                    @Override
-                    public void onCancelled(@NonNull DatabaseError error) {
 
-                    }
-                });
+                }
 
-            }
-        });
+                @Override
+                public void onCancelled(@NonNull DatabaseError error) {
 
-        androidx.appcompat.app.AlertDialog alertDialog = builder.create();
-        alertDialog.show();
-    }
+                }
+            });
+        }
+    });
+    cancel.setOnClickListener(new View.OnClickListener() {
+        @Override
+        public void onClick(View v) {
+            v.startAnimation(AnimationUtils.loadAnimation(Read_Books.this, R.anim.btn_click_anim));
+            chooseReason.dismiss();
+        }
+    });
+
+}
 
     private void openDialog(int gravity){
         final Dialog rate = new Dialog(Read_Books.this);

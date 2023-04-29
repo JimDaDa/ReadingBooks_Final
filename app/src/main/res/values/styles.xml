@@ -6,4 +6,13 @@
         <!-- Đặt font chữ theo đường dẫn trong thư mục assets -->
         <item name="fontFamily">font/josefin.ttf</item>
     </style>
+    <style name="MyDialogAnimation">
+        <item name="android:windowEnterAnimation">@android:anim/fade_in</item>
+        <item name="android:windowExitAnimation">@android:anim/fade_out</item>
+    </style>
+
+
+    <style name="AlertDialogTheme" parent="Theme.AppCompat.DayNight.Dialog.Alert">
+        <item name="android:windowAnimationStyle">@style/MyDialogAnimation</item>
+    </style>
 </resources>

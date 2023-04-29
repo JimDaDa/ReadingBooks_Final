@@ -13,6 +13,7 @@ public class Books_data implements Serializable {
     private float total_rating, score;
 
     private long view ;
+    private CharSequence reasonRp;
 
 
 
@@ -60,7 +61,21 @@ public class Books_data implements Serializable {
 
     }
 
+    public Books_data(String id_report,String id_user, CharSequence reasonRp,  String reason_num) {
+        this.id_report = id_report;
+        this.id_user = id_user;
+        this.reasonRp = reasonRp;
+        this.reason_num = reason_num;
 
+    }
+
+    public CharSequence getReasonRp() {
+        return reasonRp;
+    }
+
+    public void setReasonRp(CharSequence reasonRp) {
+        this.reasonRp = reasonRp;
+    }
 
     public String getId_chapter() {
         return id_chapter;
@@ -276,11 +291,19 @@ public class Books_data implements Serializable {
         this.status = status;
     }
 
+//    public Map<String, Object> ReportMap(){
+//        HashMap<String,Object> res = new HashMap<>();
+//        res.put("id_report",  id_report);
+//        res.put("id_user",id_user);
+//        res.put("reason",  reasonRp);
+//        res.put("reason_num",  reason_num);
+//        return res;
+//    }
     public Map<String, Object> ReportMap(){
         HashMap<String,Object> res = new HashMap<>();
         res.put("id_report",  id_report);
         res.put("id_user",id_user);
-        res.put("reason",  reason_rp);
+        res.put("reason",  reasonRp);
         res.put("reason_num",  reason_num);
         return res;
     }

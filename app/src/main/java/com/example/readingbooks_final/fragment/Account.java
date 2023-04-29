@@ -4,11 +4,14 @@ import static android.content.Intent.getIntent;
 
 import android.app.Activity;
 import android.app.AlertDialog;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 
@@ -17,12 +20,16 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
+import androidx.appcompat.widget.AppCompatButton;
 import androidx.fragment.app.Fragment;
 
 import android.util.Log;
+import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.ImageButton;
 import android.widget.ImageView;
@@ -33,6 +40,7 @@ import com.bumptech.glide.Glide;
 import com.example.readingbooks_final.MainActivity;
 import com.example.readingbooks_final.R;
 import com.example.readingbooks_final.activity.ListBook;
+import com.example.readingbooks_final.activity.Read_Books;
 import com.example.readingbooks_final.activity.edit_book;
 import com.example.readingbooks_final.activity.login;
 import com.example.readingbooks_final.activity.profile;
@@ -64,6 +72,7 @@ public class Account extends Fragment {
 
     private TextView deleteAcc;
     private ProgressDialog progressDialog;
+    private AppCompatButton yes, cancel;
 
 //    User user;
 
@@ -369,24 +378,38 @@ public class Account extends Fragment {
             @Override
             public void onClick(View v) {
                 v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.btn_click_anim));
-                showConfirmDialog();
-
-
-
-
-
+                showConfirmDialog(Gravity.CENTER);
             }
         });
     }
-    private void showConfirmDialog(){
-        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-        builder.setTitle("Confirm");
-        builder.setMessage("Are you sure to delete Account?");
+    private void showConfirmDialog(int gravity){
 
-        builder.setPositiveButton("Yes", new DialogInterface.OnClickListener() {
+        final Dialog confirm = new Dialog(getActivity());
+        confirm.requestWindowFeature(Window.FEATURE_NO_TITLE);
+        confirm.setContentView(R.layout.custom_alertdialog_account);
+        Window window = confirm.getWindow();
+        if (window == null){
+            return;
+        }
+        window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+        window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+        WindowManager.LayoutParams winAtr = window.getAttributes();
+        winAtr.gravity = gravity;
+        window.setAttributes(winAtr);
+        if (Gravity.CENTER == gravity){
+            confirm.setCancelable(true);
+        }else {
+            confirm.setCancelable(false);
+        }
+        yes = confirm.findViewById(R.id.deleteAcc);
+        cancel = confirm.findViewById(R.id.cancel_delete);
+
+        confirm.show();
+
+        yes.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-//                progressDialog.show();
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.btn_click_anim));
                 FirebaseDatabase database = FirebaseDatabase.getInstance();
 
                 DatabaseReference ref=database.getReference("Users").child(FirebaseAuth.getInstance().getCurrentUser().getUid());
@@ -397,37 +420,34 @@ public class Account extends Fragment {
                         FirebaseAuth user_au = FirebaseAuth.getInstance();
 
                         user_au.getCurrentUser().delete().addOnCompleteListener(new OnCompleteListener<Void>() {
-                        @Override
-                        public void onComplete(@NonNull Task<Void> task) {
+                            @Override
+                            public void onComplete(@NonNull Task<Void> task) {
 
-                            if (task.isSuccessful()){
-                              //  progressDialog.dismiss();
-                                Intent intent = new Intent(getActivity(), login.class);
-                                Toast.makeText(getActivity(), "Delete Success", Toast.LENGTH_SHORT).show();
-                                startActivity(intent);
+                                if (task.isSuccessful()){
+                                    //  progressDialog.dismiss();
+                                    Intent intent = new Intent(getActivity(), login.class);
+                                    Toast.makeText(getActivity(), "Delete Success", Toast.LENGTH_SHORT).show();
+                                    startActivity(intent);
+
+                                }
+                                else {
+                                    Toast.makeText(getActivity(),"Error", Toast.LENGTH_SHORT).show();
+                                }
 
                             }
-                            else {
-                                Toast.makeText(getActivity(),"Error", Toast.LENGTH_SHORT).show();
-                            }
-
-                        }
-                    });
+                        });
                     }
                 });
+
             }
         });
-
-        builder.setNegativeButton("Cancel", new DialogInterface.OnClickListener() {
+        cancel.setOnClickListener(new View.OnClickListener() {
             @Override
-            public void onClick(DialogInterface dialog, int which) {
-                //Do nothing
+            public void onClick(View v) {
+                v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.btn_click_anim));
+                confirm.dismiss();
             }
         });
-
-        AlertDialog confirmDialog = builder.create();
-        confirmDialog.show();
-
 
     }
 
