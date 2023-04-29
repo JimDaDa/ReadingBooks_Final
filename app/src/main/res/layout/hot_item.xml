@@ -42,7 +42,7 @@
         android:layout_marginTop="50dp"
         android:layout_marginBottom="10dp"
         android:gravity="center"
-        android:text="Harry Potter và Hòn Đá Tử Thần"
+        android:text="@string/harry_potter_v_h_n_t_th_n"
         android:fontFamily="@font/tiltneon"
         android:textStyle="bold"
         android:textSize="14sp"

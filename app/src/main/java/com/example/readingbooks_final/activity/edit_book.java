@@ -12,19 +12,28 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.AppCompatButton;
 
 import android.app.Activity;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.graphics.Color;
+import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.provider.MediaStore;
+import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
+import android.view.WindowManager;
 import android.view.animation.AnimationUtils;
 import android.widget.EditText;
+import android.widget.RadioButton;
+import android.widget.RadioGroup;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -51,8 +60,8 @@ public class edit_book extends AppCompatActivity {
     private EditText title_book, author_book, description_book;
 
     private TextView category_book, status_book;
-    private String[] category = new String[] {"Science Fiction", "Romantic", "Non-Fiction", "Horror", "Detective", "Thriller", "History", "Story", "Action"};
-    private String[] status = new String[] {"Completed", "Incomplete"};
+    private AppCompatButton yes, cancel, yesStatus, cancelStatus;
+
     private RoundedImageView cover_edit;
     private CustomDialogProgress progressDialog;
     @Override
@@ -66,8 +75,8 @@ public class edit_book extends AppCompatActivity {
         initView();
 
         recieveData();
-        chooseCategory();
-        chooseStatus();
+        chooseCategory(Gravity.CENTER);
+        chooseStatus(Gravity.CENTER);
         clickAddCover();
     }
 
@@ -115,48 +124,154 @@ public class edit_book extends AppCompatActivity {
 
         }
     }
-
-    private void chooseCategory(){
+    private void chooseCategory(int gravity){
         category_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.startAnimation(AnimationUtils.loadAnimation(edit_book.this, R.anim.btn_click_anim));
-                AlertDialog.Builder builder = new AlertDialog.Builder(edit_book.this);
-                builder.setTitle("Select category");
-                builder.setSingleChoiceItems(category, 2, new DialogInterface.OnClickListener() {
+
+                final Dialog chooseCategory = new Dialog(edit_book.this);
+                chooseCategory.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                chooseCategory.setContentView(R.layout.custom_choose_category);
+                Window window = chooseCategory.getWindow();
+                if (window == null){
+                    return;
+                }
+                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                WindowManager.LayoutParams winAtr = window.getAttributes();
+                winAtr.gravity = gravity;
+                window.setAttributes(winAtr);
+                if (Gravity.CENTER == gravity){
+                    chooseCategory.setCancelable(true);
+                }else {
+                    chooseCategory.setCancelable(false);
+                }
+                yes = chooseCategory.findViewById(R.id.yes_cate);
+                cancel = chooseCategory.findViewById(R.id.cancel_cate);
+
+                chooseCategory.show();
+                yes.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        category_book.setText(category[i]);
+                    public void onClick(View v) {
+                        v.startAnimation(AnimationUtils.loadAnimation(edit_book.this, R.anim.btn_click_anim));
+                        RadioGroup radioGroup = chooseCategory.findViewById(R.id.radiogroup);
+                        int selectedId= radioGroup.getCheckedRadioButtonId();
+                        RadioButton radioButton = chooseCategory.findViewById(selectedId);
+                        CharSequence selectedText = radioButton.getText().toString().trim();
+                        category_book.setText(selectedText);
+
+                        chooseCategory.dismiss();
                     }
                 });
 
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+                cancel.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        v.startAnimation(AnimationUtils.loadAnimation(edit_book.this, R.anim.btn_click_anim));
+                        chooseCategory.dismiss();
+                    }
+                });
             }
         });
 
     }
 
-    private void chooseStatus(){
+    private void chooseStatus(int gravity){
         status_book.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 v.startAnimation(AnimationUtils.loadAnimation(edit_book.this, R.anim.btn_click_anim));
-                AlertDialog.Builder builder = new AlertDialog.Builder(edit_book.this);
-                builder.setTitle("Select status");
-                builder.setSingleChoiceItems(status, 2, new DialogInterface.OnClickListener() {
+                final Dialog chooseStatus = new Dialog(edit_book.this);
+                chooseStatus.requestWindowFeature(Window.FEATURE_NO_TITLE);
+                chooseStatus.setContentView(R.layout.custom_choose_status);
+                Window window = chooseStatus.getWindow();
+                if (window == null){
+                    return;
+                }
+                window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
+                window.setBackgroundDrawable(new ColorDrawable(Color.TRANSPARENT));
+                WindowManager.LayoutParams winAtr = window.getAttributes();
+                winAtr.gravity = gravity;
+                window.setAttributes(winAtr);
+                if (Gravity.CENTER == gravity){
+                    chooseStatus.setCancelable(true);
+                }else {
+                    chooseStatus.setCancelable(false);
+                }
+                yesStatus = chooseStatus.findViewById(R.id.yes_status);
+                cancelStatus = chooseStatus.findViewById(R.id.cancel_status);
+
+                chooseStatus.show();
+                yesStatus.setOnClickListener(new View.OnClickListener() {
                     @Override
-                    public void onClick(DialogInterface dialogInterface, int i) {
-                        status_book.setText(status[i]);
+                    public void onClick(View v) {
+                        v.startAnimation(AnimationUtils.loadAnimation(edit_book.this, R.anim.btn_click_anim));
+                        RadioGroup radioGroup = chooseStatus.findViewById(R.id.radiogroupStatus);
+                        int selectedId= radioGroup.getCheckedRadioButtonId();
+                        RadioButton radioButton = chooseStatus.findViewById(selectedId);
+                        CharSequence selectedText = radioButton.getText().toString().trim();
+                        status_book.setText(selectedText);
+
+                        chooseStatus.dismiss();
                     }
                 });
 
-                AlertDialog alertDialog = builder.create();
-                alertDialog.show();
+                cancelStatus.setOnClickListener(new View.OnClickListener() {
+                    @Override
+                    public void onClick(View v) {
+                        v.startAnimation(AnimationUtils.loadAnimation(edit_book.this, R.anim.btn_click_anim));
+                        chooseStatus.dismiss();
+                    }
+                });
             }
+
         });
 
     }
+
+
+//    private void chooseCategory(){
+//        category_book.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                v.startAnimation(AnimationUtils.loadAnimation(edit_book.this, R.anim.btn_click_anim));
+//                AlertDialog.Builder builder = new AlertDialog.Builder(edit_book.this);
+//                builder.setTitle("Select category");
+//                builder.setSingleChoiceItems(category, 2, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        category_book.setText(category[i]);
+//                    }
+//                });
+//
+//                AlertDialog alertDialog = builder.create();
+//                alertDialog.show();
+//            }
+//        });
+//
+//    }
+
+//    private void chooseStatus(){
+//        status_book.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                v.startAnimation(AnimationUtils.loadAnimation(edit_book.this, R.anim.btn_click_anim));
+//                AlertDialog.Builder builder = new AlertDialog.Builder(edit_book.this);
+//                builder.setTitle("Select status");
+//                builder.setSingleChoiceItems(status, 2, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialogInterface, int i) {
+//                        status_book.setText(status[i]);
+//                    }
+//                });
+//
+//                AlertDialog alertDialog = builder.create();
+//                alertDialog.show();
+//            }
+//        });
+//
+//    }
 
     private void saveEdit(){
         Bundle bundle = getIntent().getExtras();

@@ -41,7 +41,7 @@
                     android:layout_centerInParent="true"
                     android:adjustViewBounds="true"
                     android:padding="25dp"
-                    android:src="@drawable/report" />
+                    android:src="@drawable/clipboard" />
 
             </RelativeLayout>
 
@@ -49,7 +49,7 @@
                 android:layout_width="341dp"
                 android:layout_height="72dp"
                 android:layout_gravity="center"
-                android:text="@string/please_let_us_know_the_reason_for_your_report"
+                android:text="@string/select_status"
                 android:gravity="center"
                 android:textColor="#000000"
                 android:textSize="25sp"
@@ -58,55 +58,29 @@
             <!--                android:theme="@style/MyRatingBar" />-->
             <LinearLayout
                 android:layout_width="335dp"
-                android:layout_height="322dp"
+                android:layout_height="wrap_content"
                 android:layout_gravity="center">
 
+
                 <RadioGroup
-                    android:id="@+id/radiogroup"
+                    android:id="@+id/radiogroupStatus"
                     android:layout_width="332dp"
-                    android:layout_height="match_parent">
+                    android:layout_height="wrap_content"
+                    android:gravity="center">
 
                     <RadioButton
-                        android:id="@+id/sensitive"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/completed"
+                        android:layout_width="115dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/sensitive_content" />
+                        android:text="@string/completed" />
 
                     <RadioButton
-                        android:id="@+id/emity"
-                        android:layout_width="wrap_content"
+                        android:id="@+id/incomplete"
+                        android:layout_width="115dp"
                         android:layout_height="wrap_content"
-                        android:text="@string/enmity_and_harassment" />
+                        android:text="@string/incompleted" />
 
-                    <RadioButton
-                        android:id="@+id/violence"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/violence" />
 
-                    <RadioButton
-                        android:id="@+id/spam"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/spam" />
-
-                    <RadioButton
-                        android:id="@+id/disclosure"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/disclosure_of_personal_information" />
-
-                    <RadioButton
-                        android:id="@+id/selfharm"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/self_harm" />
-
-                    <RadioButton
-                        android:id="@+id/copyright"
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:text="@string/copyright_infringement" />
 
                 </RadioGroup>
 
@@ -125,7 +99,7 @@
                 android:paddingBottom="10dp">
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/yes_report"
+                    android:id="@+id/yes_status"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:paddingStart="20dp"
@@ -137,7 +111,7 @@
                     android:textAllCaps="false" />
 
                 <androidx.appcompat.widget.AppCompatButton
-                    android:id="@+id/cancel_report"
+                    android:id="@+id/cancel_status"
                     android:layout_width="wrap_content"
                     android:layout_height="40dp"
                     android:layout_marginStart="20dp"

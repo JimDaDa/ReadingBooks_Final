@@ -72,13 +72,7 @@ import java.util.Date;
 public class Read_Books extends AppCompatActivity {
     private float userRate;
     private PDFView pdfView;
-    private String[] reason = new String[] {"Sensitive content",
-                                            "Enmity and harassment",
-                                            "Violence",
-                                            "Spam",
-                                            "Disclosure of personal information",
-                                            "Self-harm",
-                                            "Copyright infringement"};
+
     private CustomDialogProgress progressDialog;
     private AppCompatButton rateNow, rateLater, yes, cancel;
 
@@ -269,16 +263,6 @@ private void ChooseReason(int gravity){
     yes = chooseReason.findViewById(R.id.yes_report);
     cancel = chooseReason.findViewById(R.id.cancel_report);
 
-//    String selectesReason = String.valueOf(selectedText);
-//    RadioButton sensitive= chooseReason.findViewById(R.id.sensitive);
-//    RadioButton emity= chooseReason.findViewById(R.id.emity);
-//    RadioButton violence= chooseReason.findViewById(R.id.violence);
-//    RadioButton spam= chooseReason.findViewById(R.id.spam);
-//    RadioButton disclosure= chooseReason.findViewById(R.id.disclosure);
-//    RadioButton selfharm= chooseReason.findViewById(R.id.selfharm);
-//    RadioButton copyright= chooseReason.findViewById(R.id.copyright);
-
-
     chooseReason.show();
 
     yes.setOnClickListener(new View.OnClickListener() {
@@ -384,6 +368,7 @@ private void ChooseReason(int gravity){
 
                 view.startAnimation(AnimationUtils.loadAnimation(Read_Books.this, R.anim.btn_click_anim));
                 addRating();
+                rate.dismiss();
             }
         });
 

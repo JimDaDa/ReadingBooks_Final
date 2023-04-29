@@ -251,6 +251,7 @@ public class DetailBooks extends AppCompatActivity {
             public void onClick(View v) {
                 v.startAnimation(AnimationUtils.loadAnimation(DetailBooks.this, R.anim.btn_click_anim));
                 RemoveBooks();
+                confirm_unlike.dismiss();
             }
         });
         cancel_unlike.setOnClickListener(new View.OnClickListener() {
@@ -289,6 +290,7 @@ public class DetailBooks extends AppCompatActivity {
             public void onClick(View v) {
                 v.startAnimation(AnimationUtils.loadAnimation(DetailBooks.this, R.anim.btn_click_anim));
                 SaveBooksConfirm();
+                confirm.dismiss();
             }
         });
         cancel.setOnClickListener(new View.OnClickListener() {

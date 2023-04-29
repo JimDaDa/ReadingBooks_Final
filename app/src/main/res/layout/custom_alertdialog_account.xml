@@ -75,7 +75,7 @@
                     android:layout_height="40dp"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
-                    android:text="Yes"
+                    android:text="@string/yes"
                     android:background="@drawable/boder_profile"
                     android:textColor="@color/nau"
                     android:backgroundTint="@color/blue"
@@ -91,7 +91,7 @@
                     android:background="@drawable/boder_profile"
                     android:textColor="@color/nau"
                     android:backgroundTint="@color/blue"
-                    android:text="Cancel"
+                    android:text="@string/cancel"
                     android:textAllCaps="false" />
             </LinearLayout>
 

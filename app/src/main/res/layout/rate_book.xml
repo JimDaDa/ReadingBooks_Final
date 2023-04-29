@@ -47,7 +47,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Rate For The Story"
+                android:text="@string/rate_for_the_story"
                 android:textColor="#000000"
                 android:textSize="25sp"
                 android:textStyle="bold"
@@ -61,7 +61,7 @@
                 android:layout_marginTop="10dp"
                 android:layout_marginEnd="20dp"
                 android:gravity="center"
-                android:text="Vote to let us know what you think about this story"
+                android:text="@string/vote_to_let_us_know_what_you_think_about_this_story"
                 android:textSize="16sp" />
 
             <androidx.appcompat.widget.AppCompatRatingBar
@@ -93,7 +93,7 @@
                     android:layout_height="40dp"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
-                    android:text="Later"
+                    android:text="@string/later"
                     android:background="@drawable/boder_profile"
                     android:textColor="@color/nau"
                     android:backgroundTint="@color/blue"
@@ -109,7 +109,7 @@
                     android:background="@drawable/boder_profile"
                     android:textColor="@color/nau"
                     android:backgroundTint="@color/blue"
-                    android:text="Rate Now"
+                    android:text="@string/rate_now"
                     android:textAllCaps="false" />
             </LinearLayout>
 

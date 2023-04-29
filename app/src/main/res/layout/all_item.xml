@@ -46,7 +46,7 @@
         android:autoSizeTextType="uniform"
         android:fontFamily="@font/tiltneon"
         android:gravity="center"
-        android:text="Harry Potter và Hòn Đá Tử Thần"
+        android:text="@string/harry_potter_v_h_n_t_th_n"
         android:textColor="#000000"
         android:textStyle="bold"
         app:layout_constraintBottom_toBottomOf="@+id/cover4"

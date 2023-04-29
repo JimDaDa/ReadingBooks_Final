@@ -47,7 +47,7 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="Are you sure Report Book ?"
+                android:text="@string/are_you_sure_report_book"
                 android:textColor="#000000"
                 android:textSize="25sp"
                 android:textStyle="bold"
@@ -74,7 +74,7 @@
                     android:layout_height="40dp"
                     android:paddingStart="20dp"
                     android:paddingEnd="20dp"
-                    android:text="Yes"
+                    android:text="@string/yes"
                     android:background="@drawable/boder_profile"
                     android:textColor="@color/nau"
                     android:backgroundTint="@color/blue"
@@ -90,7 +90,7 @@
                     android:background="@drawable/boder_profile"
                     android:textColor="@color/nau"
                     android:backgroundTint="@color/blue"
-                    android:text="Cancel"
+                    android:text="@string/cancel"
                     android:textAllCaps="false" />
             </LinearLayout>
 
