@@ -21,6 +21,7 @@ import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -58,8 +59,7 @@ public class show_info_book extends AppCompatActivity {
     private CustomDialogProgress progressDialog;
     private TextView title_book, author_book, description_book,category_book, status_book;
     private RoundedImageView cover_details;
-    public static final String ATTACH_FILE = "ATTACH_FILE";
-    private Uri fileUrl;
+
     private boolean isPublish;
 
     private MenuItem publish, unPublish;
@@ -165,6 +165,7 @@ public class show_info_book extends AppCompatActivity {
             View v = findViewById(R.id.publishBooks);
             v.startAnimation(AnimationUtils.loadAnimation(show_info_book.this, R.anim.btn_click_anim));
             if(!isPublish){
+
                 publishBooks();
             }else {
                 unPublishBooks();
@@ -261,7 +262,33 @@ public class show_info_book extends AppCompatActivity {
             });
 
     private void publishBooks(){
-        showConfirmPublic(Gravity.CENTER);
+        String id_books = books_data.getId();
+        DatabaseReference filePDF = FirebaseDatabase.getInstance().getReference("Books").child(id_books);
+        filePDF.addValueEventListener(new ValueEventListener() {
+            @Override
+            public void onDataChange(@NonNull DataSnapshot snapshot) {
+                Books_data b1 = snapshot.getValue(Books_data.class);
+                if (b1!= null){
+                    String fileUrl = b1.getFileUrl();
+
+                    if (fileUrl!= null){
+                        showConfirmPublic(Gravity.CENTER);
+                    }else {
+                        Toast.makeText(show_info_book.this, "Please upload file PDF before publish Books", Toast.LENGTH_SHORT).show();
+                    }
+                }
+                filePDF.removeEventListener(this);
+            }
+
+            @Override
+            public void onCancelled(@NonNull DatabaseError error) {
+
+            }
+        });
+
+
+
+       // showConfirmPublic(Gravity.CENTER);
 
     }
 
@@ -299,6 +326,7 @@ public class show_info_book extends AppCompatActivity {
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
+
                         Date date = new Date();
                         Long timestamp = date.getTime();
                         String publishStatus = "public";
@@ -307,7 +335,9 @@ public class show_info_book extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 progressDialog.dismiss();
-                                Toast.makeText(show_info_book.this, "Update Successfull", Toast.LENGTH_SHORT).show();
+                                confirm_public.dismiss();
+                                Toast.makeText(show_info_book.this, "Publish Successfull", Toast.LENGTH_SHORT).show();
+
                             }
                         });
 
@@ -376,6 +406,7 @@ public class show_info_book extends AppCompatActivity {
                             @Override
                             public void onComplete(@NonNull Task<Void> task) {
                                 progressDialog.dismiss();
+                                confirm_private.dismiss();
                                 Toast.makeText(show_info_book.this, "Unpublish Successfull", Toast.LENGTH_SHORT).show();
                             }
                         });
