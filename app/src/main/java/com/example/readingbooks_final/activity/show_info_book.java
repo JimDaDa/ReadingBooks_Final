@@ -222,6 +222,7 @@ public class show_info_book extends AppCompatActivity {
                         databaseReference.child("fileUrl").setValue(file);
                         progressDialog.dismiss();
                         Toast.makeText(show_info_book.this, "Upload file Successfull", Toast.LENGTH_SHORT).show();
+                        databaseReference.removeEventListener(this);
                     }
 
                     @Override
@@ -288,7 +289,7 @@ public class show_info_book extends AppCompatActivity {
 
 
 
-       // showConfirmPublic(Gravity.CENTER);
+     // showConfirmPublic(Gravity.CENTER);
 
     }
 
@@ -562,17 +563,117 @@ public class show_info_book extends AppCompatActivity {
                 String id_books= books_data.getId();
                 FirebaseDatabase database=FirebaseDatabase.getInstance();
                 DatabaseReference databaseReference=database.getReference().child("Books").child(id_books);
-                databaseReference.setValue(null).addOnCompleteListener(new OnCompleteListener<Void>() {
+
+                ValueEventListener valueEventListener = new ValueEventListener() {
                     @Override
-                    public void onComplete(@NonNull Task<Void> task) {
-                        progressDialog.dismiss();
-                        Intent intent = new Intent(show_info_book.this, ListBook.class);
-                        intent.putExtra("removeId", books_data.getId());
-                        Toast.makeText(show_info_book.this, "Delete Success", Toast.LENGTH_SHORT).show();
-                        setResult(RESULT_OK, intent);
-                        finish();
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()){
+                            //link pdf trong realtime
+                            String fileUrl = snapshot.child("fileUrl").getValue(String.class);
+
+
+
+                            if (fileUrl == null){
+                                //Nếu chưa up file pdf mà xóa
+                                databaseReference.setValue(null).addOnCompleteListener(new OnCompleteListener<Void>() {
+                                @Override
+                                public void onComplete(@NonNull Task<Void> task) {
+                                    progressDialog.dismiss();
+                                    Intent intent = new Intent(show_info_book.this, ListBook.class);
+                                    intent.putExtra("removeId", books_data.getId());
+                                    Toast.makeText(show_info_book.this, "Delete Success", Toast.LENGTH_SHORT).show();
+                                    setResult(RESULT_OK, intent);
+                                    finish();
+                                }
+                        });
+                            }
+                            else {
+                                //file trong storage
+                                StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(fileUrl);
+                                //Xóa pdf trong realtime
+                                databaseReference.child("fileUrl").removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                    @Override
+                                    public void onComplete(@NonNull Task<Void> task) {
+                                        if (task.isSuccessful()){
+                                            confirm_delete.dismiss();
+                                            progressDialog.dismiss();
+                                            databaseReference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+                                                @Override
+                                                public void onComplete(@NonNull Task<Void> task) {
+                                                    Intent intent = new Intent(show_info_book.this, ListBook.class);
+                                                    intent.putExtra("removeId", books_data.getId());
+                                                    Toast.makeText(show_info_book.this, "Delete Success", Toast.LENGTH_SHORT).show();
+                                                    setResult(RESULT_OK, intent);
+                                                    finish();
+                                                }
+                                            });
+                                            Toast.makeText(show_info_book.this, "Delete Success", Toast.LENGTH_SHORT).show();
+                                        }else {
+                                            progressDialog.dismiss();
+                                            confirm_delete.dismiss();
+                                            Toast.makeText(show_info_book.this, "Error", Toast.LENGTH_SHORT).show();
+                                            
+                                        }
+//                                        databaseReference.setValue(null).addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                            @Override
+//                                            public void onSuccess(Void unused) {
+//                                                progressDialog.dismiss();
+//                                                Intent intent = new Intent(show_info_book.this, ListBook.class);
+//                                                intent.putExtra("removeId", books_data.getId());
+//                                                Toast.makeText(show_info_book.this, "Delete Success", Toast.LENGTH_SHORT).show();
+//                                                setResult(RESULT_OK, intent);
+//                                                finish();
+//
+//                                            }
+//                                        }).addOnFailureListener(new OnFailureListener() {
+//                                            @Override
+//                                            public void onFailure(@NonNull Exception e) {
+//                                                progressDialog.dismiss();
+//                                                Toast.makeText(show_info_book.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                                            }
+//                                        });
+                                    }
+                                });
+                            }
+
+
+
+                            //Xóa file ở storage
+//                            storageReference.delete().addOnSuccessListener(new OnSuccessListener<Void>() {
+//                                @Override
+//                                public void onSuccess(Void unused) {
+//                                    databaseReference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
+//                                        @Override
+//                                        public void onComplete(@NonNull Task<Void> task) {
+//                                            progressDialog.dismiss();
+//                                            Intent intent = new Intent(show_info_book.this, ListBook.class);
+//                                            intent.putExtra("removeId", books_data.getId());
+//                                            Toast.makeText(show_info_book.this, "Delete Success", Toast.LENGTH_SHORT).show();
+//                                            setResult(RESULT_OK, intent);
+//                                            finish();
+//                                        }
+//                                    });
+//                                }
+//                            }).addOnFailureListener(new OnFailureListener() {
+//                                @Override
+//                                public void onFailure(@NonNull Exception e) {
+//                                    progressDialog.dismiss();
+//                                    Toast.makeText(show_info_book.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+//                                }
+//                            });
+
+                            ///////////////////////////////////////////
+                        }
+                        databaseReference.removeEventListener(this);
                     }
-                });
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+
+                    }
+                };
+                databaseReference.addListenerForSingleValueEvent(valueEventListener);
+
 
             }
         });
