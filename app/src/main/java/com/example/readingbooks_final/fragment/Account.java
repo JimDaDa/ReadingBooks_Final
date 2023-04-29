@@ -36,6 +36,7 @@ import com.example.readingbooks_final.activity.ListBook;
 import com.example.readingbooks_final.activity.edit_book;
 import com.example.readingbooks_final.activity.login;
 import com.example.readingbooks_final.activity.profile;
+import com.example.readingbooks_final.activity.show_info_book;
 import com.example.readingbooks_final.database.Books_data;
 import com.example.readingbooks_final.database.User;
 import com.google.android.gms.auth.api.signin.GoogleSignIn;
@@ -63,6 +64,9 @@ public class Account extends Fragment {
 
     private TextView deleteAcc;
     private ProgressDialog progressDialog;
+
+//    User user;
+
 
 
 
@@ -116,40 +120,7 @@ public class Account extends Fragment {
 //                }
 //            });
 
-    ActivityResultLauncher<Intent> launcherActivityInfo = registerForActivityResult(
-            new ActivityResultContracts.StartActivityForResult(),
-            new ActivityResultCallback<ActivityResult>() {
-                @Override
-                public void onActivityResult(ActivityResult result) {
-//
-                    if (result.getResultCode() == Activity.RESULT_OK) {
-                        Intent intent = result.getData();
 
-                        if (intent == null) {
-                            return;
-                        } else {
-                         // Bundle bundle = getArguments();
-                            Bundle bundle = intent.getExtras();
-                          if (bundle!= null){
-                              User user= (User) bundle.get("objectUser");
-                              name_acc.setText(user.getFullname());
-                              email_acc.setText(user.getEmail());
-                              phone.setText(user.getPhone());
-                              Glide.with(Account.this).load(user.getAvatar()).into(image_ava);
-                          }
-
-
-
-                            //
-//
-//                            }
-
-
-                        }
-                    }
-
-                }
-            });
 
 
     @Override
@@ -187,6 +158,7 @@ public class Account extends Fragment {
         btn_logout_account=view.findViewById(R.id.btn_logout_account);
 
     }
+
     private void openList(){
         my_list_read.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -263,9 +235,9 @@ public class Account extends Fragment {
             @Override
             public void onClick(View v) {
                 v.startAnimation(AnimationUtils.loadAnimation(getActivity(), R.anim.btn_click_anim));
-                FirebaseAuth  user= FirebaseAuth.getInstance();
-                if (user!=null){
-                    String userId = user.getUid();
+                FirebaseAuth  auth= FirebaseAuth.getInstance();
+                if (auth!=null){
+                    String userId = auth.getUid();
                     FirebaseDatabase database = FirebaseDatabase.getInstance();
                     DatabaseReference ref=database.getReference("Users").child(userId);
 
@@ -297,7 +269,50 @@ public class Account extends Fragment {
         });
     }
 
+    ActivityResultLauncher<Intent> launcherActivityInfo = registerForActivityResult(
+            new ActivityResultContracts.StartActivityForResult(),
+            new ActivityResultCallback<ActivityResult>() {
+                @Override
+                public void onActivityResult(ActivityResult result) {
+//
+                    if (result.getResultCode() == Activity.RESULT_OK) {
+                        Intent intent = result.getData();
 
+                        if (intent == null) {
+                            return;
+                        } else {
+                            // Bundle bundle = getArguments();
+                            Bundle bundle = result.getData().getExtras();
+                            // Bundle bundle = intent.getExtras();
+                            if (bundle!= null){
+                                User userAfterEdited= (User) bundle.getSerializable("objectUser");
+
+                                name_acc.setText(userAfterEdited.getFullname());
+                                email_acc.setText(userAfterEdited.getEmail());
+                                phone.setText(userAfterEdited.getPhone());
+//                                user.setFullname(userAfterEdited.getFullname());
+//                                user.setPhone(userAfterEdited.getPhone());
+//                                user.setAvatar(userAfterEdited.getAvatar());
+//
+//
+//                                name_acc.setText(user.getFullname());
+//                                email_acc.setText(user.getEmail());
+//                                phone.setText(user.getPhone());
+                                Glide.with(Account.this).load(userAfterEdited.getAvatar()).into(image_ava);
+                            }
+
+
+
+                            //
+//
+//                            }
+
+
+                        }
+                    }
+
+                }
+            });
     public void showUser() {
 
         FirebaseAuth  user= FirebaseAuth.getInstance();

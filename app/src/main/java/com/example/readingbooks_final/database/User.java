@@ -163,4 +163,10 @@ public class User implements Serializable {
 
         return result ;
     }
+    public HashMap<String, Object> updateUser(){
+        HashMap result=new HashMap();
+        result.put("fullname",fullname);
+        result.put("phone",phone);
+        return result ;
+    }
 }

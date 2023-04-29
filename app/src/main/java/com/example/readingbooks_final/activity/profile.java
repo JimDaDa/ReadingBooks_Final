@@ -109,12 +109,15 @@ public class profile extends AppCompatActivity {
         Bundle bundle = getIntent().getExtras();
         if (bundle!= null){
             User user= (User) bundle.get("objectUser");
-            name.setText(user.getFullname());
-            fullname.setText(user.getFullname());
-            email_acc.setText(user.getEmail());
-            phone.setText(user.getPhone());
-            email.setText(user.getEmail());
-            Glide.with(profile.this).load(user.getAvatar()).into(avatar);
+
+                name.setText(user.getFullname());
+                fullname.setText(user.getFullname());
+                email_acc.setText(user.getEmail());
+                phone.setText(user.getPhone());
+                email.setText(user.getEmail());
+                Glide.with(profile.this).load(user.getAvatar()).into(avatar);
+
+
 
 
 
@@ -136,33 +139,37 @@ public void clickSave(){
             v.startAnimation(AnimationUtils.loadAnimation(profile.this, R.anim.btn_click_anim));
             Bundle bundle = getIntent().getExtras();
             if (bundle!= null){
-                User user= (User) bundle.get("objectUser");
-                String id_user= user.getId();
+                User user_edit= (User) bundle.get("objectUser");
+                String id_user= user_edit.getId();
                // FirebaseAuth auth = FirebaseAuth.getInstance();
                 FirebaseDatabase database=FirebaseDatabase.getInstance();
                 DatabaseReference databaseReference=database.getReference().child("Users").child(id_user);
                 String content_name= name.getText().toString().trim();
                 String content_phone= phone.getText().toString().trim();
+                user_edit.setFullname(content_name);
+                user_edit.setPhone(content_phone);
                 dialogProgress.show();
-                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+               databaseReference.updateChildren(user_edit.updateUser());
+                databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
-                        User user1= snapshot.getValue(User.class);
-                        if (user1!= null){
+                        User user= snapshot.getValue(User.class);
+                        if (user!= null){
                             //Update profile
-                            databaseReference.child("fullname").setValue(content_name);
-                            databaseReference.child("phone").setValue(content_phone);
+//                            databaseReference.child("fullname").setValue(content_name);
+//                            databaseReference.child("phone").setValue(content_phone);
                             dialogProgress.dismiss();
                             Toast.makeText(profile.this, "Update Success", Toast.LENGTH_SHORT).show();
                             //String name_up= String.valueOf(databaseReference.child("fullname").setValue(content_name));
-                          //  String phone_up= String.valueOf(databaseReference.child("phone").setValue(content_phone));
+                            //  String phone_up= String.valueOf(databaseReference.child("phone").setValue(content_phone));
                             Intent intent_reply=new Intent();
                             Bundle bundle2 = new Bundle();
-                            bundle2.putSerializable("objectUser", user1);
+                            bundle2.putSerializable("objectUser", user);
                             intent_reply.putExtras(bundle2);
+                            databaseReference.removeEventListener(this);
                             setResult(Activity.RESULT_OK, intent_reply);
-                           finish();
-                           // databaseReference.removeEventListener(this);
+                            finish();
+                            // databaseReference.removeEventListener(this);
                         }
                     }
 
@@ -171,6 +178,35 @@ public void clickSave(){
                         Toast.makeText(profile.this, error.getMessage(), Toast.LENGTH_SHORT).show();
                     }
                 });
+               // dialogProgress.show();
+//                databaseReference.addListenerForSingleValueEvent(new ValueEventListener() {
+//                    @Override
+//                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+//                        User user= snapshot.getValue(User.class);
+//                        if (user!= null){
+//                            //Update profile
+////                            databaseReference.child("fullname").setValue(content_name);
+////                            databaseReference.child("phone").setValue(content_phone);
+//                        //    dialogProgress.dismiss();
+//                            Toast.makeText(profile.this, "Update Success", Toast.LENGTH_SHORT).show();
+//                            //String name_up= String.valueOf(databaseReference.child("fullname").setValue(content_name));
+//                          //  String phone_up= String.valueOf(databaseReference.child("phone").setValue(content_phone));
+//                            Intent intent_reply=new Intent();
+//                            Bundle bundle2 = new Bundle();
+//                            bundle2.putSerializable("objectUser", user);
+//                            intent_reply.putExtras(bundle2);
+//                            databaseReference.removeEventListener(this);
+//                            setResult(Activity.RESULT_OK, intent_reply);
+//                           finish();
+//                           // databaseReference.removeEventListener(this);
+//                        }
+//                    }
+//
+//                    @Override
+//                    public void onCancelled(@NonNull DatabaseError error) {
+//                        Toast.makeText(profile.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+//                    }
+//                });
             }
         }
     });
