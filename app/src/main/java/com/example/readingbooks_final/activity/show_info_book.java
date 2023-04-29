@@ -600,6 +600,7 @@ public class show_info_book extends AppCompatActivity {
                                             databaseReference.removeValue().addOnCompleteListener(new OnCompleteListener<Void>() {
                                                 @Override
                                                 public void onComplete(@NonNull Task<Void> task) {
+                                                    storageReference.delete();
                                                     Intent intent = new Intent(show_info_book.this, ListBook.class);
                                                     intent.putExtra("removeId", books_data.getId());
                                                     Toast.makeText(show_info_book.this, "Delete Success", Toast.LENGTH_SHORT).show();
