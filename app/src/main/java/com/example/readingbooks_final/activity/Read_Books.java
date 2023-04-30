@@ -1,5 +1,8 @@
 package com.example.readingbooks_final.activity;
 
+
+import static com.example.readingbooks_final.database.SaveBookCurrent.BOOK_MARK;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -13,8 +16,10 @@ import android.app.Activity;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.app.ProgressDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
@@ -45,7 +50,10 @@ import com.example.readingbooks_final.R;
 import com.example.readingbooks_final.custom.CustomDialogProgress;
 import com.example.readingbooks_final.database.Books_data;
 import com.example.readingbooks_final.database.Constants;
+import com.example.readingbooks_final.database.DataLocal;
+import com.example.readingbooks_final.database.SaveBookCurrent;
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.google.android.gms.tasks.OnFailureListener;
 import com.google.android.gms.tasks.OnSuccessListener;
@@ -72,13 +80,13 @@ import java.util.Date;
 public class Read_Books extends AppCompatActivity {
     private float userRate;
     private PDFView pdfView;
-
     private CustomDialogProgress progressDialog;
     private AppCompatButton rateNow, rateLater, yes, cancel;
 
     private RatingBar ratingBar;
     private ImageView rateImg ;
     private String bookId;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -89,6 +97,15 @@ public class Read_Books extends AppCompatActivity {
         initView();
         recieveData();
 
+    }
+
+    @Override
+    protected void onPause() {
+        super.onPause();
+        SaveBookCurrent saveBookCurrent= new SaveBookCurrent(getApplicationContext());
+
+        int bookmark= saveBookCurrent.getIntValue(BOOK_MARK + bookId);
+        saveBookCurrent.putIntValue(BOOK_MARK + bookId,bookmark);
     }
 
     @Override
@@ -113,17 +130,14 @@ public class Read_Books extends AppCompatActivity {
         pdfView = findViewById(R.id.pdfView);
         progressDialog= new CustomDialogProgress(this);
 
-
-
     }
     private void recieveData(){
         Bundle bundle = getIntent().getExtras();
         if (bundle!= null){
             Books_data books_data= (Books_data) bundle.get("objectBooks");
             bookId= books_data.getId();
-//            String urlFile = books_data.getFileUrl();
             loadPdf();
-          //  new RetrivePDFfromUrl().execute(urlFile);
+
 
         }
     }
@@ -141,7 +155,27 @@ public class Read_Books extends AppCompatActivity {
                         @Override
                         public void onSuccess(byte[] bytes) {
                             progressDialog.dismiss();
-                            pdfView.fromBytes(bytes).swipeHorizontal(false).load();
+                            SaveBookCurrent saveBookCurrent= new SaveBookCurrent(getApplicationContext());
+
+                             int bookmark= saveBookCurrent.getIntValue(BOOK_MARK + bookId);
+                            pdfView.fromBytes(bytes).swipeHorizontal(false).onPageChange(new OnPageChangeListener() {
+                                @Override
+                                public void onPageChanged(int page, int pageCount) {
+                                   // currentPage=page;
+
+                                   // DataLocal.setMyBookMark(page);
+                                    saveBookCurrent.putIntValue(BOOK_MARK + bookId,page);
+                                }
+                            })
+                                    .onLoad(new OnLoadCompleteListener() {
+                                @Override
+                                public void loadComplete(int nbPages) {
+                                    SaveBookCurrent saveBookCurrent = new SaveBookCurrent(getApplicationContext());
+                                  //  int cur= saveBookCurrent.getIntValue(BOOK_MARK + bookId);
+                                    pdfView.jumpTo(bookmark);
+                                }
+                            })
+                                    .load();
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
@@ -484,7 +518,8 @@ private void ChooseReason(int gravity){
 
 
 
-    }
+
+}
 
 
 

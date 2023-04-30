@@ -2,6 +2,8 @@ package com.example.readingbooks_final.activity;
 
 import static android.content.ContentValues.TAG;
 
+import static com.example.readingbooks_final.database.Constants.MAX_BYTE_PDF;
+
 import androidx.activity.result.ActivityResult;
 import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
@@ -21,6 +23,7 @@ import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.os.Environment;
 import android.text.method.ScrollingMovementMethod;
 import android.util.Log;
 import android.view.Gravity;
@@ -36,8 +39,13 @@ import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
 import com.example.readingbooks_final.R;
+import com.example.readingbooks_final.custom.CustomDialogProgress;
 import com.example.readingbooks_final.database.Books_data;
 import com.example.readingbooks_final.database.User;
+import com.google.android.gms.tasks.OnCompleteListener;
+import com.google.android.gms.tasks.OnFailureListener;
+import com.google.android.gms.tasks.OnSuccessListener;
+import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
 import com.google.firebase.database.DatabaseError;
@@ -45,17 +53,24 @@ import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.Query;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.storage.FirebaseStorage;
+import com.google.firebase.storage.StorageReference;
+
+import java.io.File;
+import java.io.FileOutputStream;
 
 public class DetailBooks extends AppCompatActivity {
 
     private ImageView cover_detail;
     private TextView title_details, author_details, description_details, tv_view_details, tv_status, vote_tv;
-    private Button read_books, fav_book;
+    private Button read_books, fav_book, download;
     private boolean isLiked ;
     private float avg = 0f;
 
     private long mView ;
     private AppCompatButton  yes, cancel, yes_unlike, cancel_unlike;
+
+    private CustomDialogProgress dialogProgress ;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -71,6 +86,7 @@ public class DetailBooks extends AppCompatActivity {
         recieveData();
       //  clickButtonRead();
         clickButtonToSaveLibrary();
+        clickButtonDownload();
       // total_rating();
     }
 
@@ -92,6 +108,8 @@ public class DetailBooks extends AppCompatActivity {
         tv_status= findViewById(R.id.tv_status);
         vote_tv= findViewById(R.id.vote_tv);
         fav_book= findViewById(R.id.fav_book);
+        download=findViewById(R.id.download);
+        dialogProgress= new CustomDialogProgress(DetailBooks.this);
 
     }
 
@@ -560,5 +578,75 @@ private void RemoveBooks(){
 
     }
 
+    private void clickButtonDownload(){
+        download.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                FirebaseAuth auth = FirebaseAuth.getInstance();
+                String id_user = auth.getUid();
+                FirebaseDatabase database=FirebaseDatabase.getInstance();
+                //Nhận dữ liệu
+                Bundle bundle = getIntent().getExtras();
+                Books_data books_data= (Books_data) bundle.get("objectBooks");
+                //Lấy id quyển sách đó
+                String id_books= books_data.getId();
+                DatabaseReference databaseReference=database.getReference().child("Books").child(id_books);
+                ValueEventListener valueEventListener = new ValueEventListener() {
+                    @Override
+                    public void onDataChange(@NonNull DataSnapshot snapshot) {
+                        if (snapshot.exists()){
+                            //link pdf trong realtime
+                            String fileUrl = snapshot.child("fileUrl").getValue(String.class);
+                            if (fileUrl!= null){
+                                //file trong storage
+                                StorageReference storageReference = FirebaseStorage.getInstance().getReferenceFromUrl(fileUrl);
+
+                                dialogProgress.show();
+                                storageReference.getBytes(MAX_BYTE_PDF).addOnSuccessListener(new OnSuccessListener<byte[]>() {
+                                    @Override
+                                    public void onSuccess(byte[] bytes) {
+
+                                        String nameExtension = books_data.getTitle() + ".pdf";
+                                        try {
+                                            File downloadFolder = Environment.getExternalStoragePublicDirectory(Environment.DIRECTORY_DOWNLOADS);
+                                            downloadFolder.mkdir();
+                                            String filePath = downloadFolder.getPath() + "/" + nameExtension;
+                                            FileOutputStream out = new FileOutputStream(filePath);
+                                            out.write(bytes);
+                                            out.close();
+                                            Toast.makeText(DetailBooks.this, "Download Success at "+filePath, Toast.LENGTH_SHORT).show();
+                                            dialogProgress.dismiss();
+
+
+                                        }catch (Exception e){
+                                            dialogProgress.dismiss();
+                                            Toast.makeText(DetailBooks.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+
+                                        }
+                                    }
+                                }).addOnFailureListener(new OnFailureListener() {
+                                    @Override
+                                    public void onFailure(@NonNull Exception e) {
+                                        dialogProgress.dismiss();
+                                        Toast.makeText(DetailBooks.this, e.getMessage(), Toast.LENGTH_SHORT).show();
+                                    }
+                                });
+
+                            }
+
+                        }
+                        databaseReference.removeEventListener(this);
+                    }
+
+                    @Override
+                    public void onCancelled(@NonNull DatabaseError error) {
+                        Toast.makeText(DetailBooks.this, error.getMessage(), Toast.LENGTH_SHORT).show();
+                    }
+                };
+                databaseReference.addListenerForSingleValueEvent(valueEventListener);
+            }
+        });
+
+    }
 
 }
