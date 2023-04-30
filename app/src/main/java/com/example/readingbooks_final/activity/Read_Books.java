@@ -86,6 +86,7 @@ public class Read_Books extends AppCompatActivity {
     private RatingBar ratingBar;
     private ImageView rateImg ;
     private String bookId;
+    private int currentPage = 0;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -107,6 +108,10 @@ public class Read_Books extends AppCompatActivity {
         int bookmark= saveBookCurrent.getIntValue(BOOK_MARK + bookId);
         saveBookCurrent.putIntValue(BOOK_MARK + bookId,bookmark);
     }
+
+
+
+
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
@@ -155,27 +160,32 @@ public class Read_Books extends AppCompatActivity {
                         @Override
                         public void onSuccess(byte[] bytes) {
                             progressDialog.dismiss();
-                            SaveBookCurrent saveBookCurrent= new SaveBookCurrent(getApplicationContext());
+                          SaveBookCurrent saveBookCurrent= new SaveBookCurrent(getApplicationContext());
 
                              int bookmark= saveBookCurrent.getIntValue(BOOK_MARK + bookId);
+
+
+                          //   DataLocal.setMyBookMark(currentPage);
                             pdfView.fromBytes(bytes).swipeHorizontal(false).onPageChange(new OnPageChangeListener() {
                                 @Override
                                 public void onPageChanged(int page, int pageCount) {
-                                   // currentPage=page;
+                                  //  currentPage =page;
 
-                                   // DataLocal.setMyBookMark(page);
+                                   // DataLocal.setMyBookMark(currentPage);
                                     saveBookCurrent.putIntValue(BOOK_MARK + bookId,page);
                                 }
                             })
                                     .onLoad(new OnLoadCompleteListener() {
                                 @Override
                                 public void loadComplete(int nbPages) {
+                                  //  int bookmark = DataLocal.getMyBookMark();
                                     SaveBookCurrent saveBookCurrent = new SaveBookCurrent(getApplicationContext());
-                                  //  int cur= saveBookCurrent.getIntValue(BOOK_MARK + bookId);
-                                    pdfView.jumpTo(bookmark);
+                                    int cur= saveBookCurrent.getIntValue(BOOK_MARK + bookId);
+                                    pdfView.jumpTo(cur);
                                 }
                             })
                                     .load();
+
 
                         }
                     }).addOnFailureListener(new OnFailureListener() {
