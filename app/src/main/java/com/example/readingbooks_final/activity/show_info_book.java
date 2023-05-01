@@ -5,23 +5,30 @@ import androidx.activity.result.ActivityResultCallback;
 import androidx.activity.result.ActivityResultLauncher;
 import androidx.activity.result.contract.ActivityResultContracts;
 import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
 import androidx.appcompat.app.ActionBar;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.AppCompatButton;
+import androidx.core.app.ActivityCompat;
+import androidx.core.app.NotificationCompat;
+import androidx.core.app.NotificationManagerCompat;
 
+import android.Manifest;
 import android.app.Activity;
-import android.app.AlertDialog;
 import android.app.Dialog;
-import android.app.ProgressDialog;
-import android.content.DialogInterface;
+import android.app.Notification;
+import android.app.PendingIntent;
+import android.app.TaskStackBuilder;
+import android.content.ContentResolver;
 import android.content.Intent;
+import android.content.pm.PackageManager;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.text.method.ScrollingMovementMethod;
-import android.util.Log;
+import android.util.Base64;
 import android.view.Gravity;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -33,13 +40,14 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.bumptech.glide.Glide;
+import com.example.readingbooks_final.MainActivity;
 import com.example.readingbooks_final.R;
 import com.example.readingbooks_final.custom.CustomDialogProgress;
 import com.example.readingbooks_final.database.Books_data;
+import com.example.readingbooks_final.database.MyApplication;
 import com.example.readingbooks_final.database.User;
+import com.example.readingbooks_final.fcm.MyFirebaseMessagingService;
 import com.google.android.gms.tasks.OnCompleteListener;
-import com.google.android.gms.tasks.OnFailureListener;
-import com.google.android.gms.tasks.OnSuccessListener;
 import com.google.android.gms.tasks.Task;
 import com.google.firebase.auth.FirebaseAuth;
 import com.google.firebase.database.DataSnapshot;
@@ -47,17 +55,21 @@ import com.google.firebase.database.DatabaseError;
 import com.google.firebase.database.DatabaseReference;
 import com.google.firebase.database.FirebaseDatabase;
 import com.google.firebase.database.ValueEventListener;
+import com.google.firebase.messaging.FirebaseMessagingService;
 import com.google.firebase.storage.FirebaseStorage;
 import com.google.firebase.storage.StorageReference;
 import com.makeramen.roundedimageview.RoundedImageView;
 
+import java.io.ByteArrayOutputStream;
+import java.io.FileNotFoundException;
+import java.io.InputStream;
 import java.util.Date;
 import java.util.UUID;
 
 public class show_info_book extends AppCompatActivity {
 
     private CustomDialogProgress progressDialog;
-    private TextView title_book, author_book, description_book,category_book, status_book;
+    private TextView title_book, author_book, description_book, category_book, status_book;
     private RoundedImageView cover_details;
 
     private boolean isPublish;
@@ -66,13 +78,14 @@ public class show_info_book extends AppCompatActivity {
     private AppCompatButton yes_delete, cancel_delete, yes_publish, cancel_publish, yes_unpublis, cancel_unpublish;
 
     Books_data books_data;
+    Bitmap bitmap;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.show_info_book);
-        ActionBar actionBar=getSupportActionBar();
+        ActionBar actionBar = getSupportActionBar();
         // assert actionBar != null;
         actionBar.setDisplayHomeAsUpEnabled(true);
         initView();
@@ -83,7 +96,7 @@ public class show_info_book extends AppCompatActivity {
 
     @Override
     public void onBackPressed() {
-        Intent intent_reply=new Intent();
+        Intent intent_reply = new Intent();
         Bundle bundle2 = new Bundle();
         bundle2.putSerializable("objectBooks", books_data);
         intent_reply.putExtras(bundle2);
@@ -97,19 +110,20 @@ public class show_info_book extends AppCompatActivity {
 
     }
 
-    private void initView(){
-        title_book= findViewById(R.id.tv_title_book);
-        author_book= findViewById(R.id.tv_author_book);
-        category_book=findViewById(R.id.tv_category_book);
-        status_book=findViewById(R.id.tv_status_book);
-        description_book=findViewById(R.id.tv_description_book);
-        cover_details=findViewById(R.id.cover_details);
-        progressDialog= new CustomDialogProgress(show_info_book.this);
+    private void initView() {
+        title_book = findViewById(R.id.tv_title_book);
+        author_book = findViewById(R.id.tv_author_book);
+        category_book = findViewById(R.id.tv_category_book);
+        status_book = findViewById(R.id.tv_status_book);
+        description_book = findViewById(R.id.tv_description_book);
+        cover_details = findViewById(R.id.cover_details);
+        progressDialog = new CustomDialogProgress(show_info_book.this);
     }
-    private void RecieveData(){
+
+    private void RecieveData() {
         Bundle bundle = getIntent().getExtras();
-         if (bundle!= null){
-            books_data= (Books_data) bundle.get("objectBooks");
+        if (bundle != null) {
+            books_data = (Books_data) bundle.get("objectBooks");
             title_book.setText(books_data.getTitle());
             author_book.setText(books_data.getAuthors());
             category_book.setText(books_data.getCategory());
@@ -117,9 +131,9 @@ public class show_info_book extends AppCompatActivity {
             description_book.setText(books_data.getDescription());
             description_book.setMovementMethod(new ScrollingMovementMethod());
             Glide.with(show_info_book.this).load(books_data.getImgUrl()).into(cover_details);
-         } else {
-             finish();
-         }
+        } else {
+            finish();
+        }
 
     }
 
@@ -131,43 +145,43 @@ public class show_info_book extends AppCompatActivity {
         return true;
     }
 
-    void setVisible(){
-        if (!isPublish){
+    void setVisible() {
+        if (!isPublish) {
             publish.setIcon(R.drawable.check);
 
-        }else {
-           publish.setIcon(R.drawable.cancel);
+        } else {
+            publish.setIcon(R.drawable.cancel);
         }
     }
 
     @Override
     public boolean onOptionsItemSelected(@NonNull MenuItem item) {
-        if (item.getItemId()== android.R.id.home){
+        if (item.getItemId() == android.R.id.home) {
             onBackPressed();
             return true;
         }
-        if (item.getItemId()== R.id.add_file_books){
+        if (item.getItemId() == R.id.add_file_books) {
             View v = findViewById(R.id.add_file_books);
             v.startAnimation(AnimationUtils.loadAnimation(show_info_book.this, R.anim.btn_click_anim));
             addFile();
         }
-        if (item.getItemId()== R.id.edit_chapter){
+        if (item.getItemId() == R.id.edit_chapter) {
             View v = findViewById(R.id.edit_chapter);
             v.startAnimation(AnimationUtils.loadAnimation(show_info_book.this, R.anim.btn_click_anim));
             openEdit();
         }
-        if (item.getItemId()== R.id.deleteBook){
+        if (item.getItemId() == R.id.deleteBook) {
             View v = findViewById(R.id.deleteBook);
             v.startAnimation(AnimationUtils.loadAnimation(show_info_book.this, R.anim.btn_click_anim));
             deleteBooks();
         }
-        if (item.getItemId()== R.id.publishBooks){
+        if (item.getItemId() == R.id.publishBooks) {
             View v = findViewById(R.id.publishBooks);
             v.startAnimation(AnimationUtils.loadAnimation(show_info_book.this, R.anim.btn_click_anim));
-            if(!isPublish){
+            if (!isPublish) {
 
                 publishBooks();
-            }else {
+            } else {
                 unPublishBooks();
             }
 
@@ -184,16 +198,15 @@ public class show_info_book extends AppCompatActivity {
     }
 
 
-    private void addFile(){
-        Intent intent= new Intent();
-       // intent.setType("application/pdf");
+    private void addFile() {
+        Intent intent = new Intent();
+        // intent.setType("application/pdf");
         intent.setType("application/pdf");
-      //  String [] mimetypes = {"application/pdf", "application/epub+zip"};
+        //  String [] mimetypes = {"application/pdf", "application/epub+zip"};
         intent.setAction(Intent.ACTION_GET_CONTENT);
-       // intent.putExtra(Intent.EXTRA_MIME_TYPES,mimetypes);
+        // intent.putExtra(Intent.EXTRA_MIME_TYPES,mimetypes);
 
         startAttach.launch(Intent.createChooser(intent, "Select File"));
-
 
 
     }
@@ -212,9 +225,9 @@ public class show_info_book extends AppCompatActivity {
             storageReference.getDownloadUrl().addOnSuccessListener(uri -> {
                 String file = uri.toString();
                 FirebaseAuth auth = FirebaseAuth.getInstance();
-                String id_books= books_data.getId();
-                FirebaseDatabase database=FirebaseDatabase.getInstance();
-                DatabaseReference databaseReference=database.getReference("Books").child(id_books);
+                String id_books = books_data.getId();
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference = database.getReference("Books").child(id_books);
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
                     public void onDataChange(@NonNull DataSnapshot snapshot) {
@@ -232,7 +245,6 @@ public class show_info_book extends AppCompatActivity {
                 });
 
 
-
             });
         }).addOnFailureListener(e -> {
             Toast.makeText(show_info_book.this, e.getMessage(), Toast.LENGTH_SHORT).show();
@@ -246,35 +258,33 @@ public class show_info_book extends AppCompatActivity {
                 @Override
                 public void onActivityResult(ActivityResult result) {
 //
-                    if(result.getResultCode() == Activity.RESULT_OK) {
+                    if (result.getResultCode() == Activity.RESULT_OK) {
 
                         Intent intent = result.getData();
-                        if (intent==null){
+                        if (intent == null) {
                             return;
                         }
                         Uri file = intent.getData();
                         uploadFile(file);
 
 
-
-
                     }
                 }
             });
 
-    private void publishBooks(){
+    private void publishBooks() {
         String id_books = books_data.getId();
         DatabaseReference filePDF = FirebaseDatabase.getInstance().getReference("Books").child(id_books);
         filePDF.addValueEventListener(new ValueEventListener() {
             @Override
             public void onDataChange(@NonNull DataSnapshot snapshot) {
                 Books_data b1 = snapshot.getValue(Books_data.class);
-                if (b1!= null){
+                if (b1 != null) {
                     String fileUrl = b1.getFileUrl();
 
-                    if (fileUrl!= null){
+                    if (fileUrl != null) {
                         showConfirmPublic(Gravity.CENTER);
-                    }else {
+                    } else {
                         Toast.makeText(show_info_book.this, "Please upload file PDF before publish Books", Toast.LENGTH_SHORT).show();
                     }
                 }
@@ -288,8 +298,7 @@ public class show_info_book extends AppCompatActivity {
         });
 
 
-
-     // showConfirmPublic(Gravity.CENTER);
+        // showConfirmPublic(Gravity.CENTER);
 
     }
 
@@ -298,7 +307,7 @@ public class show_info_book extends AppCompatActivity {
         confirm_public.requestWindowFeature(Window.FEATURE_NO_TITLE);
         confirm_public.setContentView(R.layout.custom_pulicbook);
         Window window = confirm_public.getWindow();
-        if (window == null){
+        if (window == null) {
             return;
         }
         window.setLayout(WindowManager.LayoutParams.MATCH_PARENT, WindowManager.LayoutParams.WRAP_CONTENT);
@@ -306,9 +315,9 @@ public class show_info_book extends AppCompatActivity {
         WindowManager.LayoutParams winAtr = window.getAttributes();
         winAtr.gravity = gravity;
         window.setAttributes(winAtr);
-        if (Gravity.CENTER == gravity){
+        if (Gravity.CENTER == gravity) {
             confirm_public.setCancelable(true);
-        }else {
+        } else {
             confirm_public.setCancelable(false);
         }
         yes_publish = confirm_public.findViewById(R.id.yes_public);
@@ -320,9 +329,9 @@ public class show_info_book extends AppCompatActivity {
             public void onClick(View v) {
                 v.startAnimation(AnimationUtils.loadAnimation(show_info_book.this, R.anim.btn_click_anim));
 
-                String id_books= books_data.getId();
-                FirebaseDatabase database=FirebaseDatabase.getInstance();
-                DatabaseReference databaseReference=database.getReference().child("Books").child(id_books);
+                String id_books = books_data.getId();
+                FirebaseDatabase database = FirebaseDatabase.getInstance();
+                DatabaseReference databaseReference = database.getReference().child("Books").child(id_books);
                 progressDialog.show();
                 databaseReference.addValueEventListener(new ValueEventListener() {
                     @Override
@@ -338,8 +347,12 @@ public class show_info_book extends AppCompatActivity {
                                 progressDialog.dismiss();
                                 confirm_public.dismiss();
                                 Toast.makeText(show_info_book.this, "Publish Successfull", Toast.LENGTH_SHORT).show();
+                                sendNotification();
+                               // MyFirebaseMessagingService.sendNotification(show_info_book.this, books_data);
 
                             }
+
+
                         });
 
                         databaseReference.removeEventListener(this);
@@ -361,6 +374,45 @@ public class show_info_book extends AppCompatActivity {
                 confirm_public.dismiss();
             }
         });
+    }
+
+    private void sendNotification() {
+        Intent intent = new Intent(this, MainActivity.class);// chuyển đến detailbook thì crash
+        TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+        stackBuilder.addNextIntentWithParentStack(intent);
+
+        PendingIntent pendingIntent = stackBuilder.getPendingIntent(getNoticeID(), PendingIntent.FLAG_UPDATE_CURRENT);
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(show_info_book.this, MyApplication.CHANEL_ID)
+                .setContentTitle("New Story Update!")
+                .setContentText(books_data.getTitle())
+                .setSmallIcon(R.mipmap.ic_launcher)
+                .setAutoCancel(true)
+                .setPriority(NotificationCompat.PRIORITY_DEFAULT)
+
+                .setContentIntent(pendingIntent);
+        Notification notification = builder.build();
+        NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+        if (ActivityCompat.checkSelfPermission(this, Manifest.permission.POST_NOTIFICATIONS) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.POST_NOTIFICATIONS}, 1);
+            return;
+        }
+        notificationManager.notify(getNoticeID(), notification);
+
+            // FirebaseMessagingService service= new MyFirebaseMessagingService();
+
+            //  NotificationManagerCompat notificationManager = NotificationManagerCompat.from(this);
+//         NotificationManager notificationManager= (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+//
+//        notificationManager.notify(getNoticeID(), notification);
+
+
+
+        }
+
+
+    public  int getNoticeID(){
+        return (int) new Date().getTime();
     }
 
     private void unPublishBooks(){

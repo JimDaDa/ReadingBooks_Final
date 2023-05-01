@@ -20,7 +20,9 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Canvas;
 import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.drawable.ColorDrawable;
 import android.net.Uri;
 import android.os.AsyncTask;
@@ -32,6 +34,7 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.view.MotionEvent;
 import android.view.View;
 import android.view.Window;
 import android.view.WindowManager;
@@ -53,6 +56,7 @@ import com.example.readingbooks_final.database.Constants;
 import com.example.readingbooks_final.database.DataLocal;
 import com.example.readingbooks_final.database.SaveBookCurrent;
 import com.github.barteksc.pdfviewer.PDFView;
+import com.github.barteksc.pdfviewer.listener.OnDrawListener;
 import com.github.barteksc.pdfviewer.listener.OnLoadCompleteListener;
 import com.github.barteksc.pdfviewer.listener.OnPageChangeListener;
 import com.google.android.gms.tasks.OnFailureListener;
@@ -163,10 +167,16 @@ public class Read_Books extends AppCompatActivity {
                           SaveBookCurrent saveBookCurrent= new SaveBookCurrent(getApplicationContext());
 
                              int bookmark= saveBookCurrent.getIntValue(BOOK_MARK + bookId);
-
+//                            Paint paint = new Paint();
+//                            paint.setColor(Color.BLUE);
+//                            paint.setAlpha(100);
+//                            paint.setStyle(Paint.Style.FILL);
+                            int hightlight= Color.BLUE;
 
                           //   DataLocal.setMyBookMark(currentPage);
-                            pdfView.fromBytes(bytes).swipeHorizontal(false).onPageChange(new OnPageChangeListener() {
+                            pdfView.fromBytes(bytes).swipeHorizontal(false)
+
+                                    .onPageChange(new OnPageChangeListener() {
                                 @Override
                                 public void onPageChanged(int page, int pageCount) {
                                   //  currentPage =page;
@@ -185,6 +195,8 @@ public class Read_Books extends AppCompatActivity {
                                 }
                             })
                                     .load();
+
+
 
 
                         }

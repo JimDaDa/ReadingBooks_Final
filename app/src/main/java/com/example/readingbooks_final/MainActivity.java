@@ -17,6 +17,8 @@ import androidx.fragment.app.FragmentTransaction;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.net.ConnectivityManager;
 import android.os.Bundle;
 import android.view.MenuItem;
 import android.view.Window;
@@ -30,6 +32,7 @@ import com.example.readingbooks_final.activity.Read_Books;
 import com.example.readingbooks_final.activity.login;
 import com.example.readingbooks_final.custom.CustomDialogProgress;
 import com.example.readingbooks_final.database.User;
+import com.example.readingbooks_final.fcm.BroadCastReciever;
 import com.example.readingbooks_final.fragment.Account;
 import com.example.readingbooks_final.fragment.Books;
 import com.example.readingbooks_final.fragment.Search;
@@ -63,7 +66,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
     private static final int Search_Frag =4;
     private static final int Profile_Frag=5;
     private  CustomDialogProgress  dialogProgress;
-
+    private BroadCastReciever broadCastReciever;
 
 
 
@@ -91,6 +94,20 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
 
 
     }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        IntentFilter intentFilter= new IntentFilter(ConnectivityManager.CONNECTIVITY_ACTION);
+        registerReceiver(broadCastReciever, intentFilter);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        unregisterReceiver(broadCastReciever );
+    }
+
     //Ánh xạ các đối tượng
     private void AnhXaDoiTuong(){
         navigationView = findViewById(R.id.navbar);
@@ -101,6 +118,7 @@ public class MainActivity extends AppCompatActivity implements NavigationView.On
         name_acc=nav_top.getHeaderView(0).findViewById(R.id.name_acc);
         email_acc=nav_top.getHeaderView(0).findViewById(R.id.email_acc);
       dialogProgress = new CustomDialogProgress(MainActivity.this);
+      broadCastReciever= new BroadCastReciever();
     }
     //Tạo icon toggle trên toolbar
     private void createIconToggleOnToolbar(){

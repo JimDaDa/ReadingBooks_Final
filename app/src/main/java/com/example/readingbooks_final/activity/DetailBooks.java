@@ -82,6 +82,7 @@ public class DetailBooks extends AppCompatActivity {
 //        actionBar.setIcon(R.drawable.logo);
         initView();
         //setVisible();
+
         addLikeChangeListener();
         recieveData();
       //  clickButtonRead();
@@ -114,6 +115,7 @@ public class DetailBooks extends AppCompatActivity {
     }
 
     private void recieveData(){
+
         Bundle bundle = getIntent().getExtras();
         if (bundle!= null){
             Books_data books_data= (Books_data) bundle.get("objectBooks");
@@ -359,35 +361,6 @@ public class DetailBooks extends AppCompatActivity {
             }
         });
 
-//        favBookRef.addValueEventListener(new ValueEventListener() {
-//            @Override
-//            public void onDataChange(@NonNull DataSnapshot snapshot) {
-//                for (DataSnapshot snapshot1: snapshot.getChildren()){
-//                    User user = snapshot1.getValue(User.class);
-//                    //user.setLikedStatus(user.getLikedStatus());
-//                    String like_id = user.getId_like();
-//                    String key = snapshot1.getKey();
-//                    String like_status = user.getLikedStatus();
-//                    String book_id = user.getId_book();
-//
-//                    if (book_id.equals(id_books) && like_status.contains("liked")){
-//                        isLiked =true;
-//                    }
-//                    else {
-//                        isLiked =false;
-//                    }
-//                    setVisible();
-//                    break;
-//                }
-//            }
-//
-//            @Override
-//            public void onCancelled(@NonNull DatabaseError error) {
-//
-//            }
-//        });
-
-
     }
 
     private void SaveBooksConfirm(){
@@ -518,7 +491,7 @@ private void RemoveBooks(){
         Books_data books_data= (Books_data) bundle.get("objectBooks");
         //Lấy id quyển sách đó
         String id_books= books_data.getId();
-        DatabaseReference databaseReference=database.getReference().child("Books").child(id_books).child("total_rating");
+        DatabaseReference databaseReference=database.getReference().child("Books").child(id_books);
         Query ratingRef = database.getReference().child("Books").child(id_books).child("rating");
         ratingRef.addListenerForSingleValueEvent(new ValueEventListener() {
             @Override
@@ -537,7 +510,7 @@ private void RemoveBooks(){
                 }
                 if (count>0){
                     float average = (float) totalScore / count ;
-                    databaseReference.setValue(average);
+                    databaseReference.child("total_rating").setValue(average);
                     avg=average;
 
                 }
