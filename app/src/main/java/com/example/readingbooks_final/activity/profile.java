@@ -169,7 +169,7 @@ public void clickSave(){
                             databaseReference.removeEventListener(this);
                             setResult(Activity.RESULT_OK, intent_reply);
                             finish();
-                            // databaseReference.removeEventListener(this);
+                             databaseReference.removeEventListener(this);
                         }
                     }
 
@@ -252,6 +252,7 @@ public void clickSave(){
                             return;
                         }
                         Uri photo = intent.getData();
+                      //  Uri photo = result.getData();
                         uploadImage(photo);
                        //  Glide.with(profile.this).load(photo).into(avatar);
 
